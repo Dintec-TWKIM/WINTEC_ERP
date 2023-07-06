@@ -1,0 +1,73 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[UP_CZ_PR_OPOUT_REG_INSERT]    Script Date: 2022-08-10 오후 3:19:24 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+ALTER PROCEDURE [NEOE].[UP_CZ_PR_OPOUT_REG_INSERT]
+(
+		@P_CD_COMPANY	NVARCHAR(7)
+       ,@P_CD_PLANT		NVARCHAR(7)
+	   ,@P_NO_WO		NVARCHAR(20)
+       ,@P_DT_PR		NVARCHAR(8)
+       ,@P_CD_OP		NVARCHAR(4)
+       ,@P_CD_WC		NVARCHAR(7)
+       ,@P_CD_WCOP		NVARCHAR(4)
+       ,@P_QT_PR		NUMERIC(17,4)
+       ,@P_CD_ITEM		NVARCHAR(20)
+       ,@P_ID_INSERT	NVARCHAR(15)
+       ,@P_DC_RMK		NVARCHAR(MAX)
+)
+AS
+
+DECLARE 
+	@ERRMSG         NVARCHAR(255), 
+    @P_DTS_INSERT   VARCHAR(14)
+
+SET @P_DTS_INSERT = NEOE.SF_SYSDATE(GETDATE())
+
+INSERT INTO CZ_PR_OPOUT_PR
+(
+	 CD_COMPANY
+	,NO_WO
+    ,CD_PLANT
+    ,DT_PR
+    ,CD_OP
+    ,CD_WC
+    ,CD_WCOP
+    ,QT_PR
+    ,CD_ITEM
+    ,DTS_INSERT
+    ,ID_INSERT
+    ,DC_RMK
+)
+VALUES
+(
+	 @P_CD_COMPANY
+	,@P_NO_WO
+    ,@P_CD_PLANT
+    ,@P_DT_PR
+    ,@P_CD_OP
+    ,@P_CD_WC
+    ,@P_CD_WCOP
+    ,@P_QT_PR
+    ,@P_CD_ITEM
+    ,@P_DTS_INSERT
+    ,@P_ID_INSERT
+    ,@P_DC_RMK
+)
+
+IF (@@ERROR <> 0 ) BEGIN SELECT @ERRMSG = '[UP_CZ_PR_OPOUT_REG_INSERT]작업을정상적으로처리하지못했습니다.' GOTO ERROR END
+
+RETURN
+ERROR: RAISERROR(@ERRMSG, 18, 1)
+GO
+
+

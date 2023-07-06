@@ -1,0 +1,96 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_PU_IV_CONFIRM_XML]    Script Date: 2016-11-17 오후 5:00:32 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+    
+ALTER PROCEDURE [NEOE].[SP_CZ_PU_IV_CONFIRM_XML]        
+(             
+	@P_XML			XML, 
+	@P_ID_USER		NVARCHAR(10), 
+    @DOC			INT = NULL
+)        
+AS
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+EXEC SP_XML_PREPAREDOCUMENT @DOC OUTPUT, @P_XML 
+
+-- ================================================== DELETE
+DELETE A 
+FROM CZ_PU_IV_CONFIRM A 
+JOIN OPENXML (@DOC, '/XML/D', 2) 
+        WITH (CD_COMPANY	NVARCHAR(7),
+			  SEQ			INT) B 
+ON A.CD_COMPANY = B.CD_COMPANY
+AND A.SEQ = B.SEQ
+-- ================================================== INSERT
+INSERT INTO CZ_PU_IV_CONFIRM 
+(
+	CD_COMPANY,
+	SEQ,
+	TP_CONFIRM,
+	NO_IO,
+	NO_ETAX,
+	NO_PO,
+	DC_RMK,
+	AM_EX,
+	NO_EMP,
+	DT_END,
+	ID_INSERT,
+	DTS_INSERT
+)
+SELECT CD_COMPANY,
+	   SEQ,
+	   '003' AS TP_CONFIRM,
+	   NO_IO,
+	   NO_ETAX,
+	   NO_PO,
+	   REPLACE(DC_RMK, CHAR(10), CHAR(13) + CHAR(10)),
+	   AM_EX,
+	   NO_EMP,
+	   DT_END,
+       @P_ID_USER, 
+       NEOE.SF_SYSDATE(GETDATE()) 
+  FROM OPENXML (@DOC, '/XML/I', 2) 
+          WITH (CD_COMPANY	NVARCHAR(7),
+			    SEQ			INT,
+				NO_IO		NVARCHAR(20),
+				NO_ETAX		NVARCHAR(30),
+				NO_PO		NVARCHAR(20),
+				DC_RMK		NVARCHAR(1000),
+				AM_EX		NUMERIC(17, 4),
+				NO_EMP		NVARCHAR(100),
+				DT_END		NVARCHAR(8)) 
+-- ================================================== UPDATE    
+UPDATE A 
+   SET A.NO_IO = B.NO_IO,
+	   A.NO_ETAX = B.NO_ETAX,
+	   A.NO_PO = B.NO_PO,
+	   A.DC_RMK = REPLACE(B.DC_RMK, CHAR(10), CHAR(13) + CHAR(10)),
+	   A.AM_EX = B.AM_EX,
+	   A.NO_EMP = B.NO_EMP,
+	   A.DT_END = B.DT_END,
+	   A.ID_UPDATE = @P_ID_USER, 
+	   A.DTS_UPDATE = NEOE.SF_SYSDATE(GETDATE())
+  FROM CZ_PU_IV_CONFIRM A 
+  JOIN OPENXML (@DOC, '/XML/U', 2) 
+          WITH (CD_COMPANY	NVARCHAR(7),
+			    SEQ			INT,
+				NO_IO		NVARCHAR(20),
+				NO_ETAX		NVARCHAR(30),
+				NO_PO		NVARCHAR(20),
+				DC_RMK		NVARCHAR(1000),
+				AM_EX		NUMERIC(17, 4),
+				NO_EMP		NVARCHAR(100),
+				DT_END		NVARCHAR(8)) B 
+  ON A.CD_COMPANY = B.CD_COMPANY
+  AND A.SEQ = B.SEQ
+
+EXEC SP_XML_REMOVEDOCUMENT @DOC 
+
+GO

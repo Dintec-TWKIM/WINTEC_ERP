@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1EAD7797-A6D2-4BA2-9CBB-12BCA631F6CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cz</RootNamespace>
+    <AssemblyName>P_CZ_MA_WORKFLOW</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Enum.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_MA_WORKFLOW.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_MA_WORKFLOW.Designer.cs">
+      <DependentUpon>P_CZ_MA_WORKFLOW.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_MA_WORKFLOW_BIZ.cs" />
+    <Compile Include="StepButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StepButton.Designer.cs">
+      <DependentUpon>StepButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_WORKFLOW_CHANGE\P_CZ_MA_WORKFLOW_CHANGE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_WORKFLOW_CHANGE\P_CZ_MA_WORKFLOW_CHANGE.Designer.cs">
+      <DependentUpon>P_CZ_MA_WORKFLOW_CHANGE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_WORKFLOW_CHANGE\P_CZ_MA_WORKFLOW_CHANGE_BIZ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_MA_WORKFLOW.resx">
+      <DependentUpon>P_CZ_MA_WORKFLOW.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StepButton.resx">
+      <DependentUpon>StepButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_MA_WORKFLOW_CHANGE\P_CZ_MA_WORKFLOW_CHANGE.resx">
+      <DependentUpon>P_CZ_MA_WORKFLOW_CHANGE.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.5.20053.230, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="coParameter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0629c82a28f3ac5, processorArchitecture=MSIL" />
+    <Reference Include="Dass.FlexGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Dintec, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.Erpiu.Windows.OneControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Duzon.ERPU.MF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DzControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DzHelpFormLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="INeoWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="PageBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="P_CZ_MA_FILE_SUB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\cz\P_CZ_MA_FILE_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\견적요청완료.png" />
+    <None Include="Resources\견적요청미완료.png" />
+    <Content Include="Resources\견적작성.png" />
+    <Content Include="Resources\견적작성1.png" />
+    <Content Include="Resources\견적제출.png" />
+    <Content Include="Resources\계산서발행.png" />
+    <Content Include="Resources\계산서발행1.png" />
+    <None Include="Resources\계산서확인.png" />
+    <Content Include="Resources\고객문의등록.png" />
+    <Content Include="Resources\고객문의등록1.png" />
+    <Content Include="Resources\고객문의클로징.png" />
+    <Content Include="Resources\고객문의클로징1.png" />
+    <Content Include="Resources\납품목록.png" />
+    <Content Include="Resources\납품목록1.png" />
+    <Content Include="Resources\납품완결.png" />
+    <Content Include="Resources\매입가등록.png" />
+    <Content Include="Resources\매입구매.png" />
+    <Content Include="Resources\매입문의등록.png" />
+    <Content Include="Resources\문의서검토.png" />
+    <Content Include="Resources\문의서검토1.png" />
+    <Content Include="Resources\수발주통보서.png" />
+    <Content Include="Resources\수발주통보서결재.png" />
+    <Content Include="Resources\수주등록.png" />
+    <Content Include="Resources\수주등록1.png" />
+    <Content Include="Resources\수주확인서.png" />
+    <Content Include="Resources\인수증등록.png" />
+    <Content Include="Resources\인수증등록1.png" />
+    <Content Include="Resources\장기미출고.png" />
+    <None Include="Resources\클레임종결.png" />
+    <None Include="Resources\클레임종결1.png" />
+    <None Include="Resources\클레임종결2.png" />
+    <None Include="Resources\클레임종결3.png" />
+    <Content Include="Resources\협조전완결.png" />
+    <Content Include="Resources\협조전작성.png" />
+    <Content Include="Resources\협조전작성1.png" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_12.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_14.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_15.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_16.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_17.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_18.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_19.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_20.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_23.sql" />
+    <Content Include="Script\Procedure\Count\SP_CZ_MA_WORKFLOW_COUNT_22.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_1.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_10.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_11.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_12.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_13.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_14.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_15.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_16.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_17.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_18.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_19.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_2.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_20.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_21.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_23.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_3.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_4.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_5.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_6.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_7.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_8.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_9.sql" />
+    <Content Include="Script\Procedure\Header\SP_CZ_MA_WORKFLOWH_S_22.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_WORKFLOWH_U.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_WORKFLOWL_S.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_WORKFLOW_AUTO.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_WORKFLOW_DONE.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_WORKFLOW_NEXT_STEP.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_WORKFLOW_SUPPLIER_AUTO.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_WORKFLOW_SEND_MSG.sql" />
+    <Content Include="Script\Table\CZ_MA_WORKFLOWH.sql" />
+    <Content Include="Script\Table\CZ_MA_WORKFLOWL.sql" />
+    <Content Include="관련도움창\P_CZ_MA_WORKFLOW_CHANGE\Script\SP_CZ_MA_WORKFLOW_CHANGE.sql" />
+    <Content Include="관련도움창\P_CZ_MA_WORKFLOW_CHANGE\Script\SP_CZ_MA_WORKFLOW_CHANGE_XML.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\Applib</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,64 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_HR_WBARCODE_CONFIRM]    Script Date: 2020-03-12 오후 2:33:40 ******/
+SET ANSI_NULLS OFF
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+
+ALTER PROCEDURE [NEOE].[SP_CZ_HR_WBARCODE_CONFIRM]
+(
+	@P_CD_COMPANY  	NVARCHAR(7),
+	@P_NO_CARD  	NVARCHAR(40),
+	@P_DT_WORK  	NVARCHAR(8),
+	@P_TM_CARD		NVARCHAR(6),
+    @P_CD_WCODE     NVARCHAR(3),
+	@P_ID_UPDATE  	NVARCHAR(15)
+)
+AS
+
+IF NOT EXISTS (SELECT 1 
+               FROM HR_WBARCODE BC
+               WHERE BC.CD_COMPANY = @P_CD_COMPANY
+               AND BC.NO_CARD = @P_NO_CARD
+               AND BC.DT_WORK = @P_DT_WORK
+               AND BC.CD_WCODE = @P_CD_WCODE)
+BEGIN
+      INSERT INTO HR_WBARCODE
+      (
+        CD_COMPANY,
+      	NO_CARD,
+      	DT_WORK,
+      	TM_CARD,
+      	CD_WCODE,
+      	ID_INSERT,
+      	DTS_INSERT
+      )
+      VALUES
+      (
+      	@P_CD_COMPANY,
+      	@P_NO_CARD,
+      	@P_DT_WORK,
+      	@P_TM_CARD,
+      	@P_CD_WCODE,
+      	@P_ID_UPDATE,
+      	NEOE.SF_SYSDATE(GETDATE())
+      )
+END
+ELSE
+BEGIN
+    UPDATE BC
+    SET BC.TM_CARD = @P_TM_CARD,
+        BC.ID_UPDATE = @P_ID_UPDATE,
+        BC.DTS_UPDATE = NEOE.SF_SYSDATE(GETDATE())
+    FROM HR_WBARCODE BC
+    WHERE BC.CD_COMPANY = @P_CD_COMPANY
+    AND BC.NO_CARD = @P_NO_CARD
+    AND BC.DT_WORK = @P_DT_WORK
+    AND BC.CD_WCODE = @P_CD_WCODE
+END
+
+GO

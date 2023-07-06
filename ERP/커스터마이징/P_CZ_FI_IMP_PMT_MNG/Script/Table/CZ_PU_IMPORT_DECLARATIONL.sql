@@ -1,0 +1,35 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [NEOE].[CZ_PU_IMPORT_DECLARATIONL](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[NO_IMPORT] [nvarchar](30) NOT NULL,
+	[SEQ] [int] NOT NULL,
+	[NO_RAN] [nvarchar](3) NULL,
+	[NO_DSP] [int] NULL,
+	[MODEL] [nvarchar](100) NULL,
+	[QT] [numeric](10, 4) NULL,
+	[UM] [numeric](17, 4) NULL,
+	[AM] [numeric](17, 4) NULL,
+	[HSCODE] [nvarchar](20) NULL,
+	[NET_WEIGHT] [numeric](10, 4) NULL,
+	[TAXABLE_USD] [numeric](17, 4) NULL,
+	[TAXABLE_KRW] [numeric](17, 4) NULL,
+	[CUSTOMS] [numeric](17, 4) NULL,
+	[VAT] [numeric](17, 4) NULL,
+	[ORIGIN] [nvarchar](20) NULL,
+	[NO_PO] [nvarchar](20) NULL,
+	[NO_LINE] [numeric](5, 0) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_PU_IMPORT_DECLARATIONL] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[NO_IMPORT] ASC,
+	[SEQ] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO

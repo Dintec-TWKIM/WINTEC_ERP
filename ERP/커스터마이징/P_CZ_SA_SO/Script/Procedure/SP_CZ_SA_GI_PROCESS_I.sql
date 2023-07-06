@@ -1,0 +1,447 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SA_GI_PROCESS_I]    Script Date: 2016-11-04 오후 3:34:21 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*********************************************************************************************/   
+--설    명 : 수주등록 - 자동프로세스 출고  
+--수 정 자 : 장은경  
+--수 정 일 : 2010/07/12  
+--유    형 : 추가  
+--내    역 : 테이블 추가
+/*********************************************************************************************/   
+ALTER PROCEDURE [NEOE].[SP_CZ_SA_GI_PROCESS_I]
+(
+	@P_SERVERKEY		NVARCHAR(50),			-- 업체서버키
+	@P_UI				NVARCHAR(50),			-- 호출UI  (SA_SOL : 수주등록화면)
+	@P_CD_COMPANY		NVARCHAR(7),			-- 회사코드
+	@P_NO_SO			NVARCHAR(20),			-- 수주번호
+	@P_SEQSO			NUMERIC(5,0),			-- 수주라인항번
+	@P_ID_USER			NVARCHAR(15),
+	@P_YN_ALL			NVARCHAR(1)		= 'N',	-- Y : 수주번호 전체, N :  수주라인인에 대해서
+	@P_DT_IO			NVARCHAR(8)		= NULL,
+	@P_NO_EMP			NVARCHAR(10)	= NULL,	-- 처리자
+	@P_YN_AUTOPROCESS	NVARCHAR(1)		= 'Y',	-- Y : 자동프로세스 값 참조, N : 참조하지 않고 출고
+	@P_NO_GIR			NVARCHAR(20)	= NULL,	-- 의뢰번호 : 분할존재
+	@P_SEQ_GIR			NUMERIC(5,0)	= NULL,	-- 의뢰항번
+	@P_QT_GI			NUMERIC(17,4)	= NULL,	-- 출고수량 2010.12.20 장은경,
+	@P_NO_POP			NVARCHAR(20)	= NULL,
+	@P_NO_POP_LINE		NUMERIC(5,0)	= NULL,
+	@P_CD_SL			NVARCHAR(12)	= NULL
+)  
+AS  
+DECLARE  
+	@V_STA_SO			NVARCHAR(3),	-- 수주라인상태  	
+	@V_YM				NVARCHAR(6),	-- 년월  
+	@V_CD_PARTNER		NVARCHAR(20),	-- 거래처  
+	@V_NO_EMP			NVARCHAR(10),	-- 담당자  
+	@V_DC_RMK			NVARCHAR(100),	-- 비고  
+	@V_TP_BUSI			NVARCHAR(3),	-- 거래구분  	
+	@V_CD_QTIOTP		NVARCHAR(3),	-- 수불유형코드,  
+	@V_FG_IO			NVARCHAR(3),	-- 수불구분  
+	@V_YN_SALE			NVARCHAR(1),	-- 수불유형의 매출구분  
+	@V_YN_AM			NVARCHAR(1),	-- 수불유형의 유무환구분    
+	@V_CD_DEPT			NVARCHAR(12),	-- 담당자부서코드  
+	@V_GI_CLASS			NVARCHAR(2),  
+			
+	@V_GI				NVARCHAR(1),	-- 출고  
+	@V_YN_RETURN		NVARCHAR(1),	-- 반품구분  
+
+	@V_NO_IO			NVARCHAR(20),	-- 출고번호  
+	@V_CNT				INT,  
+	@V_SYSDATE			NVARCHAR(14),  
+	@V_DT_IO			NVARCHAR(8),	-- 출고일자  
+	  
+	@V_NO_SO			NVARCHAR(20),  
+	@V_SEQ_SO			NUMERIC(5,0),  
+	@V_NO_GIR			NVARCHAR(20),  
+	@V_SEQ_GIR			NUMERIC(5,0),  
+	@V_NO_IOLINE		NUMERIC(5,0),  
+	@V_MAX_NO_IOLINE	NUMERIC(5,0),  
+	   
+	@V_QT_GI_JAN		NUMERIC(17,4),	-- 모두출고되는지 안되는지 파악하기 위한 출고잔량변수  
+	@V_YN_ALL_GI		NVARCHAR(1),  
+	@V_QT_GI			NUMERIC(17,4),	-- 분할했을시 기 출고된 수량을 담는변수  
+	@V_CD_EXC			NVARCHAR(3),	-- 시스템통제설정 금액계산로직 코드  
+	@V_RET				VARCHAR(1),		-- 의뢰반품구분여부(예외반품일경우만 사용됨 : 수주없음)
+	@V_MSG				NVARCHAR(4000),
+	@V_CD_SL			NVARCHAR(12),	-- 창고추가(2011.02.15) : 장은경, 김형석
+	
+	@V_FSIZE_AM		    NUMERIC(3,0),
+	@V_UPDOWN_AM	    NVARCHAR(3),
+	@V_FORMAT_AM	    NVARCHAR(50)
+  
+SET	@V_DT_IO	= @P_DT_IO  
+SET	@V_NO_SO	= @P_NO_SO  
+SET	@V_SEQ_SO	= @P_SEQSO  
+SET	@V_NO_GIR	= @P_NO_GIR  
+SET	@V_SEQ_GIR	= @P_SEQ_GIR  
+SET @V_CD_SL	= @P_CD_SL 
+SET @V_MAX_NO_IOLINE = @V_MAX_NO_IOLINE
+
+--PRINT '의뢰번호 => ' + @P_NO_GIR
+--PRINT '의뢰항번 => ' + CONVERT(VARCHAR, @P_SEQ_GIR)
+--PRINT '@P_YN_ALL => ' + @P_YN_ALL
+
+--SELECT TOP 1 @V_SERVER_KEY = SERVER_KEY  
+--FROM    CM_SERVER_CONFIG  
+--WHERE   YN_UPGRADE = 'Y'
+
+BEGIN
+     IF(@P_SERVERKEY LIKE 'YWD%') -- 영우디지탈
+     BEGIN
+          SELECT @V_STA_SO = ISNULL(STA_SO, 'O')
+	      FROM	 SA_SOL
+	      WHERE	 CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO AND SEQ_SO = @P_SEQSO 
+          
+          IF(@V_STA_SO = 'O') RETURN
+     END
+	-- 수주번호가 존재시  
+	IF (@P_NO_SO IS NOT NULL AND @P_NO_SO <> '')
+	BEGIN 
+		SELECT	TOP 1 @V_NO_GIR = NO_GIR,
+				@V_SEQ_GIR = SEQ_GIR,
+				@V_CD_QTIOTP = TP_GI
+		FROM	SA_GIRL
+		WHERE	CD_COMPANY = @P_CD_COMPANY
+		AND		NO_SO = @P_NO_SO
+		AND		(SEQ_SO = CASE WHEN @P_YN_ALL = 'Y' THEN SEQ_SO ELSE @P_SEQSO END)
+	END
+	ELSE
+	-- 의뢰번호 존재시  
+	BEGIN 
+		SELECT	TOP 1 @V_NO_SO	= NO_SO,
+				@V_RET = ISNULL(RET, 'N'),
+				@V_CD_QTIOTP = TP_GI
+		FROM	SA_GIRL  
+		WHERE	CD_COMPANY = @P_CD_COMPANY
+		AND		NO_GIR = @V_NO_GIR 
+		AND		(SEQ_GIR = CASE WHEN @P_YN_ALL = 'Y' THEN SEQ_GIR ELSE @V_SEQ_GIR END)		
+
+		--예외반품인지 체크
+		IF @V_RET = 'Y' AND (@V_NO_SO IS NULL OR @V_NO_SO = '')
+		BEGIN
+			SET @P_YN_AUTOPROCESS = 'N'
+			SET @V_YN_RETURN = 'Y'
+		END
+		ELSE
+		BEGIN
+			SET @V_YN_RETURN = 'N'
+		END
+			
+		-- RET가 N 인경우는 수주 존재해야함.  
+		IF(@V_RET = 'N' AND (@V_NO_SO IS NULL OR @V_NO_SO = ''))  
+		BEGIN  
+			RAISERROR ('의뢰번호에 해당하는 수주번호가 존재하지 않습니다.', 18, 1)
+			RETURN  
+		END
+	END  
+
+	IF ISNULL(@V_NO_SO, '') <> '' 
+	BEGIN
+		SELECT	@V_GI = TP.GI, @V_YN_RETURN = TP.RET		
+		FROM	SA_SOH H  
+		INNER JOIN SA_TPSO TP	ON	H.CD_COMPANY	= TP.CD_COMPANY AND H.TP_SO = TP.TP_SO
+		WHERE	H.CD_COMPANY = @P_CD_COMPANY AND H.NO_SO = @V_NO_SO
+	END	
+	
+	IF @P_YN_AUTOPROCESS = 'N' 
+		SET @V_GI = 'Y'
+      
+	SELECT	@V_DT_IO		= ISNULL(@P_DT_IO, H.DT_GIR),  
+			@V_CD_PARTNER	= H.CD_PARTNER,  
+			@V_NO_EMP		= ISNULL(@P_NO_EMP, H.NO_EMP),  
+			@V_DC_RMK		= H.DC_RMK,  
+			@V_CD_DEPT		= (SELECT CD_DEPT FROM MA_EMP WHERE CD_COMPANY = @P_CD_COMPANY AND NO_EMP = ISNULL(@P_NO_EMP, H.NO_EMP)),
+			@V_TP_BUSI		= H.TP_BUSI
+	FROM	SA_GIRH H
+	WHERE	H.CD_COMPANY	= @P_CD_COMPANY  
+	AND		H.NO_GIR		= @V_NO_GIR  
+	
+           
+	SELECT  @V_YN_SALE		= EJ.YN_SALE,  
+			@V_FG_IO		= EJ.FG_IO,  
+			@V_YN_AM		= YN_AM  
+	FROM    MM_EJTP EJ
+	WHERE   EJ.CD_COMPANY	= @P_CD_COMPANY
+	AND		EJ.CD_QTIOTP	= @V_CD_QTIOTP
+
+    IF (@V_GI = 'N')  
+    BEGIN  
+        RETURN  
+    END  
+  
+	IF (@V_NO_GIR IS NULL OR @V_SEQ_GIR IS NULL)  
+	BEGIN  
+		RAISERROR ('의뢰번호 또는 의뢰항번이 존재하지 않습니다.', 18, 1)
+		RETURN  
+	END  
+
+	IF (@P_YN_ALL = 'Y')  
+	BEGIN  
+		SET @V_SEQ_GIR = NULL  
+	END  
+
+	-- 항번으로 처리시  
+	IF (@P_YN_ALL = 'N' AND ISNULL(@V_NO_SO, '') <> '')  
+	BEGIN  
+		SELECT  @V_STA_SO = ISNULL(S.STA_SO, 'O') 				
+		FROM    SA_GIRL G  
+		INNER JOIN SA_SOL S ON G.CD_COMPANY = S.CD_COMPANY AND G.NO_SO = S.NO_SO AND G.SEQ_SO = S.SEQ_SO  
+		WHERE   G.CD_COMPANY = @P_CD_COMPANY AND G.NO_GIR = @V_NO_GIR AND G.SEQ_GIR = @V_SEQ_GIR  
+	  
+		IF (@V_STA_SO = 'O')  
+		BEGIN  
+			RAISERROR ('수주상태가 진행이므로 출고하실 수 없습니다.', 18, 1)
+			RETURN  
+		END  
+
+		IF (@V_STA_SO = 'C')  
+		BEGIN  
+			RAISERROR ('수주상태가 종결이므로 출고하실 수 없습니다.', 18, 1)
+			RETURN     
+		END  
+	END  
+	
+	IF @V_CD_SL IS NULL OR @V_CD_SL = ''
+	BEGIN	
+		SELECT	@V_CNT = COUNT(1)
+		FROM	SA_GIRL  
+		WHERE	CD_COMPANY = @P_CD_COMPANY AND NO_GIR = @V_NO_GIR AND (CD_SL IS NULL OR CD_SL = '')
+		AND		(SEQ_GIR = CASE WHEN @P_YN_ALL = 'Y' THEN SEQ_GIR ELSE @V_SEQ_GIR END)	
+		
+		IF (@V_CNT > 0)  
+		BEGIN  
+			RAISERROR ('출고시 창고는 필수입력 입니다.', 18, 1)
+			RETURN  
+		END  	
+	END
+
+	-- 반품일경우  
+	IF (@V_YN_RETURN = 'Y')  
+		SET @V_FG_IO = '041'  
+	ELSE  
+		SET @V_FG_IO = '010'  
+
+	SET @V_CNT = 0  
+	SET @V_SYSDATE = NEOE.SF_SYSDATE(GETDATE())  
+	SET @V_GI_CLASS = CASE WHEN @V_YN_RETURN = 'N' THEN '07' ELSE '09' END  
+
+	-- 분할인지 체크
+	IF @P_YN_ALL <> 'Y' AND @P_QT_GI IS NOT NULL
+	BEGIN
+		SELECT	@V_QT_GI_JAN = QT_GIR - (QT_GI + @P_QT_GI),  
+				@V_QT_GI  = QT_GI   
+		FROM	SA_GIRL  
+		WHERE	CD_COMPANY  = @P_CD_COMPANY  
+		AND		NO_GIR   = @V_NO_GIR  
+		AND		SEQ_GIR   = @V_SEQ_GIR  
+		  
+		IF (@V_QT_GI_JAN > 0)  
+		BEGIN  
+			SET @V_YN_ALL_GI = 'N'  
+		END
+		ELSE IF (@V_QT_GI_JAN <= 0)  
+		BEGIN  
+			SET @V_YN_ALL_GI = 'Y'  
+		END
+	END
+	
+	-- 채번 조건 : 2011.02.23 장은경, 김현정
+	-- 1. @P_NO_POP 사용하지 않을경우 의뢰번호로 MM_QTIO 조회해서 내용 존재하지 않을경우 채번	
+	-- 2. @P_NO_POP POP 번호로 MM_QTIO 조회해서 내용이 존재하지 않을 경우 채번
+	
+	IF @P_NO_POP IS NULL OR @P_NO_POP = ''
+	BEGIN
+		SELECT  TOP 1 @V_NO_IO = NO_IO 
+		FROM    MM_QTIO  
+		WHERE   CD_COMPANY	= @P_CD_COMPANY  
+		AND		NO_ISURCV	= @V_NO_GIR 
+	END
+	ELSE
+	BEGIN
+		SELECT	TOP 1 @V_NO_IO = NO_IO      
+		FROM	MM_QTIO      
+		WHERE	CD_COMPANY = @P_CD_COMPANY AND NO_POP = @P_NO_POP	
+	END		
+	
+	-- 채번 따야할 경우  
+	IF (@V_NO_IO IS NULL OR @V_NO_IO = '')  
+	BEGIN  			
+		--PRINT '채번딸경우'
+		SET	 @V_YM = LEFT(@V_DT_IO, 6)  	
+		EXEC CP_GETNO @P_CD_COMPANY, 'SA', @V_GI_CLASS, @V_YM, @V_NO_IO OUTPUT  
+	  
+		INSERT INTO MM_QTIOH      
+		(  
+			CD_COMPANY,		NO_IO,			CD_PLANT,	CD_PARTNER,		FG_TRANS,      
+			DT_IO,			CD_DEPT,		NO_EMP,		DC_RMK,			YN_RETURN,      
+			ID_INSERT,		DTS_INSERT,		NO_POP
+		)   
+		SELECT	TOP 1 G.CD_COMPANY, @V_NO_IO NO_IO, GH.CD_PLANT, @V_CD_PARTNER, @V_TP_BUSI FG_TRANS,  
+				CASE WHEN @P_SERVERKEY = 'ADDTEC' THEN SL.DT_DUEDATE ELSE @V_DT_IO END DT_IO, 
+				@V_CD_DEPT CD_DEPT, @V_NO_EMP NO_EMP, CONVERT(NVARCHAR(50), @V_DC_RMK) DC_RMK, @V_YN_RETURN YN_RETURN,  
+				@P_ID_USER, @V_SYSDATE, @P_NO_POP  
+		FROM	SA_GIRL G  
+		INNER JOIN SA_GIRH GH ON G.CD_COMPANY = GH.CD_COMPANY AND G.NO_GIR = GH.NO_GIR  
+		LEFT OUTER JOIN SA_SOL SL ON G.CD_COMPANY = SL.CD_COMPANY AND G.NO_SO = SL.NO_SO AND G.SEQ_SO = SL.SEQ_SO
+		WHERE G.CD_COMPANY = @P_CD_COMPANY  
+		AND  G.NO_GIR = @V_NO_GIR  
+		AND  (G.SEQ_GIR = CASE WHEN @P_YN_ALL = 'Y' THEN SEQ_GIR ELSE @V_SEQ_GIR END)  
+	END
+	
+	-- 2011.02.17 동일 의뢰번호, 의뢰항번 여러번 분할 후 다른 의뢰항번이 들어올경우 PK 오류\
+	-- 처리유형이 'ALL'이 아닌경우 AND 수불번호가 NULL 이 아니경우는 MAX(NO_IOLINE) + 1 로 넣어준다.
+	-- 항번으로 처리되고, 출고일자로 처리된 내역이 존재한다면 MAX(NO_IOLINE) + 1로 넣어준다
+	IF @P_YN_ALL = 'N' AND (@V_NO_IO IS NOT NULL OR @V_NO_IO <> '')
+	BEGIN
+		SELECT	@V_NO_IOLINE = MAX(NO_IOLINE) + 1
+		FROM	MM_QTIO 
+		WHERE	CD_COMPANY = @P_CD_COMPANY AND NO_IO = @V_NO_IO 
+	END
+	
+
+	------------------------------------------------------------------------------------------------------  
+	--분할출고 사용을 안하거나 출고하고자 하는 수량이 의뢰수량과같은 경우  
+	IF (@P_QT_GI IS NULL OR (@V_YN_ALL_GI = 'Y' AND @V_QT_GI = 0))  
+	BEGIN  
+		INSERT INTO MM_QTIO  
+		(  
+				CD_COMPANY,			NO_IO,			NO_IOLINE,		CD_PLANT,		CD_BIZAREA,  
+				CD_SL,				DT_IO,			NO_ISURCV,		NO_ISURCVLINE,	NO_PSO_MGMT,  
+				NO_PSOLINE_MGMT,	FG_PS,			YN_PURSALE,		FG_TPIO,		CD_QTIOTP,  
+				FG_TRANS,			FG_TAX,			CD_PARTNER,		CD_ITEM,		QT_IO,  
+				QT_GOOD_INV,		CD_EXCH,		RT_EXCH,		UM_EX,			AM_EX,  
+				UM,					AM,				VAT,			FG_TAXP,		CD_PJT,  
+				NO_LC,				NO_LCLINE,		GI_PARTNER,		NO_EMP,			CD_GROUP,  
+				CD_UNIT_MM,			QT_UNIT_MM,		UM_EX_PSO,		YN_AM,			FG_IO,                    
+				NO_IO_MGMT,			NO_IOLINE_MGMT,	FG_LC_OPEN,		NO_POP,			NO_POP_LINE,
+				DC_RMK,				CD_WH,          SEQ_PROJECT
+		)        
+		-- 2011.02.17 장은경
+		SELECT  L.CD_COMPANY, @V_NO_IO NO_IO, CASE WHEN @P_YN_ALL = 'Y' THEN L.SEQ_GIR ELSE ISNULL(@V_NO_IOLINE, L.SEQ_GIR) END NO_IOLINE, H.CD_PLANT, P.CD_BIZAREA,  
+				CASE WHEN ISNULL(@V_CD_SL, '') = '' THEN L.CD_SL ELSE @V_CD_SL END, 
+				CASE WHEN @P_SERVERKEY = 'ADDTEC' THEN SL.DT_DUEDATE ELSE @V_DT_IO END DT_IO, 
+				L.NO_GIR NO_ISURCV, L.SEQ_GIR NO_ISURCVLINE, L.NO_SO NO_PSO_MGMT,  
+				L.SEQ_SO NO_PSOLINE_MGMT, '2' FG_PS, @V_YN_SALE YN_PURSALE, L.TP_IV FG_TPIO, @V_CD_QTIOTP CD_QTIOTP,  
+				@V_TP_BUSI FG_TRANS, L.TP_VAT FG_TAX, H.CD_PARTNER, L.CD_ITEM, L.QT_GIR_IM QT_IO,  
+				L.QT_GIR_IM QT_GOOD_INV, L.CD_EXCH, L.RT_EXCH, L.UM UM_EX, L.AM_GIR AM_EX,
+				--L.UM * L.RT_EXCH UM, -- 수정함 김기현    
+				ROUND(L.UM * L.RT_EXCH, (CASE WHEN @P_CD_COMPANY = 'S100' THEN 2 ELSE 0 END)) UM,
+				L.AM_GIRAMT AM, L.AM_VAT, L.FG_TAXP FG_TAXP, L.NO_PROJECT CD_PJT,            
+				NULL NO_LC, 0 NO_LCLINE, L.GI_PARTNER, H.NO_EMP, L.CD_SALEGRP CD_GROUP,  
+				L.UNIT CD_UNIT_MM, L.QT_GIR QT_UNIT_MM, L.UM UM_EX_PSO, @V_YN_AM, @V_FG_IO,  
+				NULL NO_IO_MGMT, 0 NO_IOLINE_MGMT, '' FG_LC_OPEN, @P_NO_POP, @P_NO_POP_LINE,
+				L.DC_RMK, L.CD_WH, L.SEQ_PROJECT
+		FROM SA_GIRL L  
+		INNER JOIN SA_GIRH H ON L.CD_COMPANY = H.CD_COMPANY AND L.NO_GIR = H.NO_GIR  
+		--LEFT OUTER JOIN SA_SOH S  ON L.CD_COMPANY = S.CD_COMPANY AND L.NO_SO = S.NO_SO             
+		LEFT OUTER JOIN MA_PLANT P ON H.CD_COMPANY = P.CD_COMPANY AND H.CD_PLANT = P.CD_PLANT
+		LEFT OUTER JOIN SA_SOL SL ON L.CD_COMPANY = SL.CD_COMPANY AND L.NO_SO = SL.NO_SO AND L.SEQ_SO = SL.SEQ_SO
+		WHERE L.CD_COMPANY    = @P_CD_COMPANY AND L.NO_GIR = @V_NO_GIR   
+		AND  (L.SEQ_GIR = CASE WHEN @P_YN_ALL = 'N' THEN @V_SEQ_GIR ELSE L.SEQ_GIR END)   
+		AND  L.QT_GIR - L.QT_GI > 0  
+	END  
+
+	--분할출고 할 경우  
+	ELSE  
+	BEGIN  
+
+		--PRINT '분할출고'
+		  
+		BEGIN  
+			SELECT	@V_CD_EXC = CD_EXC  
+			FROM	MA_EXC  
+			WHERE	CD_COMPANY = @P_CD_COMPANY  
+			AND		EXC_TITLE = '금액계산로직'  
+		END
+        
+        EXEC UP_SF_GETUNIT_AM @P_CD_COMPANY, 'SA', 'I', @V_FSIZE_AM OUTPUT, @V_UPDOWN_AM OUTPUT, @V_FORMAT_AM OUTPUT
+        IF @@ERROR <> 0 RETURN  
+
+		INSERT INTO MM_QTIO  
+		(  
+				CD_COMPANY,			NO_IO,			NO_IOLINE,		CD_PLANT,		CD_BIZAREA,		--5
+				CD_SL,				DT_IO,			NO_ISURCV,		NO_ISURCVLINE,	NO_PSO_MGMT,	--10 
+				NO_PSOLINE_MGMT,	FG_PS,			YN_PURSALE,		FG_TPIO,		CD_QTIOTP,		--15
+				FG_TRANS,			FG_TAX,			CD_PARTNER,		CD_ITEM,		QT_IO,			--20
+				QT_GOOD_INV,		CD_EXCH,		RT_EXCH,		UM_EX,			AM_EX,			--25
+				UM,					AM,				VAT,			FG_TAXP,		CD_PJT,			--30
+				NO_LC,				NO_LCLINE,		GI_PARTNER,		NO_EMP,			CD_GROUP,		--35
+				CD_UNIT_MM,			QT_UNIT_MM,		UM_EX_PSO,		YN_AM,			FG_IO,			--40
+				NO_IO_MGMT,			NO_IOLINE_MGMT, FG_LC_OPEN,		NO_POP,			NO_POP_LINE,	--45    
+				DC_RMK,				CD_WH,          SEQ_PROJECT
+		)        
+		SELECT  L.CD_COMPANY,  
+				@V_NO_IO NO_IO,  
+				-- 2011.02.17 : 장은경
+				CASE WHEN @P_YN_ALL = 'Y' THEN L.SEQ_GIR ELSE ISNULL(@V_NO_IOLINE, L.SEQ_GIR) END NO_IOLINE,  
+				H.CD_PLANT,  
+				P.CD_BIZAREA,			--5  
+				CASE WHEN ISNULL(@V_CD_SL, '') = '' THEN L.CD_SL ELSE @V_CD_SL END,  
+				@V_DT_IO DT_IO,  
+				L.NO_GIR NO_ISURCV,  
+				L.SEQ_GIR NO_ISURCVLINE,  
+				L.NO_SO NO_PSO_MGMT,	--10  
+				L.SEQ_SO NO_PSOLINE_MGMT,  
+				'2' FG_PS,  
+				@V_YN_SALE YN_PURSALE,  
+				L.TP_IV FG_TPIO,  
+				@V_CD_QTIOTP CD_QTIOTP,	--15  
+				@V_TP_BUSI FG_TRANS,  
+				L.TP_VAT FG_TAX,  
+				H.CD_PARTNER,  
+				L.CD_ITEM,  
+				@P_QT_GI * CASE WHEN I.UNIT_SO_FACT = 0 THEN 1 ELSE ISNULL(I.UNIT_SO_FACT, 1) END QT_IO,		--20  
+				@P_QT_GI * CASE WHEN I.UNIT_SO_FACT = 0 THEN 1 ELSE ISNULL(I.UNIT_SO_FACT, 1) END QT_GOOD_INV,  
+				L.CD_EXCH,  
+				L.RT_EXCH,       
+				CASE WHEN @V_YN_ALL_GI = 'Y' AND @V_CD_EXC = '001' THEN (AM_GIR - AM_EXGI)  / (@P_QT_GI * CASE WHEN I.UNIT_SO_FACT = 0 THEN 1 ELSE ISNULL(I.UNIT_SO_FACT, 1) END)   
+							 ELSE L.UM / CASE WHEN I.UNIT_SO_FACT = 0 THEN 1 ELSE ISNULL(I.UNIT_SO_FACT, 1) END END UM_EX,  
+				CASE WHEN @V_YN_ALL_GI = 'Y' AND @V_CD_EXC = '001' THEN AM_GIR - AM_EXGI         ELSE @P_QT_GI * L.UM   END AM_EX,		--25  
+				CASE WHEN @V_YN_ALL_GI = 'Y' AND @V_CD_EXC = '001' THEN (AM_GIRAMT - AM_GI) / (@P_QT_GI * CASE WHEN I.UNIT_SO_FACT = 0 THEN 1 ELSE ISNULL(I.UNIT_SO_FACT, 1) END)   
+							 ELSE L.UM * L.RT_EXCH / CASE WHEN I.UNIT_SO_FACT = 0 THEN 1 ELSE ISNULL(I.UNIT_SO_FACT, 1) END END UM,  
+				NEOE.FN_SF_GETUNIT_AM('SA', @P_SERVERKEY, @V_FSIZE_AM, @V_UPDOWN_AM, @V_FORMAT_AM,
+                                        (CASE WHEN @V_YN_ALL_GI = 'Y' AND @V_CD_EXC = '001' THEN AM_GIRAMT - AM_GI ELSE (@P_QT_GI * L.UM) * L.RT_EXCH  END)) AM,  
+				NEOE.FN_SF_GETUNIT_AM('SA', @P_SERVERKEY, @V_FSIZE_AM, @V_UPDOWN_AM, @V_FORMAT_AM,
+				                        (CASE WHEN @V_YN_ALL_GI = 'Y' AND @V_CD_EXC = '001' THEN AM_GIRAMT - AM_GI ELSE (@P_QT_GI * L.UM) * L.RT_EXCH  END * (L.RT_VAT * 0.01))) AM_VAT,
+				L.FG_TAXP FG_TAXP,  
+				L.NO_PROJECT CD_PJT,	--30  
+				NULL NO_LC,  
+				0 NO_LCLINE,  
+				L.GI_PARTNER,   
+				H.NO_EMP,  
+				L.CD_SALEGRP CD_GROUP,	--35  
+				L.UNIT CD_UNIT_MM,  
+				@P_QT_GI QT_UNIT_MM,   
+				L.UM UM_EX_PSO,  
+				@V_YN_AM,  
+				@V_FG_IO,				--40  
+				NULL NO_IO_MGMT,   
+				0 NO_IOLINE_MGMT,   
+				'' FG_LC_OPEN,  
+				@P_NO_POP,               
+				@P_NO_POP_LINE,			--45
+				L.DC_RMK,
+				L.CD_WH,
+				L.SEQ_PROJECT
+		FROM	SA_GIRL L  
+				INNER JOIN SA_GIRH H ON L.CD_COMPANY = H.CD_COMPANY AND L.NO_GIR = H.NO_GIR  
+				--LEFT OUTER JOIN SA_SOH S  ON L.CD_COMPANY = S.CD_COMPANY AND L.NO_SO = S.NO_SO  
+				LEFT OUTER JOIN MA_PLANT P ON H.CD_COMPANY = P.CD_COMPANY AND H.CD_PLANT = P.CD_PLANT
+				LEFT OUTER JOIN MA_PITEM I ON L.CD_COMPANY = I.CD_COMPANY AND H.CD_PLANT = I.CD_PLANT AND L.CD_ITEM = I.CD_ITEM             
+		WHERE	L.CD_COMPANY = @P_CD_COMPANY   
+		AND		L.NO_GIR = @V_NO_GIR   
+		AND		(L.SEQ_GIR = CASE WHEN @P_YN_ALL = 'N' THEN @V_SEQ_GIR ELSE L.SEQ_GIR END)   
+		AND		L.QT_GIR - L.QT_GI > 0  
+	END  
+END
+
+GO
+

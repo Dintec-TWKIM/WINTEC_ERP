@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3DF0FAB6-C87D-4090-935C-204C0645A5B4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cz</RootNamespace>
+    <AssemblyName>P_CZ_FI_BANK_SEND</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>%24/ERP/커스터마이징/P_CZ_FI_BANK_SEND</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccAuxPath>https://dintec.visualstudio.com</SccAuxPath>
+    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.C1Excel.2, Version=2.1.20063.53, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.5.20053.230, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="coParameter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0629c82a28f3ac5, processorArchitecture=MSIL" />
+    <Reference Include="Dass.FlexGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Dintec, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Security, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ffdef9042d029544, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.Erpiu.Windows.OneControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU.MF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.Windows.Print, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
+    <Reference Include="DzControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DzHelpFormLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="INeoWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="PageBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="P_FI_BANK_SEND_SUB1">
+      <HintPath>..\..\..\..\Applib\account\P_FI_BANK_SEND_SUB1.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_FI_BANK_SEND.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_FI_BANK_SEND.Designer.cs">
+      <DependentUpon>P_CZ_FI_BANK_SEND.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_FI_BANK_SEND_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_FI_BANK_SEND_BAN_DOCU\P_CZ_FI_BANK_SEND_BAN_DOCU.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_BANK_SEND_BAN_DOCU\P_CZ_FI_BANK_SEND_BAN_DOCU.Designer.cs">
+      <DependentUpon>P_CZ_FI_BANK_SEND_BAN_DOCU.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\P_CZ_FI_BANK_SEND_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\P_CZ_FI_BANK_SEND_SUB.Designer.cs">
+      <DependentUpon>P_CZ_FI_BANK_SEND_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\P_CZ_FI_BANK_SEND_SUB_BIZ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_FI_BANK_SEND.resx">
+      <DependentUpon>P_CZ_FI_BANK_SEND.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_FI_BANK_SEND_BAN_DOCU\P_CZ_FI_BANK_SEND_BAN_DOCU.resx">
+      <DependentUpon>P_CZ_FI_BANK_SEND_BAN_DOCU.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\P_CZ_FI_BANK_SEND_SUB.resx">
+      <DependentUpon>P_CZ_FI_BANK_SEND_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="E-Branch 연계\Procedure\SP_CZ_FI_BANK_SEND_EX_I.sql" />
+    <Content Include="Script\Procedure\SP_CZ_FI_BANK_SEND_BAND_S.sql" />
+    <Content Include="Script\Procedure\SP_CZ_FI_BANK_SEND_BAN_EMP_S.sql" />
+    <Content Include="Script\Procedure\SP_CZ_FI_BANK_SEND_BAN_PARTNER_S.sql" />
+    <Content Include="Script\Procedure\SP_CZ_FI_BANK_SEND_BAN_PARTNER_S2.sql" />
+    <Content Include="Script\Table\BANK_SENDD.sql" />
+    <Content Include="Script\Table\BANK_SENDH.sql" />
+    <Content Include="E-Branch 연계\Table\IBK_FCC_AP_ERP_REMIT.sql" />
+    <Content Include="Script\Trigger\TU_CZ_IBK_ERP_ICHE_DATA.sql" />
+    <Content Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\Script\Procedure\SP_CZ_FI_BANK_LIMITEH_INSERT.sql" />
+    <Content Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\Script\Procedure\SP_CZ_FI_BANK_SEND_SUBD_I.sql" />
+    <Content Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\Script\Procedure\SP_CZ_FI_BANK_SEND_SUBH_I.sql" />
+    <Content Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\Script\Procedure\SP_CZ_FI_BANK_SEND_SUBH_LIMITE_I.sql" />
+    <Content Include="관련도움창\P_CZ_FI_BANK_SEND_SUB\Script\Procedure\SP_CZ_FI_BANK_SEND_SUB_I.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="E-Branch 연계\참고자료\ERP연계외화송금테이블명세_딘텍.xls" />
+    <None Include="E-Branch 연계\참고자료\SAMPLEDATA.xlsx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\Applib</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

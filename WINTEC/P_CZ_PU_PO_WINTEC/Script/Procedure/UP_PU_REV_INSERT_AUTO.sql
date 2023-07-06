@@ -1,0 +1,94 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[UP_PU_REV_INSERT_AUTO]    Script Date: 2022-03-24 오후 3:49:05 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROC [NEOE].[UP_PU_REV_INSERT_AUTO]        
+(        
+ @P_CD_COMPANY	NVARCHAR(7),  
+ @P_NO_PO		NVARCHAR(20),  
+ @P_ID_INSERT	NVARCHAR(15),  
+ @P_DT_PO		NVARCHAR(8),  
+ @P_CD_PARTNER	NVARCHAR(20),  
+ @P_CD_EXCH		NVARCHAR(3),  
+ @P_RT_EXCH		NUMERIC(15,4),  
+ @P_NO_EMP      NVARCHAR(10),
+ @P_NO_LINE     NUMERIC(5,0) = NULL,
+ @P_NO_REV      NVARCHAR(20) = NULL
+)            
+AS        
+DECLARE @ERRNO  INT,            
+  @ERRMSG		NVARCHAR(255),  
+  @V_NO_REV		NVARCHAR(20),  
+  @V_FG_CONFIRM NVARCHAR(3),
+  @V_CNT		INT ,
+  @V_SYSDATE    NVARCHAR(14)
+  
+ BEGIN       
+    SELECT @V_FG_CONFIRM = CD_EXC FROM MA_EXC WHERE CD_COMPANY = @P_CD_COMPANY  AND EXC_TITLE = '구매-납품계획승인사용유무'  
+    SET @V_SYSDATE = NEOE.SF_SYSDATE(GETDATE())  
+   
+    
+    IF ISNULL(@P_NO_LINE,0 ) <> 0 AND ISNULL(@P_NO_REV,'') <> ''
+    BEGIN
+		SELECT  @V_CNT = COUNT(1) 
+		FROM	PU_REV
+		WHERE	CD_COMPANY = @P_CD_COMPANY  
+        AND		NO_PO = @P_NO_PO    
+        AND		NO_POLINE  = @P_NO_LINE  
+        
+        IF ISNULL(@V_CNT,0) > 0 RETURN
+   --     BEGIN 
+			--SET @ERRMSG = '발주번호 :' + @P_NO_PO + ' 항번 : ' + CONVERT(VARCHAR(5),@P_NO_LINE) + ' 은 이미 가입고 처리된 데이터 입니다'
+			--RAISERROR (@ERRMSG, 18, 1)
+			--RETURN
+        --END
+		
+    END
+    
+    
+    IF (@V_FG_CONFIRM = '100')  
+	 BEGIN  
+	  SET @V_FG_CONFIRM = 'Y'    
+	 END  
+	ELSE
+	 BEGIN
+	 SET @V_FG_CONFIRM = 'N' 
+	 END 
+  
+    IF (ISNULL(@P_NO_REV, '') = '')
+		EXEC  NEOE.CP_GETNO @P_CD_COMPANY, 'PU', '30', @P_DT_PO, @V_NO_REV OUTPUT  
+	ELSE
+		SET @V_NO_REV = @P_NO_REV
+		
+	
+  
+    INSERT INTO PU_REV        
+        (CD_COMPANY, NO_REV, NO_REVLINE, CD_PLANT, CD_PARTNER, DT_REV, NO_PO, NO_POLINE, CD_ITEM, QT_REV_MM,         
+         CD_EXCH, RT_EXCH, AM_REV, AM, VAT_REV, NO_REQ, NO_REQLINE, QT_REQ_MM, FG_CONFIRM, DT_CONFIRM,         
+         DC_RMK, ID_INSERT, DTS_INSERT, DC_RMK2, NO_EMP_REV, YN_QC, DT_QC, NO_EMP_QC, QT_PASS, QT_BAD,      
+         CD_SL,FG_QC, NO_TO, NO_TOLINE, NO_LC, NO_LC_LINE,CD_PJT,SEQ_PROJECT,QT_REV_M)        
+     SELECT        
+         @P_CD_COMPANY, @V_NO_REV, L.NO_LINE, L.CD_PLANT, @P_CD_PARTNER, CASE WHEN ISNULL(L.DT_LIMIT,'')='' THEN @P_DT_PO ELSE L.DT_LIMIT END, L.NO_PO, L.NO_LINE, L.CD_ITEM, L.QT_PO,         
+         @P_CD_EXCH, @P_RT_EXCH, L.AM, L.AM, L.VAT, '', 0, 0, @V_FG_CONFIRM, '',         
+         '', @P_ID_INSERT, @V_SYSDATE, '', @P_NO_EMP, 'N', '', '', 0, 0,      
+         L.CD_SL,ISNULL(P.FG_IQC,'N'), '', 0, '', 0, L.CD_PJT, L.SEQ_PROJECT, L.QT_PO_MM   
+     FROM PU_POL L
+     INNER JOIN MA_PITEM P ON L.CD_ITEM = P.CD_ITEM AND L.CD_PLANT = P.CD_PLANT AND L.CD_COMPANY = P.CD_COMPANY  
+     WHERE L.CD_COMPANY = @P_CD_COMPANY  
+       AND L.NO_PO = @P_NO_PO    
+       AND (L.NO_LINE = @P_NO_LINE OR @P_NO_LINE IS NULL OR @P_NO_LINE = 0)
+   
+RETURN        
+        
+ERROR: RAISERROR (@ERRMSG, 18, 1)
+RETURN  
+END
+GO
+
+

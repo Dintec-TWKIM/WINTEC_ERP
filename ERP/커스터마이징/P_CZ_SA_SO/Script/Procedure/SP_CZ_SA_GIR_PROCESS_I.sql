@@ -1,0 +1,183 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SA_GIR_PROCESS_I]    Script Date: 2016-11-04 오후 3:34:04 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+/*********************************************************************************************/ 
+--설    명 : 수주등록 - 자동프로세스 의뢰
+--수 정 자 : 장은경
+--수 정 일 : 2010/07/12
+--유    형 : 추가
+--내    역 : 테이블 추가
+/*********************************************************************************************/ 
+ALTER PROCEDURE [NEOE].[SP_CZ_SA_GIR_PROCESS_I]
+(
+	@P_SERVERKEY		NVARCHAR(50),		-- 업체서버키
+	@P_UI				NVARCHAR(50),		-- 호출UI		(SA_SOL : 수주등록화면, WEB_SOL : WEB 주문등록)
+	@P_CD_COMPANY		NVARCHAR(7),		-- 회사코드
+	@P_NO_SO			NVARCHAR(20),		-- 수주번호	
+	@P_SEQSO			NUMERIC(5,0),		-- 수주라인항번
+	@P_ID_USER			NVARCHAR(15),
+	@P_YN_ALL			NVARCHAR(1)	= 'N',	-- Y : 수주번호 전체, N : 수주라인에 대해서
+	@P_YN_AUTOPROCESS	NVARCHAR(1)	= 'Y'	-- Y : 자동프로세스 값 참조, N : 참조하지 않고 의뢰
+)
+AS
+DECLARE
+		@V_STA_SO		NVARCHAR(1),		-- 수주라인상태
+		@V_YN_GIRH		NVARCHAr(1),		-- H추가여부
+		@V_TP_SO		NVARCHAR(4),		-- 수주유형
+		@V_DT_SO		NVARCHAR(8),		-- 수주일자
+		@V_NO_GIR		NVARCHAR(20),
+		@V_YM			NVARCHAR(6),
+		@V_MINSEQSO		NUMERIC(5,0),		-- 수주라인 MIN
+		@V_CD_PLANT		NVARCHAR(7),		-- 공장코드
+		@V_GIR			NVARCHAR(1),		-- 자동프로세스 의뢰
+		@V_YN_RETURN	NVARCHAR(1),		-- 반품유무
+		@V_TP_BUSI		NVARCHAR(3),		-- 거래구분
+		@V_CD_CLASS		NVARCHAR(2),		-- 채번규정
+		@V_CNT			INT,
+		@V_SYSDATE		NVARCHAR(14),
+		@V_ERRNO		INT,
+		@V_ERRMSG		VARCHAR(255),
+		@V_SERVER_KEY   VARCHAR(50)
+
+SET @V_YN_GIRH = 'Y'
+SET @V_CNT = 0
+
+--SELECT @V_ERRNO = 100000, @V_ERRMSG = @P_SERVERKEY + ' ' + @P_UI + ' ' + @P_CD_COMPANY + ' ' + @P_NO_SO + ' ' + CONVERT(NVARCHAR, @P_SEQSO)  + ' ' + @P_ID_USER + ' ' + @P_YN_ALL
+--RAISERROR @V_ERRNO @V_ERRMSG
+--RETURN
+
+-- 수주유형 조회
+SELECT	@V_TP_SO	= TP_SO, @V_DT_SO = DT_SO
+FROM	SA_SOH
+WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO 
+IF @@ERROR <> 0 RETURN	
+
+-- 수주유형에 해당하는 거래구분, 반품구분, 의뢰여부
+SELECT	@V_TP_BUSI = TP.TP_BUSI, @V_YN_RETURN = TP.RET, @V_GIR = TP.GIR
+FROM	SA_TPSO TP
+INNER JOIN MM_EJTP EJ
+ON		TP.CD_COMPANY	= EJ.CD_COMPANY AND TP.TP_GI = EJ.CD_QTIOTP 
+WHERE	TP.CD_COMPANY	= @P_CD_COMPANY AND TP.TP_SO = @V_TP_SO
+IF @@ERROR <> 0 RETURN
+
+IF(@P_SERVERKEY LIKE 'YWD%')
+BEGIN
+    SELECT	@V_STA_SO = ISNULL(STA_SO, 'O')
+	FROM	SA_SOL
+	WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO AND SEQ_SO = @P_SEQSO 
+    
+    IF @V_STA_SO = 'O' RETURN
+END
+IF @P_YN_AUTOPROCESS = 'N'
+	SET @V_GIR = 'Y'
+
+IF ISNULL(@V_GIR, 'N') <> 'Y' RETURN
+
+IF @P_YN_ALL = 'N'
+BEGIN
+	SELECT	@V_STA_SO = ISNULL(STA_SO, 'O')
+	FROM	SA_SOL
+	WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO AND SEQ_SO = @P_SEQSO 
+
+	IF @V_STA_SO = 'O'
+	BEGIN
+		RAISERROR ('수주상태가 미정이므로 의뢰하실 수 없습니다.', 18, 1)
+		RETURN
+	END
+
+	IF @V_STA_SO = 'C'
+	BEGIN
+		RAISERROR ('수주상태가 종결이므로 의뢰하실 수 없습니다.', 18, 1)
+		RETURN     
+	END
+END
+
+
+-- 의뢰된 내용이 있는지			
+SELECT	@V_NO_GIR = NO_GIR 
+FROM	SA_GIRL 
+WHERE	CD_COMPANY = @P_CD_COMPANY AND NO_SO = @P_NO_SO
+
+IF @V_NO_GIR IS NOT NULL AND @V_NO_GIR <> ''
+BEGIN
+	SET @V_YN_GIRH = 'N'
+END	
+	
+/********************* GIRH 추가 ********************/
+IF @V_YN_GIRH = 'Y'
+BEGIN		
+	SET @V_YM = SUBSTRING(@V_DT_SO, 1, 6)
+	SET @V_SYSDATE = NEOE.SF_SYSDATE(GETDATE())
+
+		-- 정상품
+	IF @V_YN_RETURN IS NULL OR 	@V_YN_RETURN = '' OR @V_YN_RETURN = 'N'
+		SET @V_CD_CLASS = '03'
+	ELSE
+		-- 반품
+		SET @V_CD_CLASS = '04'		
+			
+	SELECT	TOP 1 @V_CD_PLANT	= CD_PLANT
+	FROM	SA_SOL
+	WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO-- AND SEQ_SO = @P_SEQSO
+	IF @@ERROR <> 0 RETURN
+		
+	-- 의뢰번호 자동채번
+	EXEC  CP_GETNO @P_CD_COMPANY,'SA', @V_CD_CLASS, @V_YM,  @V_NO_GIR OUTPUT
+	IF @@ERROR <> 0 RETURN
+
+			
+	INSERT INTO SA_GIRH
+	(CD_COMPANY, NO_GIR, DT_GIR, CD_PARTNER, CD_PLANT, NO_EMP, 
+	TP_BUSI, YN_RETURN, DC_RMK, DC_RMK1, DC_RMK2, ID_INSERT, DTS_INSERT)
+	SELECT	CD_COMPANY, @V_NO_GIR, @V_DT_SO, CD_PARTNER, @V_CD_PLANT, NO_EMP,
+			@V_TP_BUSI, @V_YN_RETURN, DC_RMK, DC_RMK1, NULL, @P_ID_USER, @V_SYSDATE
+	FROM	SA_SOH H
+	WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO 		
+	IF @@ERROR <> 0 RETURN
+END
+
+/********************* GIRL 추가 ********************/
+IF @P_YN_ALL = 'N'
+BEGIN
+	SELECT	@V_CNT = COUNT(1)
+	FROM	SA_GIRL
+	WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO AND SEQ_SO = @P_SEQSO
+	IF @@ERROR <> 0 RETURN
+
+	IF ISNULL(@V_CNT, 0) > 0 RETURN
+END	
+
+INSERT INTO SA_GIRL
+(
+    CD_COMPANY,  NO_GIR,     SEQ_GIR,     CD_ITEM,     TP_ITEM,
+    DT_DUEDATE,  DT_REQGI,   YN_INSPECT,  CD_SL,       TP_GI,
+    QT_GIR,      CD_EXCH,    UM,          AM_GIR,      AM_GIRAMT,
+    AM_VAT,      UNIT,       QT_GIR_IM,   GI_PARTNER,  NO_PROJECT,
+    RT_EXCH,     RT_VAT,     NO_SO,       SEQ_SO,      CD_SALEGRP,
+    TP_VAT,      NO_EMP,     TP_IV,       FG_TAXP,     TP_BUSI,
+    GIR,         IV,         RET,         SUBCONT,     NO_LC,
+    SEQ_LC,      FG_LC_OPEN, DC_RMK,      CD_WH,       ID_INSERT,
+    DTS_INSERT,  SEQ_PROJECT
+)
+SELECT	H.CD_COMPANY, @V_NO_GIR, L.SEQ_SO, L.CD_ITEM, L.TP_ITEM,
+		L.DT_DUEDATE, L.DT_REQGI, 'N' YN_INSPECT, L.CD_SL, L.TP_GI,
+		L.QT_SO, H.CD_EXCH, L.UM_SO, L.AM_SO, L.AM_WONAMT,
+		L.AM_VAT, L.UNIT_IM, L.QT_IM, L.GI_PARTNER, L.NO_PROJECT,
+		H.RT_EXCH, L.RT_VAT, L.NO_SO, L.SEQ_SO, H.CD_SALEGRP,
+		L.TP_VAT, H.NO_EMP, L.TP_IV, H.FG_TAXP, L.TP_BUSI,
+		L.GIR, L.IV, @V_YN_RETURN, 'N' SUBCONT, NULL NO_LC, 
+		0 SEQ_LC, NULL FG_LC_OPEN, L.DC1 DC_RMK, L.CD_WH, @P_ID_USER,
+		@V_SYSDATE, L.SEQ_PROJECT
+FROM	SA_SOH H
+INNER JOIN SA_SOL L
+ON		H.CD_COMPANY	= L.CD_COMPANY AND H.NO_SO = L.NO_SO AND L.SEQ_SO = CASE WHEN @P_YN_ALL = 'N' THEN @P_SEQSO ELSE L.SEQ_SO END
+WHERE	H.CD_COMPANY	= @P_CD_COMPANY AND H.NO_SO = @P_NO_SO
+GO
+

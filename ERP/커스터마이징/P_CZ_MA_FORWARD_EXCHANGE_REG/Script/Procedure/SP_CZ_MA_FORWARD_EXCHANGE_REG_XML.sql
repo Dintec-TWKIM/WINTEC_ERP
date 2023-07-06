@@ -1,0 +1,97 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_MA_HULL_XML]    Script Date: 2015-10-26 오후 7:48:35 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ALTER PROCEDURE [NEOE].[SP_CZ_MA_FORWARD_EXCHANGE_REG_XML] 
+(
+	@P_XML			XML, 
+	@P_CD_COMPANY	NVARCHAR(20),
+	@P_ID_USER		NVARCHAR(10), 
+    @DOC			INT = NULL
+) 
+AS 
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+EXEC SP_XML_PREPAREDOCUMENT @DOC OUTPUT, @P_XML 
+
+-- ================================================== DELETE
+DELETE A 
+  FROM CZ_MA_FORWARD_EXCHANGE A 
+       JOIN OPENXML (@DOC, '/XML/D', 2) 
+               WITH (CD_BANK NVARCHAR(3),
+					 DT_EXCH NVARCHAR(8)) B 
+       ON A.CD_COMPANY = @P_CD_COMPANY
+	   AND A.CD_BANK = B.CD_BANK
+	   AND A.DT_EXCH = B.DT_EXCH
+-- ================================================== INSERT
+INSERT INTO CZ_MA_FORWARD_EXCHANGE 
+(
+	CD_COMPANY,
+	CD_BANK,
+	DT_EXCH,
+	DT_CONTRACT,
+	RT_EXCH,
+	AM_EX, 
+	AM,
+	SWAP,
+	COMMISSION,
+	ID_INSERT,
+	DTS_INSERT
+)
+SELECT @P_CD_COMPANY,
+	   CD_BANK,	
+	   DT_EXCH,		
+	   DT_CONTRACT,	
+	   RT_EXCH,	
+	   AM_EX,		
+	   AM,	
+	   SWAP,			
+	   COMMISSION,	
+       @P_ID_USER, 
+       NEOE.SF_SYSDATE(GETDATE()) 
+  FROM OPENXML (@DOC, '/XML/I', 2) 
+          WITH (CD_BANK			NVARCHAR(3),
+				DT_EXCH			NVARCHAR(8),
+				DT_CONTRACT		NVARCHAR(8),
+				RT_EXCH			NUMERIC(11, 4),
+				AM_EX			NUMERIC(17, 4),
+				AM				NUMERIC(17, 4),
+				SWAP			NUMERIC(11, 4),
+				COMMISSION		NUMERIC(11, 4)) 
+-- ================================================== UPDATE    
+UPDATE A 
+   SET A.DT_CONTRACT = B.DT_CONTRACT, 
+	   A.RT_EXCH = B.RT_EXCH, 
+	   A.AM_EX = B.AM_EX, 
+	   A.AM = B.AM, 
+	   A.SWAP = B.SWAP, 
+	   A.COMMISSION = B.COMMISSION, 
+	   A.ID_UPDATE = @P_ID_USER, 
+	   A.DTS_UPDATE = NEOE.SF_SYSDATE(GETDATE())
+  FROM CZ_MA_FORWARD_EXCHANGE A 
+       JOIN OPENXML (@DOC, '/XML/U', 2) 
+               WITH (CD_BANK			NVARCHAR(3),
+					 DT_EXCH			NVARCHAR(8),
+					 DT_CONTRACT		NVARCHAR(8),
+					 RT_EXCH			NUMERIC(11, 4),
+					 AM_EX				NUMERIC(17, 4),
+					 AM					NUMERIC(17, 4),
+					 SWAP				NUMERIC(11, 4),
+					 COMMISSION			NUMERIC(11, 4)) B 
+       ON A.CD_COMPANY = @P_CD_COMPANY
+	   AND A.CD_BANK = B.CD_BANK
+	   AND A.DT_EXCH = B.DT_EXCH
+
+EXEC SP_XML_REMOVEDOCUMENT @DOC 
+
+GO
+

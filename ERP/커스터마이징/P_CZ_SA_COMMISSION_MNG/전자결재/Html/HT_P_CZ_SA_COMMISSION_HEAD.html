@@ -1,0 +1,113 @@
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		html, body, form, table, thead, tbody, tfoot, tr, th, td, input, textarea, img { margin:0; padding:0; border:0; outline:0; line-height:1; font-family:굴림; font-size:9pt; }	
+		table { border-collapse:collapse; border-spacing:0; }
+		
+    .appdoc		{ width:645px; margin:0 auto; text-align:left; }
+    .title		{ font-size:30px; font-weight:bold; text-align:center; margin-bottom:10px; }
+    .contents { width:100%; table-layout:fixed; border:solid 2px #787878; }
+        
+		.row00	{ height:30px; }
+    .row01	{ height:30px; }
+    .row02	{ height:30px; }
+    .cell00 { font-weight:normal; vertical-align:middle; border-right:solid 1px #787878; border-bottom:solid 1px #787878; }
+		.cell01 { font-weight:normal; vertical-align:middle; border-bottom:solid 1px #787878; }
+		.cell02 { font-weight:normal; vertical-align:middle; border-right:solid 1px #787878; }
+		.cell03 { font-weight:normal; vertical-align:middle; border-bottom:solid 2px #787878; }        
+		
+		.df02 input		{ width:70px !important; text-align:center; margin:0px 5px 0px 0px !important; }
+		.df02 select	{ width:40px !important; height:19px !important; }		
+		
+		.input-text		{ height:17px; padding:0 !important; }
+		.pop_tb_btn		{ margin-top:-11px !important; }
+		.pop_tb_btn a { height:13px; }		
+	</style>
+</head>
+<body style="font-family: gulim; font-size: 9pt;">
+	<script type="text/javascript">
+		startUp();
+
+		function startUp()
+		{
+			// 날짜와 시간 사이 <br> 제거
+			$(".df02").children("br").remove();																	
+
+			// write 모드에서 협의라인 아래쪽 라인 제거
+//			$(".df05 > div > table > tbody > tr").eq(1).css("border", "none");
+//			
+//			var cnt = $(".df05 > div > table > tbody > tr").eq(1).children("td").size();
+//			for (var i = 0; i < cnt; i++) $(".df05 > div > table > tbody > tr").eq(1).children("td").eq(i).css("border-bottom", "none");
+
+			// view 모드에서 협의라인 아래쪽 라인 제거
+			$(".df05 > table > tbody > tr").eq(1).css("border", "none")
+
+			cnt = $(".df05 > table > tbody > tr").eq(1).children("td").size();
+			for (var i = 0; i < cnt; i++) $(".df05 > table > tbody > tr").eq(1).children("td").eq(i).css("border-bottom", "none");
+
+			// 인쇄 모드
+			if ($("body").html().substring(0,4) == "<DIV")
+			{
+				$(".row00").css("height", "55px");
+				$(".row01").css("height", "56px");
+			}
+		}
+	</script>
+
+  <div class="appdoc">
+		<div style="height:20px;"></div>
+		<div class="title">커미션 지급 품의서</div>
+		<table class="contents">
+			<colgroup>
+				<col width="89px" /><!-- 87px -->
+				<col width="186px" /><!-- 188px -->
+				<col width="368px" /><!-- 368px -->
+			</colgroup>
+      <tr class="row00">
+				<th class="cell00">문 서 번 호</th>
+				<td class="cell00">&nbsp;_DF01_</td>
+				<td class="cell01 df05" rowspan="4">_DF05_</td>
+			</tr>
+			<tr class="row01">
+				<th class="cell00">작 성 일 자</th>
+				<td class="cell00 df02">&nbsp;_DF02_</td>
+			</tr>
+			<tr class="row00">
+				<th class="cell00">작 성 부 서</th>
+				<td class="cell00">&nbsp;_DF03_</td>
+			</tr>
+			<tr class="row01">
+				<th class="cell00">작 &nbsp; 성 &nbsp; 자</th>
+				<td class="cell00">&nbsp;_DF04_</td>
+			</tr>
+			<tr class="row02">
+				<th class="cell00">수신 및 참조</th>
+				<td class="cell01" colspan="2">&nbsp;_DF07_</td>
+			</tr>
+			<tr class="row02">
+				<th class="cell00">제 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 목</th>
+				<td class="cell01" colspan="2">&nbsp;_DF10_</td>
+			</tr>
+            <tr>
+				<td colspan="3" style="vertical-align:top;">
+				    <div style="padding:10px 10px 10px 10px;">_DFINTER_</div>
+				</td>
+			</tr>
+			<tr style="height:550px;">
+				<td class="cell01" colspan="3" style="vertical-align:top;" >
+					<div id="divFormContents" style="padding:10px 0 0 10px;">_DF11_</div>
+				</td>
+			</tr>
+			<tr class="row02">
+				<th class="cell02">참 조 문 서</th>
+				<td colspan="2">&nbsp;_DFREF_</td>                
+      </tr>
+		</table>
+	</div>
+ 
+</body>
+</html>
+
+
+

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: D:\AppLib\pur\P_PU_PO_REG2.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E5AA8547-F278-457A-8A6B-154E925B0F55}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>P_CZ_PU_PO_REG2</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>cz</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603, processorArchitecture=MSIL" />
+    <Reference Include="PageBase" />
+    <Reference Include="DzControlLib" />
+    <Reference Include="P_PU_BUDGET_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_BUDGET_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_LOT_SUB_I">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_LOT_SUB_I.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_LOT_SUB_R">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_LOT_SUB_R.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_OPTION_INFO_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_OPTION_INFO_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_PJT_BUDGET_CTL_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_PJT_BUDGET_CTL_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_UM_HISTORY_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_UM_HISTORY_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_PRJ_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_PRJ_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="DzHelpFormLib" />
+    <Reference Include="Duzon.Windows.Print" />
+    <Reference Include="System.Data" />
+    <Reference Include="Duzon.Common.ConstLib" />
+    <Reference Include="INeoWeb" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="C1.Win.C1FlexGrid.2" />
+    <Reference Include="Dass.FlexGrid" />
+    <Reference Include="Duzon.Erpiu.Windows.OneControls" />
+    <Reference Include="coParameter" />
+    <Reference Include="Duzon.ERPU.MF" />
+    <Reference Include="Duzon.ERPU" />
+    <Reference Include="Duzon.ERPU.PU" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="H_PU_HELP" />
+    <Reference Include="System.Web" />
+    <Reference Include="Duzon.BizOn.Erpu.Net" />
+    <Reference Include="Duzon.Erpu.CloudFax" />
+    <Reference Include="CommonFunction" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_PU_PO_REG2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_PU_PO_REG2.Designer.cs">
+      <DependentUpon>P_CZ_PU_PO_REG2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_PU_PO_REG2_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_PU_PO_REG2_SUB.Designer.cs">
+      <DependentUpon>P_CZ_PU_PO_REG2_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_PU_PO_REG2_SUB_BIZ.cs" />
+    <Compile Include="메세지.cs" />
+    <Compile Include="CDT_PU_RCV.cs" />
+    <Compile Include="P_CZ_PU_PO_REG2_BIZ.cs" />
+    <Compile Include="CDT_PU_RCVH.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_PU_PO_REG2.resx">
+      <DependentUpon>P_CZ_PU_PO_REG2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_PU_PO_REG2_SUB.resx">
+      <DependentUpon>P_CZ_PU_PO_REG2_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dintec\Dintec.csproj">
+      <Project>{3F297CCA-E9D7-461F-92A3-E522DDCD3996}</Project>
+      <Name>Dintec</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\Procedure\SP_CZ_PU_PO_TP_PO_U.sql" />
+    <Content Include="Script\Procedure\SP_CZ_PU_PO_TP_VAT_U.sql" />
+    <Content Include="관련도움창\Script\Procedure\SP_CZ_PU_PO_REG2_SUBH.sql" />
+    <Content Include="관련도움창\Script\Procedure\SP_CZ_PU_PO_REG2_SUBL.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\AppLib</PostBuildEvent>
+  </PropertyGroup>
+</Project>

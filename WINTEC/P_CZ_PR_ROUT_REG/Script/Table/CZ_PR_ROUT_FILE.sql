@@ -1,0 +1,38 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_PR_ROUT_FILE]    Script Date: 2021-03-08 오후 6:32:14 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_PR_ROUT_FILE](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[CD_PLANT] [nvarchar](7) NOT NULL,
+	[CD_ITEM] [nvarchar](20) NOT NULL,
+	[NO_OPPATH] [nvarchar](3) NOT NULL,
+	[CD_OP] [nvarchar](4) NOT NULL,
+	[CD_WCOP] [nvarchar](7) NOT NULL,
+	[NO_SEQ] [numeric](5, 0) NOT NULL,
+	[NM_FILE] [nvarchar](200) NULL,
+	[DC_FILE] [nvarchar](100) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_PR_ROUT_FILE] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[CD_PLANT] ASC,
+	[CD_ITEM] ASC,
+	[NO_OPPATH] ASC,
+	[CD_OP] ASC,
+	[CD_WCOP] ASC,
+	[NO_SEQ] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

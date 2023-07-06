@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P_PU_EVAL_REG", "P_PU_EVAL_REG.csproj", "{FBCC27A1-D6F9-4758-B932-6A6B582A9276}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = P_PU_EVAL_REG.csproj
+		SccProjectName0 = \u0022$/ERPU/ERP-U-2009/Purchase/85_재고평가관리/P_PU_EVAL_REG\u0022,\u0020DLQOAAAA
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBCC27A1-D6F9-4758-B932-6A6B582A9276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBCC27A1-D6F9-4758-B932-6A6B582A9276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBCC27A1-D6F9-4758-B932-6A6B582A9276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBCC27A1-D6F9-4758-B932-6A6B582A9276}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

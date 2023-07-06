@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8601FE88-A8F7-44F4-B76F-757F7AF0E38F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cz</RootNamespace>
+    <AssemblyName>P_CZ_SA_QTN_REG</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Email">
+      <HintPath>..\..\..\..\AppLib\Aspose.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.2">
+      <HintPath>..\..\..\..\..\AppLib\C1.Win.C1FlexGrid.2.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonFunction">
+      <HintPath>..\..\..\..\AppLib\CommonFunction.dll</HintPath>
+    </Reference>
+    <Reference Include="coParameter">
+      <HintPath>..\..\..\..\..\AppLib\coParameter.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid">
+      <HintPath>..\..\..\..\..\AppLib\Dass.FlexGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid.Utils">
+      <HintPath>..\..\..\..\..\AppLib\Dass.FlexGrid.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGridLight">
+      <HintPath>..\..\..\..\..\AppLib\Dass.FlexGridLight.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Forms">
+      <HintPath>..\..\..\..\..\AppLib\Duzon.BizOn.Erpu.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Resource">
+      <HintPath>..\..\..\..\..\AppLib\Duzon.BizOn.Erpu.Resource.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Util">
+      <HintPath>..\..\..\..\..\AppLib\Duzon.BizOn.Erpu.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.WorkGuide">
+      <HintPath>..\..\..\..\..\AppLib\Duzon.BizOn.Erpu.WorkGuide.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Windows.Forms">
+      <HintPath>..\..\..\..\..\AppLib\Duzon.BizOn.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.Erpiu.Windows.OneControls">
+      <HintPath>..\..\..\..\..\AppLib\Duzon.Erpiu.Windows.OneControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU">
+      <HintPath>..\..\..\..\..\AppLib\Duzon.ERPU.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.Windows.Print">
+      <HintPath>..\..\..\..\AppLib\Duzon.Windows.Print.dll</HintPath>
+    </Reference>
+    <Reference Include="DzControlLib">
+      <HintPath>..\..\..\..\..\AppLib\DzControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DzHelpFormLib">
+      <HintPath>..\..\..\..\..\AppLib\DzHelpFormLib.dll</HintPath>
+    </Reference>
+    <Reference Include="H_CZ_HELP">
+      <HintPath>..\..\..\..\AppLib\H_CZ_HELP.dll</HintPath>
+    </Reference>
+    <Reference Include="INeoWeb">
+      <HintPath>..\..\..\..\..\AppLib\INeoWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PageBase">
+      <HintPath>..\..\..\..\..\AppLib\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Parsing, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Parsing.dll</HintPath>
+    </Reference>
+    <Reference Include="PopupControl">
+      <HintPath>..\..\..\..\AppLib\PopupControl.dll</HintPath>
+    </Reference>
+    <Reference Include="P_CZ_MA_EMAIL_SUB">
+      <HintPath>..\..\..\..\AppLib\P_CZ_MA_EMAIL_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="H_CZ_ADD_ITEM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="H_CZ_ADD_ITEM.Designer.cs">
+      <DependentUpon>H_CZ_ADD_ITEM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="H_CZ_COPY_FILE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="H_CZ_COPY_FILE.Designer.cs">
+      <DependentUpon>H_CZ_COPY_FILE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="H_CZ_MATCH_STK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="H_CZ_MATCH_STK.Designer.cs">
+      <DependentUpon>H_CZ_MATCH_STK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="H_CZ_PRT_OPTION.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="H_CZ_PRT_OPTION.Designer.cs">
+      <DependentUpon>H_CZ_PRT_OPTION.cs</DependentUpon>
+    </Compile>
+    <Compile Include="H_CZ_VENDOR_SEL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="H_CZ_VENDOR_SEL.Designer.cs">
+      <DependentUpon>H_CZ_VENDOR_SEL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_INQ_2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_INQ_2.Designer.cs">
+      <DependentUpon>P_CZ_SA_INQ_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_INQ_QLINK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_INQ_QLINK.Designer.cs">
+      <DependentUpon>P_CZ_SA_INQ_QLINK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="H_CZ_QTN_CLOSE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="H_CZ_QTN_CLOSE.Designer.cs">
+      <DependentUpon>H_CZ_QTN_CLOSE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="H_CZ_STATUS_TABLE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="H_CZ_STATUS_TABLE.Designer.cs">
+      <DependentUpon>H_CZ_STATUS_TABLE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="H_CZ_SUPPLIER.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="H_CZ_SUPPLIER.Designer.cs">
+      <DependentUpon>H_CZ_SUPPLIER.cs</DependentUpon>
+    </Compile>
+    <Compile Include="H_CZ_VIEW_OFFER_RATE.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="H_CZ_VIEW_OFFER_RATE.Designer.cs">
+      <DependentUpon>H_CZ_VIEW_OFFER_RATE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_PU_INQ.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_PU_INQ.Designer.cs">
+      <DependentUpon>P_CZ_PU_INQ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_PU_QTN.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_PU_QTN.Designer.cs">
+      <DependentUpon>P_CZ_PU_QTN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_PU_QTN_HGS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="P_CZ_PU_QTN_HGS.Designer.cs">
+      <DependentUpon>P_CZ_PU_QTN_HGS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_INQ.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_INQ.designer.cs">
+      <DependentUpon>P_CZ_SA_INQ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_INQ_EXT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_INQ_EXT.Designer.cs">
+      <DependentUpon>P_CZ_SA_INQ_EXT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_QTN.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_QTN.Designer.cs">
+      <DependentUpon>P_CZ_SA_QTN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_QTN_EXT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_QTN_EXT.Designer.cs">
+      <DependentUpon>P_CZ_SA_QTN_EXT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_QTN_REG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_QTN_REG.Designer.cs">
+      <DependentUpon>P_CZ_SA_QTN_REG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_STOCK.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_STOCK.Designer.cs">
+      <DependentUpon>P_CZ_SA_STOCK.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="H_CZ_ADD_ITEM.resx">
+      <DependentUpon>H_CZ_ADD_ITEM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="H_CZ_COPY_FILE.resx">
+      <DependentUpon>H_CZ_COPY_FILE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="H_CZ_MATCH_STK.resx">
+      <DependentUpon>H_CZ_MATCH_STK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="H_CZ_PRT_OPTION.resx">
+      <DependentUpon>H_CZ_PRT_OPTION.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="H_CZ_VENDOR_SEL.resx">
+      <DependentUpon>H_CZ_VENDOR_SEL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_INQ_2.resx">
+      <DependentUpon>P_CZ_SA_INQ_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_INQ_QLINK.resx">
+      <DependentUpon>P_CZ_SA_INQ_QLINK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="H_CZ_QTN_CLOSE.resx">
+      <DependentUpon>H_CZ_QTN_CLOSE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="H_CZ_STATUS_TABLE.resx">
+      <DependentUpon>H_CZ_STATUS_TABLE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="H_CZ_SUPPLIER.resx">
+      <DependentUpon>H_CZ_SUPPLIER.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="H_CZ_VIEW_OFFER_RATE.resx">
+      <DependentUpon>H_CZ_VIEW_OFFER_RATE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_PU_INQ.resx">
+      <DependentUpon>P_CZ_PU_INQ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_PU_QTN.resx">
+      <DependentUpon>P_CZ_PU_QTN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_PU_QTN_HGS.resx">
+      <DependentUpon>P_CZ_PU_QTN_HGS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_INQ.resx">
+      <DependentUpon>P_CZ_SA_INQ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_INQ_EXT.resx">
+      <DependentUpon>P_CZ_SA_INQ_EXT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_QTN.resx">
+      <DependentUpon>P_CZ_SA_QTN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_QTN_EXT.resx">
+      <DependentUpon>P_CZ_SA_QTN_EXT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_QTN_REG.resx">
+      <DependentUpon>P_CZ_SA_QTN_REG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_STOCK.resx">
+      <DependentUpon>P_CZ_SA_STOCK.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dintec\Dintec.csproj">
+      <Project>{3F297CCA-E9D7-461F-92A3-E522DDCD3996}</Project>
+      <Name>Dintec</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DX\DX.csproj">
+      <Project>{f9e4b13b-9497-4ce4-b698-b9a39c1be873}</Project>
+      <Name>DX</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_expand2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty %2820x6%29.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_expand.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "D:\AppLib"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

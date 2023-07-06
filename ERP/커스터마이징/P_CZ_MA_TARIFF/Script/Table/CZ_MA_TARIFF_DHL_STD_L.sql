@@ -1,0 +1,39 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_MA_TARIFF_DHL_STD_L]    Script Date: 2020-12-11 오후 1:01:06 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_MA_TARIFF_DHL_STD_L](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[DT_YEAR] [nvarchar](4) NOT NULL,
+	[TP_TARIFF] [nvarchar](4) NOT NULL,
+	[WEIGHT] [numeric](18, 2) NOT NULL,
+	[AM_ZONE1] [numeric](18, 0) NULL,
+	[AM_ZONE2] [numeric](18, 0) NULL,
+	[AM_ZONE3] [numeric](18, 0) NULL,
+	[AM_ZONE4] [numeric](18, 0) NULL,
+	[AM_ZONE5] [numeric](18, 0) NULL,
+	[AM_ZONE6] [numeric](18, 0) NULL,
+	[AM_ZONE7] [numeric](18, 0) NULL,
+	[AM_ZONE8] [numeric](18, 0) NULL,
+	[AM_ZONE9] [numeric](18, 0) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_MA_TARIFF_DHL_STD_L] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[DT_YEAR] ASC,
+	[TP_TARIFF] ASC,
+	[WEIGHT] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

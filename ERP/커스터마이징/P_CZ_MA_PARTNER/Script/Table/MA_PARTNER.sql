@@ -1,0 +1,245 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[MA_PARTNER]    Script Date: 2017-01-04 오전 10:55:30 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[MA_PARTNER](
+	[CD_PARTNER] [nvarchar](20) NOT NULL,
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[LN_PARTNER] [nvarchar](50) NOT NULL,
+	[DT_OPEN] [nchar](8) NULL,
+	[AM_CAP] [numeric](17, 4) NULL,
+	[MANU_EMP] [numeric](7, 0) NULL,
+	[MANA_EMP] [numeric](7, 0) NULL,
+	[SD_PARTNER] [nchar](8) NULL,
+	[USE_YN] [nchar](1) NULL,
+	[LT_TRANS] [numeric](3, 0) NULL,
+	[SN_PARTNER] [nvarchar](50) NULL,
+	[EN_PARTNER] [nvarchar](50) NULL,
+	[TP_PARTNER] [nvarchar](3) NULL,
+	[FG_PARTNER] [nvarchar](3) NULL,
+	[NM_CEO] [nvarchar](40) NULL,
+	[NO_COMPANY] [nvarchar](20) NULL,
+	[NO_RES] [nvarchar](20) NULL,
+	[TP_JOB] [nvarchar](50) NULL,
+	[CLS_JOB] [nvarchar](50) NULL,
+	[URL_PARTNER] [nvarchar](40) NULL,
+	[CLS_PARTNER] [nvarchar](3) NULL,
+	[NM_PTR] [nvarchar](20) NULL,
+	[CD_NATION] [nvarchar](20) NULL,
+	[STA_CREDIT] [nvarchar](1) NULL,
+	[E_MAIL] [nvarchar](80) NULL,
+	[NO_TEL] [nvarchar](20) NULL,
+	[NO_FAX] [nvarchar](20) NULL,
+	[NO_POST1] [nvarchar](15) NULL,
+	[DC_ADS1_H] [nvarchar](400) NULL,
+	[DC_ADS1_D] [nvarchar](400) NULL,
+	[NO_TEL1] [nvarchar](20) NULL,
+	[NO_FAX1] [nvarchar](20) NULL,
+	[NO_POST2] [nvarchar](15) NULL,
+	[DC_ADS2_H] [nvarchar](400) NULL,
+	[DC_ADS2_D] [nvarchar](400) NULL,
+	[NO_TEL2] [nvarchar](20) NULL,
+	[NO_FAX2] [nvarchar](20) NULL,
+	[NO_POST3] [nvarchar](15) NULL,
+	[DC_ADS3_H] [nvarchar](400) NULL,
+	[DC_ADS3_D] [nvarchar](400) NULL,
+	[NO_TEL3] [nvarchar](20) NULL,
+	[NO_FAX3] [nvarchar](20) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+	[FG_CREDIT] [nchar](1) NULL,
+	[TP_TAX] [nvarchar](3) NULL,
+	[NO_MERCHANT] [nvarchar](20) NULL,
+	[NO_DEPOSIT] [nvarchar](40) NULL,
+	[CD_BANK] [nvarchar](20) NULL,
+	[ID_COMPANY] [nvarchar](20) NULL,
+	[PW_COMPANY] [nvarchar](20) NULL,
+	[CD_PARTNER_GRP] [nvarchar](10) NULL,
+	[CD_EMP_SALE] [nvarchar](14) NULL,
+	[CD_EMP_PARTNER] [nvarchar](14) NULL,
+	[NO_HPEMP_PARTNER] [nvarchar](15) NULL,
+	[CD_AREA] [nvarchar](3) NULL,
+	[NM_DEPOSIT] [nvarchar](100) NULL,
+	[DT_RCP_PREARRANGED] [numeric](3, 0) NULL,
+	[E_MAIL_PARTNER] [nvarchar](80) NULL,
+	[CD_PARTNER_GRP_2] [nvarchar](10) NULL,
+	[FG_BILL] [nvarchar](3) NULL,
+	[CD_AREA_SD] [nvarchar](3) NULL,
+	[DY_CRD] [int] NULL,
+	[FG_TRADE] [varchar](3) NULL,
+	[FG_GRD_M] [varchar](3) NULL,
+	[FG_GRD_U] [varchar](3) NULL,
+	[FG_LIMIT] [varchar](1) NULL,
+	[SETTLE] [varchar](3) NULL,
+	[CD_WHAN] [nvarchar](20) NULL,
+	[AR_GUBUN] [char](1) NULL,
+	[DC_RMK] [nvarchar](80) NULL,
+	[AM_CRD_1] [numeric](17, 4) NULL,
+	[AM_CRD_2] [numeric](17, 4) NULL,
+	[FG_CUST_SD] [varchar](3) NULL,
+	[FG_PAYBILL] [nvarchar](3) NULL,
+	[DT_PAY_PREARRANGED] [numeric](5, 0) NULL,
+	[CD_CON] [nvarchar](3) NULL,
+	[YN_JEONJATAX] [nvarchar](1) NULL,
+	[DT_CLOSE] [nvarchar](8) NULL,
+	[TP_BUSINESS] [nvarchar](3) NULL,
+	[FG_CON_SELECT] [nvarchar](10) NULL,
+	[ID_CON_SELECT] [nvarchar](10) NULL,
+	[DTS_CON_SELECT] [nvarchar](10) NULL,
+	[CD_PARTDEPT] [nvarchar](12) NULL,
+	[DT_TRADEND] [nchar](8) NULL,
+	[NM_ENDRESON] [nvarchar](200) NULL,
+	[NM_NOTE] [nvarchar](200) NULL,
+	[YN_MIS] [nchar](1) NULL,
+	[YN_BIZTAX] [nvarchar](1) NULL,
+	[NO_BIZTAX] [nvarchar](8) NULL,
+	[YN_JEONJA] [nvarchar](1) NULL,
+	[TP_DEFER] [nvarchar](1) NULL,
+	[TP_RCP_DD] [nvarchar](2) NULL,
+	[DT_RCP_DD] [nvarchar](2) NULL,
+	[TP_PAY_DD] [nvarchar](2) NULL,
+	[DT_PAY_DD] [nvarchar](2) NULL,
+	[NUM_USERDEF1] [numeric](17, 4) NULL,
+	[CHAN_AMT] [numeric](13, 0) NULL,
+	[FG_CORP] [nvarchar](1) NULL,
+	[NM_CURE_AGENCY] [nvarchar](100) NULL,
+	[NO_CUER_AGENCY] [nvarchar](100) NULL,
+	[NM_TEXT] [nvarchar](500) NULL,
+	[TP_NATION] [nvarchar](3) NULL,
+	[NM_DCDEPOSIT] [nvarchar](100) NULL,
+	[FG_CORPCODE] [nvarchar](10) NULL,
+	[DT_RCP_PRETOLERANCE] [numeric](3, 0) NULL,
+	[CONTRACT] [nvarchar](1) NULL,
+	[NO_COR] [nvarchar](13) NULL,
+	[CD_DEPT] [nvarchar](12) NULL,
+	[CD_CC] [nvarchar](12) NULL,
+	[YN_RMCUSTOMER] [nchar](1) NULL,
+	[YN_RMSUPPLIER] [nchar](1) NULL,
+	[TP_DT_RCP_PREARRANGED] [nvarchar](3) NULL,
+	[TP_DT_PAY_PREARRANGED] [nvarchar](3) NULL,
+	[TP_PALCOHOLIC] [nvarchar](3) NULL,
+	[GW_INSERT_TIME] [datetime] NULL,
+	[GW_UPDATE_TIME] [datetime] NULL,
+	[LN_PARTNER_L1] [nvarchar](50) NULL,
+	[LN_PARTNER_L2] [nvarchar](50) NULL,
+	[LN_PARTNER_L3] [nvarchar](50) NULL,
+	[LN_PARTNER_L4] [nvarchar](50) NULL,
+	[LN_PARTNER_L5] [nvarchar](50) NULL,
+	[SN_PARTNER_L1] [nvarchar](50) NULL,
+	[SN_PARTNER_L2] [nvarchar](50) NULL,
+	[SN_PARTNER_L3] [nvarchar](50) NULL,
+	[SN_PARTNER_L4] [nvarchar](50) NULL,
+	[SN_PARTNER_L5] [nvarchar](50) NULL,
+	[NM_CEO_L1] [nvarchar](40) NULL,
+	[NM_CEO_L2] [nvarchar](40) NULL,
+	[NM_CEO_L3] [nvarchar](40) NULL,
+	[NM_CEO_L4] [nvarchar](40) NULL,
+	[NM_CEO_L5] [nvarchar](40) NULL,
+	[DC_ADS1_H_L1] [nvarchar](400) NULL,
+	[DC_ADS1_H_L2] [nvarchar](400) NULL,
+	[DC_ADS1_H_L3] [nvarchar](400) NULL,
+	[DC_ADS1_H_L4] [nvarchar](400) NULL,
+	[DC_ADS1_H_L5] [nvarchar](400) NULL,
+	[DC_ADS1_D_L1] [nvarchar](400) NULL,
+	[DC_ADS1_D_L2] [nvarchar](400) NULL,
+	[DC_ADS1_D_L3] [nvarchar](400) NULL,
+	[DC_ADS1_D_L4] [nvarchar](400) NULL,
+	[DC_ADS1_D_L5] [nvarchar](400) NULL,
+	[CD_BKPARTNER] [nvarchar](14) NULL,
+	[NO_BKTEL] [nvarchar](20) NULL,
+	[TAX_ID] [nvarchar](50) NULL,
+	[CD_PARTGRADE] [nvarchar](10) NULL,
+	[CD_BONDGRADE] [nvarchar](10) NULL,
+	[CD_TMPARTNER_FILE] [nvarchar](30) NULL,
+	[CD_TMPARTNER] [nvarchar](20) NULL,
+	[TRANS_FLAG] [nvarchar](1) NULL,
+	[CD_HIPRO] [nvarchar](20) NULL,
+ CONSTRAINT [PK_MA_PARTNER] PRIMARY KEY NONCLUSTERED 
+(
+	[CD_PARTNER] ASC,
+	[CD_COMPANY] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  DEFAULT ('00000000') FOR [DT_OPEN]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_AM_CAP]  DEFAULT (0) FOR [AM_CAP]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_MANU_EMP]  DEFAULT (0) FOR [MANU_EMP]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_MANA_EMP]  DEFAULT (0) FOR [MANA_EMP]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  DEFAULT ('00000000') FOR [SD_PARTNER]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_LT_TRANS]  DEFAULT (0) FOR [LT_TRANS]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_DT_RCP_PREARRANGED]  DEFAULT (0) FOR [DT_RCP_PREARRANGED]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_DY_CRD]  DEFAULT (0) FOR [DY_CRD]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_AR_GUBUN]  DEFAULT ('N') FOR [AR_GUBUN]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_AM_CRD_1]  DEFAULT (0) FOR [AM_CRD_1]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_AM_CRD_2]  DEFAULT (0) FOR [AM_CRD_2]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_YN_MIS]  DEFAULT ('N') FOR [YN_MIS]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_YN_BIZTAX]  DEFAULT ('N') FOR [YN_BIZTAX]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_YN_JEONJA]  DEFAULT ('Y') FOR [YN_JEONJA]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_TP_DEFER]  DEFAULT ('Y') FOR [TP_DEFER]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_TP_RCP_DD]  DEFAULT ('0') FOR [TP_RCP_DD]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_TP_PAY_DD]  DEFAULT ('0') FOR [TP_PAY_DD]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_NUM_USERDEF1]  DEFAULT (0) FOR [NUM_USERDEF1]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF__MA_PARTNE__CHAN___5036568C]  DEFAULT (0) FOR [CHAN_AMT]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  CONSTRAINT [DF_MA_PARTNER_FG_CORP]  DEFAULT ('0') FOR [FG_CORP]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  DEFAULT ((0)) FOR [DT_RCP_PRETOLERANCE]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  DEFAULT ('0') FOR [TP_DT_RCP_PREARRANGED]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  DEFAULT ('0') FOR [TP_DT_PAY_PREARRANGED]
+GO
+
+ALTER TABLE [NEOE].[MA_PARTNER] ADD  DEFAULT (getdate()) FOR [GW_INSERT_TIME]
+GO
+

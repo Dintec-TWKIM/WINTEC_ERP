@@ -1,0 +1,70 @@
+USE [NEOE]
+GO
+
+/****** Object:  UserDefinedFunction [NEOE].[FN_CZ_YN_URGENT]    Script Date: 2015-06-05 오전 9:52:35 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+/*******************************************  
+**  System		: 
+**  Sub System	: 
+**  Page  :   
+**  Desc		: 긴급건유무
+**  
+**  Return Values  
+**  
+**  작    성    자  : 김기현
+**  작    성    일	: 
+**  
+*********************************************  
+** Change History  
+*********************************************  
+*********************************************/  
+ALTER FUNCTION [NEOE].[FN_CZ_YN_URGENT]
+(
+	@P_CD_COMPANY			NVARCHAR(7),
+	@P_YN_PACK				NVARCHAR(1),
+	@P_CD_MAIN_CATEGORY		NVARCHAR(3),
+	@P_CD_SUB_CATEGORY		NVARCHAR(3),
+	@P_DT_START				NVARCHAR(14),
+	@P_DT_END				NVARCHAR(14)
+)
+
+RETURNS VARCHAR(1)
+AS
+BEGIN
+	DECLARE	@V_YN_URGENT VARCHAR(1)
+	DECLARE	@V_TODAY VARCHAR(8)
+	DECLARE	@V_START_DATE VARCHAR(8)
+	DECLARE	@V_START_TIME NUMERIC(2, 0)
+	DECLARE	@V_END_DATE VARCHAR(8)
+	DECLARE	@V_TARGET_DATE VARCHAR(8)
+	
+	SET @V_TODAY = CONVERT(NVARCHAR(8), GETDATE(), 112)
+	SET @V_START_DATE = SUBSTRING(@P_DT_START, 1, 8)
+	SET @V_END_DATE = SUBSTRING(@P_DT_END, 1, 8)
+	SET @V_START_TIME = SUBSTRING(@P_DT_START, 9, 2)
+
+	SELECT TOP 1 @V_TARGET_DATE = DT_CAL 
+	FROM MA_CALENDAR WITH(NOLOCK)
+	WHERE CD_COMPANY = @P_CD_COMPANY
+	AND FG1_HOLIDAY = 'W'
+	AND DT_CAL > @V_START_DATE
+	ORDER BY DT_CAL
+
+	IF @V_START_DATE = @V_END_DATE
+		SET @V_YN_URGENT = 'Y'
+	ELSE IF @V_START_TIME >= 16 AND @V_END_DATE <= @V_TARGET_DATE
+		SET @V_YN_URGENT = 'Y'
+	ELSE IF @P_YN_PACK = 'N' AND (@P_CD_MAIN_CATEGORY = '001' OR (@P_CD_MAIN_CATEGORY = '002' AND @P_CD_SUB_CATEGORY = 'DIR')) AND @V_END_DATE <= @V_TARGET_DATE
+		SET @V_YN_URGENT = 'Y'
+	ELSE
+		SET @V_YN_URGENT = 'N'
+
+	RETURN @V_YN_URGENT
+END
+GO
+

@@ -1,0 +1,40 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_MA_WORKFLOWH_LOG]    Script Date: 2021-02-03 오후 5:35:01 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_MA_WORKFLOWH_LOG](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[NO_KEY] [nvarchar](20) NOT NULL,
+	[TP_STEP] [nvarchar](3) NOT NULL,
+	[NO_HIST] [numeric](5, 0) NOT NULL,
+	[TP_SALES] [nvarchar](2) NULL,
+	[ID_SALES] [nvarchar](15) NULL,
+	[ID_TYPIST] [nvarchar](15) NULL,
+	[ID_PUR] [nvarchar](15) NULL,
+	[ID_LOG] [nvarchar](15) NULL,
+	[YN_DONE] [nvarchar](1) NULL,
+	[DTS_DONE] [nvarchar](14) NULL,
+	[CD_RMK] [nvarchar](4) NULL,
+	[DC_RMK] [nvarchar](max) NULL,
+	[INSERT_HIST] [nvarchar](50) NULL,
+	[UPDATE_HIST] [nvarchar](50) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_MA_WORKFLOWH_LOG] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[NO_KEY] ASC,
+	[TP_STEP] ASC,
+	[NO_HIST] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+

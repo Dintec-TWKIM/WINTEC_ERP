@@ -1,0 +1,1749 @@
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8; text/html; charset=euc-kr"/>
+<title>급여지급명세서</title>
+<style type="text/css">
+	BODY{ FONT-SIZE: 9pt;margin-top:0; }
+	td {font-size:9pt; font-family:"dotum,seoul,verdana"; color:#000000;}
+	TH {font-size:9pt;vertical-align:middle;font-family: 굴림체;text-align:center}
+	.header_01 {font-family:돋움,dotum,arial,helvetica,verdana; font-size:15px; color: #2D60AC; font-weight: bold; }
+	.header_02 {font-family:돋움,dotum,arial,helvetica,verdana; font-size:25px; color: #6a6a6a; font-weight: bold; }
+	.text_01 {font-family:돋움,dotum,arial; font-size:9pt; color: #000000;}
+    .text_02 {font-family:돋움,dotum,arial; font-size:9pt; color: #1c64af; font-weight: bold;}	
+    .text_03 {font-family:돋움,dotum,arial; font-size:9pt; color: #6a6a6a; }
+	.text_04 {font-family:돋움,dotum,arial; font-size:10pt; color: #dc380c; font-weight: bold;}	
+	.text_05 {font-family:돋움,dotum,arial; font-size:10pt; color: #6a6a6a; font-weight: bold;}
+
+	/* 추가폰트css */
+	.tableborder {border:5px solid #D7E7F2;}
+	.tablewline {border:1px solid #FFFFFF;}
+	.tablegline {border:1px solid #E8E8E8;}
+	.box_b1 {border:2px solid #8DB1FF;}
+	.box_b2 {border:2px solid #96DC4A;}
+	.box_b3 {border:3px solid #FFFFFF;}
+	.font_gray {color:#444444;font-size:9pt;font-family:arial,dotum,seoul,verdana;} 
+	.font_blue {color:#0A5A92;font-size:9pt;font-family:arial,dotum,seoul,verdana;} 
+	.a_table_01A {border-left:1px solid #95B7D9;border-top:1px solid #95B7D9;border-right:1px solid #95B7D9;background-color:#DDE7F0;color:#194992;font-weight:bold;font-size:12px}
+	.a_table_01B {border-top:1px solid #95B7D9;border-right:1px solid #95B7D9;border-bottom:1px solid #CADAEA;background-color:#F1F5F9;color:#194992;font-weight:bold;font-size:12px;padding-right:5px}
+	.a_table_01C {color:404442;font-weight:none;font-size:13px; padding-right:4px}
+	.a_table_01D {border-right:1px solid #95B7D9;color:404442;font-weight:none;font-size:13px; padding-right:4px}
+	.a_table_02A {border-left:1px solid #95B7D9;border-top:1px solid #95B7D9;border-right:1px solid #95B7D9; border-bottom:1 solid #95B7D9;background-color:#D9DBF7;color:#363EAD;font-weight:bold;font-size:12px }
+	.a_table_02B {border-top:1px solid #95B7D9;border-right:1px solid #95B7D9;border-bottom:1px solid #CADAEA;CADAEA;background-color:#EFEFFB;color:#363EAD;font-weight:bold;font-size:12px;padding-right:5px}
+	.a_table_02C {border-bottom:1px solid #95B7D9;color:404442;font-weight:none;font-size:12px; padding-right:4px;}
+	.a_table_02D {border-right:1px solid #95B7D9;border-bottom:1px solid #95B7D9; color:404442;font-weight:none;font-size:12px; padding-right:4px}
+	.a_table_03A{border-left:2px solid #95B7D9;border-top:2px solid #95B7D9;background-color:#DDE7F0;color:#194992;font-weight:bold;font-size:12px}
+	.a_table_03B{border-left:1px solid #95B7D9;border-top:2px solid #95B7D9;border-right:1px solid #95B7D9;background-color:#DDE7F0;color:#194992;font-weight:bold;font-size:12px}
+	.a_table_03C{border-top:2px solid #95B7D9;border-right:2px solid #95B7D9;background-color:#DDE7F0;color:#194992;font-weight:bold;font-size:12px}
+	.a_table_04A{border-left:2px solid #95B7D9;border-top:1px solid #95B7D9;background-color:#FFFFFF;font-size:12px}
+	.a_table_04B{border-left:1px solid #95B7D9;border-top:1px solid #95B7D9;border-right:1px solid #95B7D9;background-color:#FFFFFF;font-size:12px}
+	.a_table_04C{border-top:1px solid #95B7D9;border-right:2px solid #95B7D9;background-color:#FFFFFF;font-size:12px;padding:0 4 0 0;}
+	.a_table_05A{border-top:1px solid #95B7D9;border-left:2px solid #95B7D9;border-bottom:2px solid #95B7D9;background-color:#FFFFFF;font-size:12px}
+	.a_table_05B{border-left:1px solid #95B7D9;border-top:1px solid #95B7D9;border-right:1px solid #95B7D9;border-bottom:2px solid #95B7D9;background-color:#FFFFFF;font-size:12px}
+	.a_table_05C{border-top:1px solid #95B7D9;border-right:2px solid #95B7D9;border-bottom:2px solid #95B7D9;background-color:#FFFFFF;font-size:12px;padding:0 4 0 0;}
+	.a_table_line {border-top:1px solid #CDCDCD;}
+	/* 일반폼 박스 */
+	.box01 { background-color:transparent;font-family:Dotum,Dotumche,verdana;color:#666666;font-size:12px;height:18px;Border:1px;solid:#FFFFFF;text-align:right;}
+	.box02 { background-color:#FFFFFF;font-family:Dotum,Dotumche,verdana;color:#000000;font-size:12px;height:18px;Border:1px;solid:#FFFFFF;text-align:right;}
+	.box03 { background-color:#FFFFFF;font-family:Dotum,Dotumche,verdana;color:#0000FF;font-size:12px;height:18px;Border:1px;solid:#FFFFFF;text-align:right;font-weight:bold;}
+	.box04 { background-color:#FFFFFF;font-family:Dotum,Dotumche,verdana;color:#ff0000;font-size:12px;height:18px;Border:1px;solid:#FFFFFF;text-align:right;font-weight:bold;}
+	.box05 { background-color:#FFFFFF;font-family:Dotum,Dotumche,verdana;color:#ff0000;font-size:12px;height:18px;Border:1px;solid:#FFFFFF;text-align:right;font-weight:bold;}
+	/* 진행 박스 */ 
+	.box011 { background-color:#FFFFFF;font-family:Dotum,Dotumche,verdana;color:#666666;font-size:12px;height:18px;Border:1px;solid:#FFFFFF;text-align:left;}
+	.ico01 {font-size:8pt;color:#444444;}
+	.dot{color:gray;border-style:dotted;}
+    .box012 {background-color:#FFFFFF;font-family:Dotum,Dotumche,verdana;color:#666666;font-size:12px;height:18px;Border:1px;solid:#FFFFFF;text-align:right;}
+	.input_text{
+		vertical-align:middle;
+		width:330px;
+		height:30px;
+		border:1px solid #c4c3c3;
+		font-size:14px; 
+		font-weight:bold; 
+		color:#333; 
+		padding:3px 0 0 10px;
+		vertical-align:center;
+	}
+	.myButton {
+		-moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+		box-shadow:inset 0px 1px 0px 0px #54a3f7;
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #007dc1), color-stop(1, #0061a7));
+		background:-moz-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+		background:-webkit-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+		background:-o-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+		background:-ms-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+		background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dc1', endColorstr='#0061a7',GradientType=0);
+		background-color:#007dc1;
+		-moz-border-radius:3px;
+		-webkit-border-radius:3px;
+		border-radius:3px;
+		border:1px solid #124d77;
+		display:inline-block;
+		cursor:pointer;
+		color:#ffffff;
+		font-family:Arial;
+		font-size:15px;
+		font-weight:bold;
+		padding:3px 10px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #154682;
+	}
+	.myButton:hover {
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0061a7), color-stop(1, #007dc1));
+		background:-moz-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+		background:-webkit-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+		background:-o-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+		background:-ms-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+		background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0061a7', endColorstr='#007dc1',GradientType=0);
+		background-color:#0061a7;
+	}
+	.myButton:active {
+		position:relative;
+		top:1px;
+	}
+</style>
+<script language="JavaScript">
+var timer1=null;
+var a=10;
+/*CertificationPassWord.focus();*/
+function GoUrl()
+{ 
+	a--;
+	timer1=setTimeout('GoUrl()',1000);
+	if(a==-1)
+	{ 
+		clearTimeout(timer1); 
+		MyServer.location.href = currentUrl;
+		a = 1;
+	} 
+}
+function OnOk()
+{
+	if(document.getElementsByName('CertificationPassWord')[0].value == "@PWD")
+	{
+		if(a == 10)
+		{
+			certification.style.visibility = "hidden";
+			WaitDiv.style.visibility = "visible";	
+			document.getElementsByName('Progress')[0].value = "인증 중 ..";
+		}
+		a--;
+		timer1 = setTimeout('OnOk()', 200);
+		document.getElementsByName('Progress')[0].value = document.getElementsByName('Progress')[0].value + "..";
+		if(a == -1)
+		{
+			clearTimeout(timer1);
+			WaitDiv.style.visibility = "hidden";
+			FillData();
+			MyDiv.style.visibility = "visible";
+		}
+	}
+	else
+	{
+		alert("패스워드가 틀립니다.");	
+	}
+}
+</script>
+</head>
+<body oncontextmenu="alert('죄송합니다. 오른쪽 버튼은 쓰실 수 없습니다.'); return false;" ondragstart="return false" onselectstart="return false">
+<div id="certification" style='LEFT:225px;VISIBILITY:visible;WIDTH:550;POSITION:absolute;TOP:155px;BACKGROUND-COLOR:#ffffff;height500:'>
+	<table width="550" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td width="550" colspan="2">
+			<span class="header_02">보안메일 인증창</span>
+		</td>
+	</tr>
+	<tr>
+		<td width="550" height="10" colspan="2">
+		</td>
+	</tr>
+	<tr bgcolor="BEBEBE">
+		<td width="550" height="2" colspan="2">
+		</td>
+	</tr>
+	<tr>
+		<td width="550" height="10" colspan="2">
+		</td>
+	</tr>
+	<tr>
+		<td height="120" colspan="2">
+			<div align="center">
+				<table width="500" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td height="25" colspan="2">
+						<span class="text_05">정보보호를 위해 암호화된 보안메일입니다.</span>
+					</td>
+				</tr>
+				<tr>
+					<td height="25" colspan="2">
+						<span class="text_05">메일을 확인하시려면 아래의 내용을 입력 후 확인해 주시기 바랍니다.</span>
+					</td>
+				</tr>
+				<tr>
+					<td height="6" colspan="2">
+					</td>
+				</tr>
+				<tr>
+					<td width="120">
+						<input type="password" name="CertificationPassWord" class="input_text" maxlength="7" onkeypress="if(window.event.keyCode==13) OnOk();" onkeyup="if(document.getElementsByName('CertificationPassWord')[0].value.length==7) OnOk();">
+					</td>
+					<td width="200">
+						&nbsp;<input type="button" name="Submit" value="확인" class="myButton" onclick="OnOk();return false;">
+					</td>
+				</tr>
+				<tr>
+					<td height="6" colspan="2">
+					</td>
+				</tr>
+				<tr>
+					<td height="25" colspan="2">
+						<span class="text_03">- 주민등록번호 </span><span class="text_04">@PASS_TYPE</span><span class="text_03">를 입력</span>
+					</td>
+				</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td width="550" height="10" colspan="2">
+		</td>
+	</tr>
+	<tr bgcolor="BEBEBE">
+		<td width="550" height="2" colspan="2">
+		</td>
+	</tr>
+	</table>
+</div>
+<div id="WaitDiv" style='Z-INDEX:1;LEFT:150px;VISIBILITY:hidden;WIDTH:250px;POSITION:absolute;TOP:200px;HEIGHT:50px'>
+	<table width="300" height="70">
+	<tr>
+		<td>
+			<table align="center" width="250" height="50" bgcolor="#ffffff">
+			<tr>
+				<td align="middle">
+					<input type="text" name="Progress" size="40" maxlength="300" class="box011" readonly>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+</div>
+<script language="javascript">
+function FillData()
+{
+	document.getElementsByName('T01')[0].value = "@T01V";
+	document.getElementsByName('T02')[0].value = "@T02V";
+	document.getElementsByName('T03')[0].value = "@T03V";
+	document.getElementsByName('T04')[0].value = "@T04V";
+	document.getElementsByName('T05')[0].value = "@T05V";
+	document.getElementsByName('T06')[0].value = "@T06V";
+	document.getElementsByName('T07')[0].value = "@T07V";
+	document.getElementsByName('T08')[0].value = "@T08V";
+	document.getElementsByName('T09')[0].value = "@T09V";
+	document.getElementsByName('T10')[0].value = "@T10V";
+	document.getElementsByName('T11')[0].value = "@T11V";
+	document.getElementsByName('T12')[0].value = "@T12V";
+	document.getElementsByName('T13')[0].value = "@T13V";
+	document.getElementsByName('T14')[0].value = "@T14V";
+	document.getElementsByName('T15')[0].value = "@T15V";
+	document.getElementsByName('T16')[0].value = "@T16V";
+	document.getElementsByName('T17')[0].value = "@T17V";
+	document.getElementsByName('T18')[0].value = "@T18V";
+	document.getElementsByName('T19')[0].value = "@T19V";
+	document.getElementsByName('T20')[0].value = "@T20V";
+	document.getElementsByName('T21')[0].value = "@T21V";
+	document.getElementsByName('T22')[0].value = "@T22V";
+	document.getElementsByName('T23')[0].value = "@T23V";
+	document.getElementsByName('T24')[0].value = "@T24V";
+	document.getElementsByName('T25')[0].value = "@T25V";
+	document.getElementsByName('T26')[0].value = "@T26V";
+	document.getElementsByName('T27')[0].value = "@T27V";
+	document.getElementsByName('T28')[0].value = "@T28V";
+	document.getElementsByName('T29')[0].value = "@T29V";
+	document.getElementsByName('T30')[0].value = "@T30V";
+	document.getElementsByName('T31')[0].value = "@T31V";
+	document.getElementsByName('T32')[0].value = "@T32V";
+	document.getElementsByName('T33')[0].value = "@T33V";
+	document.getElementsByName('T34')[0].value = "@T34V";
+	document.getElementsByName('T35')[0].value = "@T35V";
+	document.getElementsByName('T36')[0].value = "@T36V";
+	document.getElementsByName('T37')[0].value = "@T37V";
+	document.getElementsByName('T38')[0].value = "@T38V";
+	document.getElementsByName('T39')[0].value = "@T39V";
+	document.getElementsByName('T40')[0].value = "@T40V";
+	document.getElementsByName('T41')[0].value = "@T41V";
+	document.getElementsByName('T42')[0].value = "@T42V";
+	document.getElementsByName('Q01')[0].value = "@Q01V";
+	document.getElementsByName('Q02')[0].value = "@Q02V";
+	document.getElementsByName('Q03')[0].value = "@Q03V";
+	document.getElementsByName('Q04')[0].value = "@Q04V";
+	document.getElementsByName('Q05')[0].value = "@Q05V";
+	document.getElementsByName('Q06')[0].value = "@Q06V";
+	document.getElementsByName('Q07')[0].value = "@Q07V";
+	document.getElementsByName('Q08')[0].value = "@Q08V";
+	document.getElementsByName('Q09')[0].value = "@Q09V";
+	document.getElementsByName('Q10')[0].value = "@Q10V";
+	document.getElementsByName('Q11')[0].value = "@Q11V";
+	document.getElementsByName('Q12')[0].value = "@Q12V";
+	document.getElementsByName('Q13')[0].value = "@Q13V";
+	document.getElementsByName('Q14')[0].value = "@Q14V";
+	document.getElementsByName('Q15')[0].value = "@Q15V";
+	document.getElementsByName('Q16')[0].value = "@Q16V";
+	document.getElementsByName('Q17')[0].value = "@Q17V";
+	document.getElementsByName('Q18')[0].value = "@Q18V";
+	document.getElementsByName('Q19')[0].value = "@Q19V";
+	document.getElementsByName('Q20')[0].value = "@Q20V";
+	document.getElementsByName('Q21')[0].value = "@Q21V";
+	document.getElementsByName('Q22')[0].value = "@Q22V";
+	document.getElementsByName('Q23')[0].value = "@Q23V";
+	document.getElementsByName('Q24')[0].value = "@Q24V";
+	document.getElementsByName('Q25')[0].value = "@Q25V";
+	document.getElementsByName('Q26')[0].value = "@Q26V";
+	document.getElementsByName('Q27')[0].value = "@Q27V";
+	document.getElementsByName('Q28')[0].value = "@Q28V";
+	document.getElementsByName('Q29')[0].value = "@Q29V";
+	document.getElementsByName('Q30')[0].value = "@Q30V";
+	document.getElementsByName('Q31')[0].value = "@Q31V";
+	document.getElementsByName('Q32')[0].value = "@Q32V";
+	document.getElementsByName('Q33')[0].value = "@Q33V";
+	document.getElementsByName('Q34')[0].value = "@Q34V";
+	document.getElementsByName('Q35')[0].value = "@Q35V";
+	document.getElementsByName('Q36')[0].value = "@Q36V";
+	document.getElementsByName('Q37')[0].value = "@Q37V";
+	document.getElementsByName('Q38')[0].value = "@Q38V";
+	document.getElementsByName('Q39')[0].value = "@Q39V";
+	document.getElementsByName('Q40')[0].value = "@Q40V";
+	document.getElementsByName('Q41')[0].value = "@Q41V";
+	document.getElementsByName('Q42')[0].value = "@Q42V";
+	document.getElementsByName('R01')[0].value = "@R01V";
+	document.getElementsByName('R02')[0].value = "@R02V";
+	document.getElementsByName('R03')[0].value = "@R03V";
+	document.getElementsByName('R04')[0].value = "@R04V";
+	document.getElementsByName('R05')[0].value = "@R05V";
+	document.getElementsByName('R06')[0].value = "@R06V";
+	document.getElementsByName('R07')[0].value = "@R07V";
+	document.getElementsByName('R08')[0].value = "@R08V";
+	document.getElementsByName('R09')[0].value = "@R09V";
+	document.getElementsByName('R10')[0].value = "@R10V";
+	document.getElementsByName('R11')[0].value = "@R11V";
+	document.getElementsByName('R12')[0].value = "@R12V";
+	document.getElementsByName('R13')[0].value = "@R13V";
+	document.getElementsByName('R14')[0].value = "@R14V";
+	document.getElementsByName('R15')[0].value = "@R15V";
+	document.getElementsByName('R16')[0].value = "@R16V";
+	document.getElementsByName('R17')[0].value = "@R17V";
+	document.getElementsByName('R18')[0].value = "@R18V";
+	document.getElementsByName('E01')[0].value = "@E01V";
+	document.getElementsByName('E02')[0].value = "@E02V";
+	document.getElementsByName('E03')[0].value = "@E03V";
+	document.getElementsByName('E04')[0].value = "@E04V";
+	document.getElementsByName('E05')[0].value = "@E05V";
+	document.getElementsByName('E06')[0].value = "@E06V";
+}
+</script>
+<div id="MyDiv" style='Z-INDEX:2;VISIBILITY:hidden;WIDTH:100%;POSITION:absolute;HEIGHT:100%;BACKGROUND-COLOR:#ffffff'>
+	<table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>
+			<table width="650" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="155" height="30">
+					<span class="header_01">【 <font color="#1B4585"></font> @NMPAY지급<font color="#1B4585">명세서</font> 】</span>
+				</td>
+				<td width="395" align="center">
+					<font size="4"><b>@YM</b></font>
+				</td>
+				<td width="100">
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td height="10">
+					&nbsp;
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="8" align="center">
+			<table width="645" border="0" cellspacing="0" cellpadding="0" class="box_b1">
+			<tr>
+				<td align="center">
+					<table width="643" border="0" cellspacing="0" cellpadding="0" class="">
+					<tr>
+						<td align="center" bgcolor="#FFFFFF">
+							<table width="630" border="0" cellpadding="1" cellspacing="1">
+							<tr>
+								<td width="20" height="25" align="center" class="ico01">
+									▶
+								</td>
+								<td width="35" class="font_gray">
+									회사 :
+								</td>
+								<td width="155" class="font_blue">
+									@NM_COMPANY
+								</td>
+								<td width="20" align="center" class="ico01">
+									▶
+								</td>
+								<td width="35" class="font_gray">
+									부서 :
+								</td>
+								<td width="155" class="font_blue">
+									@NM_DEPT
+								</td>
+								<td width="20" align="center" class="ico01">
+									▶
+								</td>
+								<td width="60" class="font_gray">
+									지급일자 :
+								</td>
+								<td width="100" class="font_blue">
+									@DT_PAY
+								</td>
+							</tr>
+							<tr>
+								<td width="20" height="25" align="center" class="ico01 a_table_line">
+									▶
+								</td>
+								<td width="35" class="font_gray a_table_line">
+									사번 :
+								</td>
+								<td width="155" class="font_blue a_table_line">
+									@NO_EMP
+								</td>
+								<td width="20" align="center" class="ico01 a_table_line">
+									▶
+								</td>
+								<td width="35" class="font_gray a_table_line">
+									성명 :
+								</td>
+								<td width="155" class="font_blue a_table_line">
+									@NM_EMP
+								</td>
+								<td width="180" colspan="3" class="a_table_line">
+									귀하
+								</td>
+							</tr>
+							</table>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="3">
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<table width="645" border="0" cellspacing="0" cellpadding="0">
+			<!--style="background:url(@PATH/main.jpg) no-repeat 60% 50%;"-->
+			<!-- 지급내역 start -->
+			<tr>
+				<td width="63" rowspan="14" align="center" class="a_table_01A">
+					지 급<br>
+					 내 역
+				</td>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@T01
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T02
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T03
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T04
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T05
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T06
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T01" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T02" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T03" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T04" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T05" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="T06" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@T07
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T08
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T09
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T10
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T11
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T12
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T07" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T08" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T09" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T10" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T11" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="T12" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="21" align="right" class="a_table_01B">
+					&nbsp;@T13
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T14
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T15
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T16
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T17
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T18
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T13" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T14" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T15" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T16" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T17" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="T18" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="19" align="right" class="a_table_01B">
+					&nbsp;@T19
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T20
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T21
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T22
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T23
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T24
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T19" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T20" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T21" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T22" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T23" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="T24" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@T25
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T26
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T27
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T28
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T29
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T30
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T25" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T26" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T27" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T28" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T29" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="T30" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@T31
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T32
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T33
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T34
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T35
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T36
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T31" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T32" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T33" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T34" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T35" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="T36" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@T37
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T38
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T39
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T40
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T41
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@T42
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T37" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T38" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T39" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T40" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="T41" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="T42" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<!-- 공제내역 start -->
+			<tr>
+				<td width="63" rowspan="14" align="center" class="a_table_01A">
+					공 제<br>
+					 내 역
+				</td>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@Q01
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q02
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q03
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q04
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q05
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q06
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q01" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q02" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q03" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q04" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q05" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="Q06" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@Q07
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q08
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q09
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q10
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q11
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q12
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q07" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q08" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q09" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q10" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q11" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="Q12" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="21" align="right" class="a_table_01B">
+					&nbsp;@Q13
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q14
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q15
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q16
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q17
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q18
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q13" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q14" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q15" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q16" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q17" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="Q18" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@Q19
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q20
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q21
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q22
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q23
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q24
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q19" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q20" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q21" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q22" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q23" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="Q24" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@Q25
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q26
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q27
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q28
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q29
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q30
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q25" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q26" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q27" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q28" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q29" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="Q30" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@Q31
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q32
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q33
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q34
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q35
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q36
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q31" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q32" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q33" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q34" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q35" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="Q36" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@Q37
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q38
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q39
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q40
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q41
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@Q42
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q37" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q38" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q39" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q40" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="Q41" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="Q42" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<!-- 근태내역 start -->
+			<tr>
+				<td width="63" rowspan="6" align="center" class="a_table_01A">
+					근 태<br>
+					 내 역
+				</td>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@R01
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R02
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R03
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R04
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R05
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R06
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R01" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R02" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R03" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R04" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R05" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="R06" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_01B">
+					&nbsp;@R07
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R08
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R09
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R10
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R11
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R12
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R07" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R08" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R09" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R10" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R11" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="R12" size="11" maxlength="11" value="1,000,000" class="box01" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="21" align="right" class="a_table_01B">
+					&nbsp;@R13
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R14
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R15
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R16
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R17
+				</td>
+				<td width="97" align="right" class="a_table_01B">
+					&nbsp;@R18
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R13" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R14" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R15" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R16" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01C">
+					&nbsp;<input type="text" name="R17" size="11" maxlength="11" class="box01" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_01D">
+					&nbsp;<input type="text" name="R18" size="11" maxlength="11" class="box01" readonly>
+				</td>
+			</tr>
+			<!-- 합계 start -->
+			<tr>
+				<td width="63" rowspan="2" align="center" class="a_table_02A">
+					합 계
+				</td>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" height="20" align="right" class="a_table_02B">
+					&nbsp;@E01
+				</td>
+				<td width="97" align="right" class="a_table_02B">
+					&nbsp;@E02
+				</td>
+				<td width="97" align="right" class="a_table_02B">
+					&nbsp;@E03
+				</td>
+				<td width="97" align="right" class="a_table_02B">
+					&nbsp;@E04
+				</td>
+				<td width="97" align="right" class="a_table_02B">
+					&nbsp;@E05
+				</td>
+				<td width="97" align="right" class="a_table_02B">
+					&nbsp;@E06
+				</td>
+			</tr>
+			<tr>
+				<td width="1" bgcolor="95B7D9">
+				</td>
+				<td width="97" align="right" class="a_table_02C">
+					&nbsp;<input type="text" name="E01" size="11" maxlength="11" value="1,000,000" class="box02" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_02C">
+					&nbsp;<input type="text" name="E02" size="11" maxlength="11" value="1,000,000" class="box02" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_02C">
+					&nbsp;<input type="text" name="E03" size="11" maxlength="11" value="1,000,000" class="box04" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_02C">
+					&nbsp;<input type="text" name="E04" size="11" maxlength="11" value="1,000,000" class="box03" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_02C">
+					&nbsp;<input type="text" name="E05" size="11" maxlength="11" value="1,000,000" class="box02" readonly>
+				</td>
+				<td width="97" align="right" class="a_table_02D">
+					&nbsp;<input type="text" name="E06" size="11" maxlength="11" value="1,000,000" class="box05" readonly>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="8">
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<table width="645" border="0" cellspacing="0" cellpadding="0">
+			<tr bgcolor="F4EEE1">
+				<td height="8" colspan="3" bgcolor="F4EEE1">
+				</td>
+			</tr>
+			<tr>
+				<td width="10" bgcolor="F4EEE1">
+					&nbsp;
+				</td>
+				<td>
+					<table width="620" border="0" cellpadding="1" cellspacing="1" bgcolor="E6E6E6">
+					<tr>
+						<td width="625" bgcolor="#FFFFFF">
+							<table width="625" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td height="25" align="left" class="font_gray">
+									&nbsp;@DC_RMK1
+								</td>
+							</tr>
+							<tr>
+								<td height="25" align="left" class="font_gray a_table_line">
+									&nbsp;@DC_RMK2
+								</td>
+							</tr>
+							<tr>
+								<td height="25" align="left" class="font_gray a_table_line">
+									&nbsp;@DC_RMK3
+								</td>
+							</tr>
+							</table>
+						</td>
+					</tr>
+					</table>
+				</td>
+				<td width="10" bgcolor="F4EEE1">
+					&nbsp;
+				</td>
+			</tr>
+			<tr bgcolor="F4EEE1">
+				<td height="8" colspan="3" bgcolor="F4EEE1">
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="8">
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<table width="645" border="0" cellspacing="0" cellpadding="0">
+			<!-- 지급내역 산출내역 start -->
+			<tr>
+				<td width="160" height="20" align="center" class="a_table_03A">&nbsp;지급내역</td>
+				<td width="388" align="center" class="a_table_03B">&nbsp;산출내역</td>
+				<td width="97" align="center" class="a_table_03C">&nbsp;금액</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T01</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T01F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T01V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T02</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T02F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T02V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T03</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T03F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T03V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T04</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T04F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T04V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T05</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T05F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T05V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T06</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T06F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T06V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T07</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T07F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T07V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T08</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T08F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T08V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T09</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T09F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T09V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T10</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T10F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T10V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T11</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T11F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T11V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T12</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T12F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T12V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T13</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T13F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T13V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T14</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T14F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T14V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T15</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T15F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T15V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T16</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T16F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T16V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T17</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T17F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T17V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T18</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T18F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T18V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T19</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T19F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T19V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T20</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T20F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T20V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T21</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T21F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T21V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T22</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T22F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T22V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T23</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T23F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T23V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T24</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T24F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T24V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T25</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T25F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T25V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T26</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T26F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T26V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T27</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T27F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T27V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T28</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T28F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T28V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T29</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T29F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T29V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T30</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T30F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T30V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T31</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T31F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T31V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T32</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T32F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T32V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T33</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T33F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T33V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T34</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T34F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T34V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T35</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T35F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T35V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T36</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T36F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T36V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T37</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T37F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T37V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T38</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T38F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T38V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@T39</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@T39F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@T39V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_05A">&nbsp;@T40</td>
+				<td width="388" align="left" class="a_table_05B">&nbsp;@T40F</td>
+				<td width="97" align="right" class="a_table_05C">&nbsp;@T40V</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="8">
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<table width="645" border="0" cellspacing="0" cellpadding="0">
+			<!-- 공제내역 산출내역 start -->
+			<tr>
+				<td width="160" height="20" align="center" class="a_table_03A">&nbsp;공제내역</td>
+				<td width="388" align="center" class="a_table_03B">&nbsp;산출내역</td>
+				<td width="97" align="center" class="a_table_03C">&nbsp;금액</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q01</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q01F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q01V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q02</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q02F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q02V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q03</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q03F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q03V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q04</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q04F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q04V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q05</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q05F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q05V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q06</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q06F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q06V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q07</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q07F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q07V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q08</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q08F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q08V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q09</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q09F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q09V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q10</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q10F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q10V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q11</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q11F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q11V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q12</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q12F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q12V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q13</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q13F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q13V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q14</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q14F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q14V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q15</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q15F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q15V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q16</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q16F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q16V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q17</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q17F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q17V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q18</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q18F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q18V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q19</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q19F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q19V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q20</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q20F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q20V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q21</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q21F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q21V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q22</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q22F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q22V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q23</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q23F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q23V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q24</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q24F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q24V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q25</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q25F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q25V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q26</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q26F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q26V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q27</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q27F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q27V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q28</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q28F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q28V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q29</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q29F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q29V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q30</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q30F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q30V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q31</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q31F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q31V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q32</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q32F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q32V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q33</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q33F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q33V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q34</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q34F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q34V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q35</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q35F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q35V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q36</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q36F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q36V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q37</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q37F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q37V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q38</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q38F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q38V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_04A">&nbsp;@Q39</td>
+				<td width="388" align="left" class="a_table_04B">&nbsp;@Q39F</td>
+				<td width="97" align="right" class="a_table_04C">&nbsp;@Q39V</td>
+			</tr>
+			<tr>
+				<td width="160" height="20" align="left" class="a_table_05A">&nbsp;@Q40</td>
+				<td width="388" align="left" class="a_table_05B">&nbsp;@Q40F</td>
+				<td width="97" align="right" class="a_table_05C">&nbsp;@Q40V</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+</div>
+</body>
+</html>

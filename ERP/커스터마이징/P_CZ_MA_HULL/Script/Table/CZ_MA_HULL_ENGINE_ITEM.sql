@@ -1,0 +1,41 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_MA_HULL_ENGINE_ITEM]    Script Date: 2021-06-18 오전 9:10:07 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_MA_HULL_ENGINE_ITEM](
+	[NO_IMO] [nvarchar](10) NOT NULL,
+	[NO_ENGINE] [int] NOT NULL,
+	[NO_PLATE] [nvarchar](100) NOT NULL,
+	[NO_PLATE_ORG] [nvarchar](100) NULL,
+	[NM_PLATE] [nvarchar](200) NULL,
+	[UNIT] [nvarchar](4) NULL,
+	[CD_ITEM] [nvarchar](20) NULL,
+	[UCODE] [nvarchar](20) NULL,
+	[KCODE] [nvarchar](20) NULL,
+	[KCODE2] [nvarchar](20) NULL,
+	[WEIGHT] [numeric](11, 3) NULL,
+	[NO_POSITION] [numeric](11, 0) NULL,
+	[QT_PLATE] [numeric](11, 0) NULL,
+	[YN_UPLOAD] [nvarchar](1) NULL,
+	[DTS_UPLOAD] [nvarchar](14) NULL,
+	[DC_RMK] [nvarchar](1000) NULL,
+	[ID_INSERT] [nvarchar](10) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](10) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_MA_HULL_ENGINE_ITEM] PRIMARY KEY CLUSTERED 
+(
+	[NO_IMO] ASC,
+	[NO_ENGINE] ASC,
+	[NO_PLATE] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

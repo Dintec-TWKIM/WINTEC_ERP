@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="pur" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="내역표시_Text" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="내역표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)">모두</Value>
+    </Setting>
+    <Setting Name="내용표시_QTY" Type="System.String" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="내용표시_UM" Type="System.String" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="품목표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Tx_내역표시구분" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Tx_내역표시_Text" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Tx_품목표시구분" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="P_PU_IV_MNG_WebServiceCNP_LIVE_FI_CNPPurchaseRequest_providers_CNPPurchaseRequest_Provider" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://165.244.237.222:5530/ws/FI.CNPPurchaseRequest.providers.CNPPurchaseRequest_Provider/FI_CNPPurchaseRequest_providers_CNPPurchaseRequest_Provider_Port</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

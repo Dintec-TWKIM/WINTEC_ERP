@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{791444C9-A7C4-46AF-A86D-6CE08E4AE404}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cz</RootNamespace>
+    <AssemblyName>P_CZ_MA_PARTNER</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Win.C1FlexGrid.2">
+      <HintPath>..\..\..\..\Applib\C1.Win.C1FlexGrid.2.dll</HintPath>
+    </Reference>
+    <Reference Include="coParameter">
+      <HintPath>..\..\..\..\Applib\coParameter.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid">
+      <HintPath>..\..\..\..\Applib\Dass.FlexGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Dintec">
+      <HintPath>..\..\..\..\Applib\Dintec.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.BusinessConfig, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Net">
+      <HintPath>..\..\..\..\Applib\Duzon.BizOn.Erpu.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Security">
+      <HintPath>..\..\..\..\Applib\Duzon.BizOn.Erpu.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.Erpiu.Windows.OneControls">
+      <HintPath>..\..\..\..\Applib\Duzon.Erpiu.Windows.OneControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU">
+      <HintPath>..\..\..\..\Applib\Duzon.ERPU.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU.MF">
+      <HintPath>..\..\..\..\Applib\Duzon.ERPU.MF.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU.SA">
+      <HintPath>..\..\..\..\Applib\Duzon.ERPU.SA.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.Windows.Print">
+      <HintPath>..\..\..\..\Applib\Duzon.Windows.Print.dll</HintPath>
+    </Reference>
+    <Reference Include="DzControlLib">
+      <HintPath>..\..\..\..\Applib\DzControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DzHelpFormLib">
+      <HintPath>..\..\..\..\Applib\DzHelpFormLib.dll</HintPath>
+    </Reference>
+    <Reference Include="INeoWeb">
+      <HintPath>..\..\..\..\Applib\INeoWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="PageBase">
+      <HintPath>..\..\..\..\Applib\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="PrtControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="P_CZ_MA_FILE_SUB">
+      <HintPath>..\..\AppLib\cz\P_CZ_MA_FILE_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_FI_GET_NAME">
+      <HintPath>..\..\..\..\Applib\account\P_FI_GET_NAME.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_MA_PARTNER.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_MA_PARTNER.Designer.cs">
+      <DependentUpon>P_CZ_MA_PARTNER.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_MA_PARTNER_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB\P_CZ_FI_PARTNERPTR_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB\P_CZ_FI_PARTNERPTR_SUB.Designer.cs">
+      <DependentUpon>P_CZ_FI_PARTNERPTR_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_ACCOUNT\P_CZ_MA_PARTNER_ACCOUNT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_ACCOUNT\P_CZ_MA_PARTNER_ACCOUNT.Designer.cs">
+      <DependentUpon>P_CZ_MA_PARTNER_ACCOUNT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_CLOSE\P_CZ_MA_PARTNER_CLOSE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_CLOSE\P_CZ_MA_PARTNER_CLOSE.Designer.cs">
+      <DependentUpon>P_CZ_MA_PARTNER_CLOSE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_COPY\P_CZ_MA_PARTNER_COPY.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_COPY\P_CZ_MA_PARTNER_COPY.Designer.cs">
+      <DependentUpon>P_CZ_MA_PARTNER_COPY.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_DEPOSIT_SUB\P_CZ_MA_PARTNER_DEPOSIT_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_DEPOSIT_SUB\P_CZ_MA_PARTNER_DEPOSIT_SUB.designer.cs">
+      <DependentUpon>P_CZ_MA_PARTNER_DEPOSIT_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_DEPOSIT_SUB\P_CZ_MA_PARTNER_DEPOSIT_SUB_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_EXCEL_SUB\P_CZ_MA_PARTNER_EXCEL_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_EXCEL_SUB\P_CZ_MA_PARTNER_EXCEL_SUB.Designer.cs">
+      <DependentUpon>P_CZ_MA_PARTNER_EXCEL_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_ORIGIN_SUB\P_CZ_MA_PARTNER_ORIGIN_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_MA_PARTNER_ORIGIN_SUB\P_CZ_MA_PARTNER_ORIGIN_SUB.Designer.cs">
+      <DependentUpon>P_CZ_MA_PARTNER_ORIGIN_SUB.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_MA_PARTNER.resx">
+      <DependentUpon>P_CZ_MA_PARTNER.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB\P_CZ_FI_PARTNERPTR_SUB.resx">
+      <DependentUpon>P_CZ_FI_PARTNERPTR_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_MA_PARTNER_ACCOUNT\P_CZ_MA_PARTNER_ACCOUNT.resx">
+      <DependentUpon>P_CZ_MA_PARTNER_ACCOUNT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_MA_PARTNER_CLOSE\P_CZ_MA_PARTNER_CLOSE.resx">
+      <DependentUpon>P_CZ_MA_PARTNER_CLOSE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_MA_PARTNER_COPY\P_CZ_MA_PARTNER_COPY.resx">
+      <DependentUpon>P_CZ_MA_PARTNER_COPY.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_MA_PARTNER_DEPOSIT_SUB\P_CZ_MA_PARTNER_DEPOSIT_SUB.resx">
+      <DependentUpon>P_CZ_MA_PARTNER_DEPOSIT_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_MA_PARTNER_EXCEL_SUB\P_CZ_MA_PARTNER_EXCEL_SUB.resx">
+      <DependentUpon>P_CZ_MA_PARTNER_EXCEL_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_MA_PARTNER_ORIGIN_SUB\P_CZ_MA_PARTNER_ORIGIN_SUB.resx">
+      <DependentUpon>P_CZ_MA_PARTNER_ORIGIN_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="P_CZ_MA_PARTNER.xls" />
+    <None Include="Resources\주소.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sub_tit_line1024.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\Procedure\SP_CZ_MA_PARTNER_S.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_PARTNER_D.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_PARTNER_D_BEFORE.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_PARTNER_I.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_PARTNER_S_N.sql" />
+    <Content Include="Script\Procedure\SP_CZ_MA_PARTNER_U.sql" />
+    <Content Include="Script\Table\CZ_MA_PARTNER.sql" />
+    <Content Include="Script\Table\CZ_MA_PARTNER_LOG.sql" />
+    <Content Include="Script\Table\MA_PARTNER.sql" />
+    <Content Include="Script\Table\MA_PARTNER_DEPOSIT.sql" />
+    <Content Include="Script\Table\MA_PARTNER_DEPOSIT_LOG.sql" />
+    <Content Include="Script\Trigger\TD_MA_PARTNER.sql" />
+    <Content Include="Script\Trigger\TI_MA_PARTNER.sql" />
+    <Content Include="Script\Trigger\TU_CZ_MA_PARTNER.sql" />
+    <Content Include="Script\Trigger\TU_MA_PARTNER.sql" />
+    <Content Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB\Script\Procedure\SP_CZ_FI_PARTNERPTR_S.sql" />
+    <Content Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB\Script\Procedure\SP_CZ_FI_PARTNERPTR_XML.sql" />
+    <Content Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB\Script\Table\FI_PARTNERPTR.sql" />
+    <Content Include="관련도움창\P_CZ_MA_PARTNER_COPY\Script\Procedure\SP_CZ_MA_PARTNER_COPY_I.sql" />
+    <Content Include="관련도움창\P_CZ_MA_PARTNER_DEPOSIT_SUB\Script\Procedure\SP_CZ_MA_PARTNER_DEPOSIT_SUB_S.sql" />
+    <Content Include="관련도움창\P_CZ_MA_PARTNER_DEPOSIT_SUB\Script\Procedure\SP_CZ_MA_PARTNER_DEPOSIT_XML.sql" />
+    <Content Include="관련도움창\P_CZ_MA_PARTNER_DEPOSIT_SUB\Script\Table\CZ_MA_PARTNER_DEPOSIT.sql" />
+    <Content Include="관련도움창\P_CZ_MA_PARTNER_ORIGIN_SUB\Script\Procedure\SP_CZ_MA_PARTNER_ORIGIN_XML.sql" />
+    <Content Include="관련도움창\P_CZ_MA_PARTNER_ORIGIN_SUB\Script\Table\CZ_MA_PARTNER_ORIGIN.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\Applib</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

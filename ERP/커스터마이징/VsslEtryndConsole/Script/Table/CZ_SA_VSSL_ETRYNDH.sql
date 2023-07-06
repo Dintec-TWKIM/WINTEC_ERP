@@ -1,0 +1,46 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_VSSL_ETRYNDH]    Script Date: 2018-11-21 오후 5:35:29 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_VSSL_ETRYNDH](
+	[CD_PRTAG] [nvarchar](3) NOT NULL,
+	[NM_PRTAG] [nvarchar](10) NOT NULL,
+	[DT_ETRYPT_YEAR] [nvarchar](4) NOT NULL,
+	[CNT_ETRYPT] [nvarchar](3) NOT NULL,
+	[CLSGN] [nvarchar](10) NOT NULL,
+	[NM_VSSL] [nvarchar](20) NOT NULL,
+	[CD_VSSL_NLTY] [nvarchar](2) NULL,
+	[NM_VSSL_NLTY] [nvarchar](10) NULL,
+	[NM_VSSL_KND] [nvarchar](10) NULL,
+	[CD_ETRYPT_PURPS] [nvarchar](2) NULL,
+	[NM_ETRYPT_PURPS] [nvarchar](3) NULL,
+	[CD_FRST_DPMPRT_NAT_PRT] [nvarchar](5) NULL,
+	[NM_FRST_DPMPRT_PRT] [nvarchar](10) NULL,
+	[CD_PRVS_DPMPRT_NAT_PRT] [nvarchar](5) NULL,
+	[NM_PRVS_DPMPRT_PRT] [nvarchar](10) NULL,
+	[CD_NX_INPT_NAT_PRT] [nvarchar](5) NULL,
+	[NM_NX_INPT_PRT] [nvarchar](10) NULL,
+	[CD_DSTN_NAT_PRT] [nvarchar](5) NULL,
+	[NM_DSTN_PRT] [nvarchar](10) NULL,
+	[DTS_ETRYPT] [nvarchar](14) NULL,
+	[DTS_TKOFF] [nvarchar](14) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_MA_VSSL_ETRYNDH] PRIMARY KEY CLUSTERED 
+(
+	[CD_PRTAG] ASC,
+	[DT_ETRYPT_YEAR] ASC,
+	[CNT_ETRYPT] ASC,
+	[CLSGN] ASC,
+	[NM_VSSL] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

@@ -1,0 +1,35 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_PACKL]    Script Date: 2015-09-14 오후 2:42:54 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_PACKL](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[NO_GIR] [nvarchar](20) NOT NULL,
+	[NO_PACK] [numeric](5, 0) NOT NULL,
+	[SEQ_GIR] [numeric](5, 0) NOT NULL,
+	[CD_ITEM] [nvarchar](20) NULL,
+	[QT_PACK] [numeric](17, 4) NULL,
+	[NO_FILE] [nvarchar](20) NULL,
+	[NO_QTLINE] [int] NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+ CONSTRAINT [PK_CZ_SA_PACKL_1] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[NO_GIR] ASC,
+	[NO_PACK] ASC,
+	[SEQ_GIR] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+

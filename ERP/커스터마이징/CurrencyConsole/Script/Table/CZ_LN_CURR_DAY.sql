@@ -1,0 +1,30 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_LN_CURR_DAY]    Script Date: 2019-06-18 오후 1:52:11 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_LN_CURR_DAY](
+	[DAY] [nvarchar](8) NOT NULL,
+	[YEN_EXC_R] [nvarchar](50) NULL,
+	[EURO_EXC_R] [nvarchar](50) NULL,
+	[CALL_R] [nvarchar](50) NULL,
+	[EXC_R] [nvarchar](50) NULL,
+	[KOSPI] [nvarchar](50) NULL,
+	[DOW_JONES] [nvarchar](50) NULL,
+	[NASDAQ] [nvarchar](50) NULL,
+	[WTI] [nvarchar](50) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_LN_CURR_DAY] PRIMARY KEY CLUSTERED 
+(
+	[DAY] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

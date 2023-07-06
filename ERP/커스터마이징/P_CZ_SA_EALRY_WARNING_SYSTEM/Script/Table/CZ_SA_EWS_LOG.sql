@@ -1,0 +1,39 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_EWS_LOG]    Script Date: 2022-11-15 오전 9:26:28 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_EWS_LOG](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[CD_PARTNER] [nvarchar](20) NOT NULL,
+	[DT_EWS] [nvarchar](8) NOT NULL,
+	[CD_RESULT1] [nvarchar](4) NULL,
+	[CD_RESULT2] [nvarchar](4) NULL,
+	[CD_RESULT3] [nvarchar](4) NULL,
+	[CD_RESULT4] [nvarchar](4) NULL,
+	[CD_RESULT5] [nvarchar](4) NULL,
+	[CD_RESULT6] [nvarchar](4) NULL,
+	[CD_RESULT7] [nvarchar](4) NULL,
+	[NM_RESULT1] [nvarchar](200) NULL,
+	[NM_RESULT2] [nvarchar](200) NULL,
+	[NM_RESULT3] [nvarchar](200) NULL,
+	[NM_RESULT4] [nvarchar](200) NULL,
+	[NM_RESULT5] [nvarchar](200) NULL,
+	[NM_RESULT6] [nvarchar](200) NULL,
+	[NM_RESULT7] [nvarchar](200) NULL,
+	[CD_LEVEL] [nvarchar](1) NULL,
+ CONSTRAINT [PK_CZ_SA_EWS_LOG] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[CD_PARTNER] ASC,
+	[DT_EWS] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

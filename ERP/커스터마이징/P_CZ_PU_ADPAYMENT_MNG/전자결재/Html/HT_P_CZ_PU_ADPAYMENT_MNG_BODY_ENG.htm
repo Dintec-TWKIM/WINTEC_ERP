@@ -1,0 +1,162 @@
+﻿@@DC_WARNING
+<div style="font-weight:bold; margin-bottom:10px">1. Request for Advance Payment</div>
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Supplier Name</th>
+            <td style="border:solid 1px black; text-align:center" colspan="2">@@NM_SUPPLIER</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Purchase Type</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_TPPO</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Purchase Amount</th>
+            <td style="border:solid 1px black; text-align:center" colspan="2">@@AM_EX_PRE_HAN</td>
+            <td style="border:solid 1px black; text-align:center">@@NM_EXCH</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_EX_PRE</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Remarks</th>
+            <td style="border:solid 1px black; text-align:left; padding-left:10px" colspan="4">@@DC_REMARK</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Advance Payment No.</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Advance Payment Date</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Request Amount</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Balance</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Slip No.</th>
+        </tr>
+        <tr style="height:30px">
+            <td style="border:solid 1px black; text-align:center">@@NO_ADPAY</td>
+            <td style="border:solid 1px black; text-align:center;">@@DT_ADPAY</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_EX_PRE</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_EX_REMAIN</td>
+            <td style="border:solid 1px black; text-align:center">@@NO_DOCU</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="font-weight:bold; margin-bottom:10px; margin-top:30px">2. Slip Details (@@NM_EXCH_STD)</div>
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="40%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Account Code</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Remarks</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Debtor</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Creditor</th>
+        </tr>
+        @@TXT_DOCU
+    </tbody>
+</table>
+
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="30%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Bank Account No.</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_BANK_PARTNER</td>
+            <td style="border:solid 1px black; text-align:center">@@NO_DEPOSIT</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Depositor / Expected Payment Date</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_DEPOSIT</td>
+            <td style="border:solid 1px black; text-align:center">@@DT_END</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="font-weight:bold; margin-bottom:10px; margin-top:30px">3. Sales Order Info. (@@NM_EXCH_STD)</div>
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">SO No.</th>
+            <td style="border:solid 1px black; text-align:center">@@NO_SO</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">SO Date</th>
+            <td style="border:solid 1px black; text-align:center">@@DT_SO</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Buyer</th>
+            <td style="border:solid 1px black; text-align:left; padding-left:10px" colspan="3">@@NM_PARTNER</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Vessel Name</th>
+            <td style="border:solid 1px black; text-align:left; padding-left:10px" colspan="3">@@NM_VESSEL</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">SO Amount</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">PO Amount</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Profit</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Profit Rate</th>
+        </tr>
+        <tr style="height:30px">
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_SO</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_PO</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_PROFIT</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@RT_PROFIT</td>
+        </tr>
+        @@TXT_SO_EX_INFO
+    </tbody>
+</table>
+
+<div style="font-weight:bold; margin-bottom:10px; margin-top:30px">4. Purchase Order Info. (@@NM_EXCH_STD)</div>
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">PO No.</th>
+            <td style="border:solid 1px black; text-align:center">@@NO_PO</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">PO Date</th>
+            <td style="border:solid 1px black; text-align:center">@@DT_PO</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Supplier</th>
+            <td style="border:solid 1px black; text-align:left; padding-left:10px" colspan="3">@@NM_SUPPLIER</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">SO Amount</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">PO Amount</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Profit</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Profit Rate</th>
+        </tr>
+        <tr style="height:30px">
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_PU_SO</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_PU_PO</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_PU_PROFIT</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@RT_PU_PROFIT</td>
+        </tr>
+        @@TXT_PO_EX_INFO
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">PO Amount</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">VAT</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Advance Payment Amount</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Advance Payment Rate</th>
+        </tr>
+        <tr style="height:30px">
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_ADPAY_PO</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@VAT</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_ADPAY</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@RT_ADPAY</td>
+        </tr>
+    </tbody>
+</table>
+
+@@ATTACH_FILE
+
+<div style="font-weight:bold; color:#0000ff; margin-top:30px">Please remit the amount by @@DT_END.</div>

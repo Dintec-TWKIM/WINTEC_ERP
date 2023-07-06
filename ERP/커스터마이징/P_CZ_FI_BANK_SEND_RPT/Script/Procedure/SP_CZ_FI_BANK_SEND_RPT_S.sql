@@ -1,0 +1,54 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_FI_BANK_SEND_RPT_S]    Script Date: 2016-12-28 오후 3:03:19 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [NEOE].[SP_CZ_FI_BANK_SEND_RPT_S]
+(
+	@P_C_CODE				NVARCHAR(10),	--회사  
+	@P_TRANS_DATE_FROM		NVARCHAR(8),    --파일작성일자FROM  
+	@P_TRANS_DATE_TO		NVARCHAR(8),    --파일작성일자TO
+	@P_SETTLE_DATE_FROM		NVARCHAR(8),	--이체일자From
+	@P_SETTLE_DATE_TO		NVARCHAR(8)     --이체일자To
+)
+AS  
+/*******************************************  
+**  SYSTEM  : 회계관리  
+**  SUB SYSTEM : 은행연동 - 거래내역관리  
+**  PAGE   : 이체내역관리  
+**  DESC   : 이체내역현황 조회(HEADER)  
+**  
+**  RETURN VALUES  
+**  
+**  작    성    자  : 허성철  
+**  작    성    일  : 2007.01.16  
+*********************************************  
+** CHANGE HISTORY  
+*********************************************  
+*********************************************/  
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+SELECT 'N' AS S,
+	   SH.TRANS_DATE,
+	   SH.TRANS_SEQ,
+	   SH.BANK_CODE AS CD_BANK,
+	   MC.NM_SYSDEF AS NM_BANK,
+	   SH.ACCT_NO AS NO_ACCT,
+	   SH.NO_LIMITE,
+	   SUM(TRANS_AMT) AS TRANS_AMT
+FROM BANK_SENDH SH
+LEFT JOIN MA_CODEDTL MC ON MC.CD_COMPANY = SH.C_CODE AND MC.CD_FIELD = 'FI_T000013' AND MC.CD_SYSDEF = SH.BANK_CODE
+WHERE SH.C_CODE = @P_C_CODE
+AND SH.TRANS_DATE BETWEEN @P_TRANS_DATE_FROM AND @P_TRANS_DATE_TO
+AND (ISNULL(@P_SETTLE_DATE_FROM, '') = '' 
+  OR ISNULL(@P_SETTLE_DATE_TO, '') = '' 
+  OR SH.SETTLE_DATE BETWEEN @P_SETTLE_DATE_FROM AND @P_SETTLE_DATE_TO)
+GROUP BY SH.TRANS_DATE, SH.TRANS_SEQ, SH.BANK_CODE, MC.NM_SYSDEF, SH.ACCT_NO, SH.NO_LIMITE 
+ORDER BY SH.TRANS_DATE, SH.TRANS_SEQ
+
+GO

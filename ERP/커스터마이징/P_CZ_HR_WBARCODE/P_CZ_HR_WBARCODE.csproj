@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FCEE238A-250C-4115-A34E-B610EEB586B6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cz</RootNamespace>
+    <AssemblyName>P_CZ_HR_WBARCODE</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.5.20053.230, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="coParameter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0629c82a28f3ac5, processorArchitecture=MSIL" />
+    <Reference Include="Dass.FlexGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603" />
+    <Reference Include="Duzon.Erpiu.Windows.OneControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU.HR, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.ERPU.HR.dll</HintPath>
+    </Reference>
+    <Reference Include="DzControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DzHelpFormLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="INeoWeb, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="PageBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="P_HR_WBARCODE_SUB">
+      <HintPath>..\..\..\..\AppLib\human\P_HR_WBARCODE_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="P_CZ_HR_WBARCODE.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_HR_WBARCODE.Designer.cs">
+      <DependentUpon>P_CZ_HR_WBARCODE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_HR_WBARCODE_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_HR_WTMCALC_MON_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_HR_WTMCALC_MON_SUB.Designer.cs">
+      <DependentUpon>P_CZ_HR_WTMCALC_MON_SUB.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="P_CZ_HR_WBARCODE.resx">
+      <DependentUpon>P_CZ_HR_WBARCODE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_HR_WTMCALC_MON_SUB.resx">
+      <DependentUpon>P_CZ_HR_WTMCALC_MON_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\Procedure\SP_CZ_HR_WBARCODE_S1.sql" />
+    <Content Include="Script\Procedure\SP_CZ_HR_WBARCODE_S.sql" />
+    <Content Include="Script\Procedure\SP_CZ_HR_WBARCODE_S2.sql" />
+    <Content Include="Script\Procedure\SP_CZ_HR_WBARCODE_CONFIRM.sql" />
+    <Content Include="Script\Procedure\SP_CZ_HR_WBARCODE_U1.sql" />
+    <Content Include="Script\Procedure\SP_CZ_HR_WBARCODE_U.sql" />
+    <Content Include="Script\Table\CZ_HR_WBARCODE.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dintec\Dintec.csproj">
+      <Project>{3f297cca-e9d7-461f-92a3-e522ddcd3996}</Project>
+      <Name>Dintec</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\Applib</PostBuildEvent>
+  </PropertyGroup>
+</Project>

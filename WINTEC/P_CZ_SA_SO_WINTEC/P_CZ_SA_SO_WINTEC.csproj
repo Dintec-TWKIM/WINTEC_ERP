@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8A691448-6DDE-44FA-A9AD-C0A66BD4BC2A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cz</RootNamespace>
+    <AssemblyName>P_CZ_SA_SO_WINTEC</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.5.20053.230, Culture=neutral, PublicKeyToken=79882d576c6336da" />
+    <Reference Include="coParameter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0629c82a28f3ac5, processorArchitecture=MSIL" />
+    <Reference Include="Dass.FlexGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Dass.FlexGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Dintec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Dintec.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Duzon.BizOn.Erpu.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603" />
+    <Reference Include="Duzon.Common.ConstLib, Version=1.0.7312.30018, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.Common.ConstLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPIU.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.Erpiu.Windows.OneControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.Erpiu.Windows.OneControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.ERPU.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU.MF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU.SA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.Windows.Print, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DzControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\DzControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DzHelpFormLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\DzHelpFormLib.dll</HintPath>
+    </Reference>
+    <Reference Include="H_SA_HELP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="INeoWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\INeoWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="PageBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="P_MA_FILE_SUB">
+      <HintPath>..\..\..\..\AppLib\master\P_MA_FILE_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_LOT_SUB_I">
+      <HintPath>..\..\..\..\Applib\pur\P_PU_LOT_SUB_I.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_LOT_SUB_R">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_LOT_SUB_R.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_PO_ITEMEXPSUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_PO_ITEMEXPSUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_SERL_SUB_I">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_SERL_SUB_I.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_SERL_SUB_R">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_SERL_SUB_R.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_STOCK_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_STOCK_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_CHANCE_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_CHANCE_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_CUST_CREDIT_CHECK_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_CUST_CREDIT_CHECK_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_ESTMT_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_ESTMT_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_GIRR_REG_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_GIRR_REG_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_SO_DLV_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_SO_DLV_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_SO_ORIGINAL_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_SO_ORIGINAL_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_SO_PRJ_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_SO_PRJ_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_SO_SCH_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_SO_SCH_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_SO_SPITEM_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_SO_SPITEM_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_SA_UM_HISTORY_SUB">
+      <HintPath>..\..\..\..\AppLib\sale\P_SA_UM_HISTORY_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB.Designer.cs">
+      <DependentUpon>P_CZ_FI_PARTNERPTR_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.cs" />
+    <Compile Include="Properties\Settings.cs" />
+    <Compile Include="P_CZ_SA_SO_WINTEC_BIZ.cs" />
+    <Compile Include="P_CZ_SA_SO_WINTEC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_SO_WINTEC.Designer.cs">
+      <DependentUpon>P_CZ_SA_SO_WINTEC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="특수단가적용.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="P_CZ_SA_SO_WINTEC.resx">
+      <DependentUpon>P_CZ_SA_SO_WINTEC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_FI_PARTNERPTR_SUB.resx">
+      <DependentUpon>P_CZ_FI_PARTNERPTR_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\Procedure\UP_MM_QTIODS_INSERT.sql" />
+    <Content Include="Script\Procedure\UP_MM_QTIOLOT_INSERT.sql" />
+    <Content Include="Script\Procedure\UP_SA_BIZAREA_OF_PLANT_S.sql" />
+    <Content Include="Script\Procedure\UP_SA_CHECKCREDIT_EXCH_SELECT.sql" />
+    <Content Include="Script\Procedure\UP_SA_CHECKCREDIT_SELECT.sql" />
+    <Content Include="Script\Procedure\SP_CZ_SA_SOH_I_WINTEC.sql" />
+    <Content Include="Script\Procedure\UP_SA_SOH_SUB_I.sql" />
+    <Content Include="Script\Procedure\UP_SA_SOH_SUB_U.sql" />
+    <Content Include="Script\Procedure\SP_CZ_SA_SOH_U_WINTEC.sql" />
+    <Content Include="Script\Procedure\SP_CZ_SA_SOL_D_WINTEC.sql" />
+    <Content Include="Script\Procedure\SP_CZ_SA_SOL_I_WINTEC.sql" />
+    <Content Include="Script\Procedure\UP_SA_SOL_TO_GIRL_SELECT.sql" />
+    <Content Include="Script\Procedure\SP_CZ_SA_SOL_U_WINTEC.sql" />
+    <Content Include="Script\Procedure\UP_SA_SO_BOM_S.sql" />
+    <Content Include="Script\Procedure\SP_CZ_SA_SOH_D_WINTEC.sql" />
+    <Content Include="Script\Procedure\UP_SA_SO_EXCEL_SELECT.sql" />
+    <Content Include="Script\Procedure\UP_SA_SO_MODIFY.sql" />
+    <Content Include="Script\Procedure\UP_SA_SO_PAYCOND_S.sql" />
+    <Content Include="Script\Procedure\UP_SA_SO_PRINT_S.sql" />
+    <Content Include="Script\Procedure\SP_CZ_SA_SO_S_WINTEC.sql" />
+    <Content Include="Script\Procedure\UP_SA_SO_SL_INV_S.sql" />
+    <Content Include="Script\Procedure\UP_SA_SO_TPBUSI_SELECT.sql" />
+    <Content Include="Script\Procedure\UP_SA_SO_UM_FIXED_S.sql" />
+    <Content Include="관련도움창\Script\Procedure\UP_FI_PARTNERPTR_DELETE.sql" />
+    <Content Include="관련도움창\Script\Procedure\UP_FI_PARTNERPTR_INSERT.sql" />
+    <Content Include="관련도움창\Script\Procedure\UP_FI_PARTNERPTR_UPDATE.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="P_SA_SO%28수주등록%29-단가포함.XLS" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\AppLib</PostBuildEvent>
+  </PropertyGroup>
+</Project>

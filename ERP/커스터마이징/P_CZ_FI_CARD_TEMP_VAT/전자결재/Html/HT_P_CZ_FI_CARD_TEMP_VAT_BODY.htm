@@ -1,0 +1,57 @@
+﻿<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">전 표 번 호</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">작 성 일 자</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">회 계 일 자</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">전 표 유 형</th>
+        </tr>
+        <tr style="height:30px">
+            <td style="border:solid 1px black; text-align:center">@@NO_DOCU</td>
+            <td style="border:solid 1px black; text-align:center">@@DT_WRITE</td>
+            <td style="border:solid 1px black; text-align:center">@@DT_ACCT</td>
+            <td style="border:solid 1px black; text-align:center">@@FI_TYPE</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">품 의 내 역</th>
+            <th style="border:solid 1px black; text-align:left; padding-left:10px; font-weight:normal", colspan ="3">@@NM_PUMM</th>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="80%" align="center"></colgroup>
+	<colgroup width="20%" align="center"></colgroup>
+	<tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:left; background-color:Silver; padding-left:10px; font-weight: bold;">금 액 : 일금 @@AM_HAN 원정</th>
+			<th style="border:solid 1px black; text-align:right; background-color:Silver; padding-right:10px; font-weight: bold;">(\ @@AM_KR)</th>
+        </tr>
+		@@1_TXT_DOCU
+    </tbody>
+</table>
+
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+	<colgroup width="25%" align="center"></colgroup>
+	<tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">계 정 과 목</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">적 요</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">차 변</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">대 변</th>
+        </tr>
+        @@2_TXT_DOCU
+    </tbody>
+	<tr style="height:30px">
+		<th style="border:solid 1px black; text-align:center; background-color:Silver", colspan ="2">합 계</th>
+        <td style="border:solid 1px black; text-align:right; padding-right:10px; font-weight: bold;">@@AM_CR_TOTAL</td>
+		<td style="border:solid 1px black; text-align:right; padding-right:10px; font-weight: bold;">@@AM_DR_TOTAL</td>
+    </tr>
+</table>

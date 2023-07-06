@@ -1,0 +1,34 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_MA_KCODE_HGS]    Script Date: 2019-04-29 오후 5:41:31 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_MA_KCODE_HGS](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[KCODE] [nvarchar](20) NOT NULL,
+	[WEIGHT_LOG] [numeric](15, 4) NULL,
+	[WEIGHT_HGS] [numeric](15, 4) NULL,
+	[SIZE_X] [numeric](15, 4) NULL,
+	[SIZE_Y] [numeric](15, 4) NULL,
+	[SIZE_Z] [numeric](15, 4) NULL,
+	[DC_PACK] [nvarchar](100) NULL,
+	[CD_PARTNER1] [nvarchar](20) NULL,
+	[CD_PARTNER2] [nvarchar](20) NULL,
+	[DC_RMK] [nvarchar](500) NULL,
+	[ID_INSERT] [nvarchar](10) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](10) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_MA_KCODE_HGS] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[KCODE] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+

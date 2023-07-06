@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{24227110-0708-4270-905E-122DCDCEA228}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Parsing</RootNamespace>
+    <AssemblyName>Parsing</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>게시\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AutoInquiry\AutoInquiry.cs" />
+    <Compile Include="EXCEL\SDOC.cs" />
+    <Compile Include="HGSAutoInquiryInsert.cs" />
+    <Compile Include="JiBe.cs" />
+    <Compile Include="Parser\Inquiry\BKOCEAN_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Procureship_excel.cs" />
+    <Compile Include="Parser\Inquiry\Damico2.cs" />
+    <Compile Include="Parser\Inquiry\benelux_excel.cs" />
+    <Compile Include="Parser\Inquiry\excutive_excel.cs" />
+    <Compile Include="Parser\Inquiry\gnp_pdf.cs" />
+    <Compile Include="Parser\Inquiry\ldc_pdf.cs" />
+    <Compile Include="Parser\Inquiry\mailTechcross.cs" />
+    <Compile Include="Parser\Inquiry\Shell_pdf.cs" />
+    <Compile Include="Parser\Inquiry\DHMARINE_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Latsco_excel.cs" />
+    <Compile Include="Parser\Inquiry\Shipserv_order_pdf.cs" />
+    <Compile Include="Parser\Inquiry\SEADRILL_excel.cs" />
+    <Compile Include="Parser\Inquiry\Pronav_pdf.cs" />
+    <Compile Include="Parser\Inquiry\SevenIslands_pdf.cs" />
+    <Compile Include="Parser\Inquiry\NavigatorPDF.cs" />
+    <Compile Include="Parser\Inquiry\hyundailng_excel.cs" />
+    <Compile Include="Parser\Inquiry\SKShipping_NEW.cs" />
+    <Compile Include="Parser\Inquiry\Synergy_excel.cs" />
+    <Compile Include="Parser\Inquiry\Lyric_excel.cs" />
+    <Compile Include="Parser\Inquiry\KSS_new.cs" />
+    <Compile Include="Parser\Inquiry\LYRAS_excel.cs" />
+    <Compile Include="Parser\Inquiry\NSC_xml.cs" />
+    <Compile Include="Parser\Inquiry\seaproc_excel.cs" />
+    <Compile Include="Parser\Inquiry\transmed_excel.cs" />
+    <Compile Include="Parser\Inquiry\jeil_dintec_excel.cs" />
+    <Compile Include="Parser\Inquiry\NordenSynergy_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Seaone_pdf.cs" />
+    <Compile Include="Parser\Inquiry\보성_pdf.cs" />
+    <Compile Include="Parser\Inquiry\케이프_pdf.cs" />
+    <Compile Include="Parser\Inquiry\코리아마린_pdf.cs" />
+    <Compile Include="Parser\Logistics\Schenker_sea.cs" />
+    <Compile Include="Parser\Order\STXOrder_csv2.cs" />
+    <Compile Include="Parser\Quotation\Seaworld_pdf.cs" />
+    <Compile Include="Parser\Quotation\MSLCOM_pdf.cs" />
+    <Compile Include="Parser\UNIPASSParser_IMP.cs" />
+    <Compile Include="Parser\UNIPASSParser.cs" />
+    <Compile Include="Parser\CodeParser.cs" />
+    <Compile Include="Parser\Code\Doosan_1.cs" />
+    <Compile Include="Parser\Code\Doosan_2.cs" />
+    <Compile Include="Parser\Code\sangsangin_1.cs" />
+    <Compile Include="Parser\Code\sangsangin_excel.cs" />
+    <Compile Include="Parser\InquiryParser.cs" />
+    <Compile Include="Parser\Inquiry\ACTIVEDENIZCILIK.cs" />
+    <Compile Include="Parser\Inquiry\ActiveShipping.cs" />
+    <Compile Include="Parser\Inquiry\Adani_excel.cs" />
+    <Compile Include="Parser\Inquiry\Adnatco.cs" />
+    <Compile Include="Parser\Inquiry\Advantage.cs" />
+    <Compile Include="Parser\Inquiry\AEGEAN.cs" />
+    <Compile Include="Parser\Inquiry\AegeanBulk.cs" />
+    <Compile Include="Parser\Inquiry\Ahrenkiel_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Allseas.cs" />
+    <Compile Include="Parser\Inquiry\Almi.cs" />
+    <Compile Include="Parser\Inquiry\AlmiNew_pdf.cs" />
+    <Compile Include="Parser\Inquiry\AlmiPdf.cs" />
+    <Compile Include="Parser\Inquiry\Anglo_gs_excel.cs" />
+    <Compile Include="Parser\Inquiry\Anglo_gs_pdf.cs" />
+    <Compile Include="Parser\Inquiry\ANGLO_NL.cs" />
+    <Compile Include="Parser\Inquiry\Arcadia.cs" />
+    <Compile Include="Parser\Inquiry\Arcadia_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Asp.cs" />
+    <Compile Include="Parser\Inquiry\Associated.cs" />
+    <Compile Include="Parser\Inquiry\Athenian.cs" />
+    <Compile Include="Parser\Inquiry\AthenianSea.cs" />
+    <Compile Include="Parser\Inquiry\Awilco.cs" />
+    <Compile Include="Parser\Inquiry\BergLarsen.cs" />
+    <Compile Include="Parser\Inquiry\Bernhard.cs" />
+    <Compile Include="Parser\Inquiry\Bernhard_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Bernhard_UK_pdf.cs" />
+    <Compile Include="Parser\Inquiry\BSM_EXCEL.cs" />
+    <Compile Include="Parser\Inquiry\BTrader.cs" />
+    <Compile Include="Parser\Inquiry\BW.cs" />
+    <Compile Include="Parser\Inquiry\CAFESHIPPING_excel.cs" />
+    <Compile Include="Parser\Inquiry\CapitalExecutive.cs" />
+    <Compile Include="Parser\Inquiry\CapitalShip.cs" />
+    <Compile Include="Parser\Inquiry\Chandris.cs" />
+    <Compile Include="Parser\Inquiry\CHEON.cs" />
+    <Compile Include="Parser\Inquiry\CJMarine.cs" />
+    <Compile Include="Parser\Inquiry\ColumbiaShip.cs" />
+    <Compile Include="Parser\Inquiry\Columbus.cs" />
+    <Compile Include="Parser\Inquiry\COMPANHIA.cs" />
+    <Compile Include="Parser\Inquiry\ConsolidatedMarine.cs" />
+    <Compile Include="Parser\Inquiry\Costamare.cs" />
+    <Compile Include="Parser\Inquiry\CrystalPool.cs" />
+    <Compile Include="Parser\Inquiry\CyprusSea.cs" />
+    <Compile Include="Parser\Inquiry\Daehan.cs" />
+    <Compile Include="Parser\Inquiry\DALEX.cs" />
+    <Compile Include="Parser\Inquiry\Damico.cs" />
+    <Compile Include="Parser\Inquiry\Danaos.cs" />
+    <Compile Include="Parser\Inquiry\DanaosExcel.cs" />
+    <Compile Include="Parser\Inquiry\DanaosMail.cs" />
+    <Compile Include="Parser\Inquiry\DeltaTankers.cs" />
+    <Compile Include="Parser\Inquiry\Diamond.cs" />
+    <Compile Include="Parser\Inquiry\Diana.cs" />
+    <Compile Include="Parser\Inquiry\DitasDeniz.cs" />
+    <Compile Include="Parser\Inquiry\Dole.cs" />
+    <Compile Include="Parser\Inquiry\Dolereefership_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Dolphin.cs" />
+    <Compile Include="Parser\Inquiry\Dongjin.cs" />
+    <Compile Include="Parser\Inquiry\DongjinMarine.cs" />
+    <Compile Include="Parser\Inquiry\Dorian.cs" />
+    <Compile Include="Parser\Inquiry\Dynacom.cs" />
+    <Compile Include="Parser\Inquiry\Dynagas.cs" />
+    <Compile Include="Parser\Inquiry\Eaglestart_pdf.cs" />
+    <Compile Include="Parser\Inquiry\EasternMediterranean.cs" />
+    <Compile Include="Parser\Inquiry\EasternPacificShipping_excel.cs" />
+    <Compile Include="Parser\Inquiry\Eletson.cs" />
+    <Compile Include="Parser\Inquiry\Emarat.cs" />
+    <Compile Include="Parser\Inquiry\EmpresaNavieraElcano_excel.cs" />
+    <Compile Include="Parser\Inquiry\EmpresaNavieraElcano_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Empresa_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Enesel.cs" />
+    <Compile Include="Parser\Inquiry\Ensco.cs" />
+    <Compile Include="Parser\Inquiry\ER.cs" />
+    <Compile Include="Parser\Inquiry\EsternPacific.cs" />
+    <Compile Include="Parser\Inquiry\Euronav.cs" />
+    <Compile Include="Parser\Inquiry\EuronavShipPDF.cs" />
+    <Compile Include="Parser\Inquiry\EverGreenMarineTAI.cs" />
+    <Compile Include="Parser\Inquiry\Everlast.cs" />
+    <Compile Include="Parser\Inquiry\Exmar.cs" />
+    <Compile Include="Parser\Inquiry\Fleet.cs" />
+    <Compile Include="Parser\Inquiry\FML.cs" />
+    <Compile Include="Parser\Inquiry\FratelliAmico.cs" />
+    <Compile Include="Parser\Inquiry\Garrets_excel.cs" />
+    <Compile Include="Parser\Inquiry\Garrets_excel2.cs" />
+    <Compile Include="Parser\Inquiry\Garret_Excel.cs" />
+    <Compile Include="Parser\Inquiry\GasLog.cs" />
+    <Compile Include="Parser\Inquiry\GasLogLNG_pdf.cs" />
+    <Compile Include="Parser\Inquiry\GeneralNational_pdf.cs" />
+    <Compile Include="Parser\Inquiry\GeratEastern_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Gestioni.cs" />
+    <Compile Include="Parser\Inquiry\Gestioni2.cs" />
+    <Compile Include="Parser\Inquiry\Gimsco.cs" />
+    <Compile Include="Parser\Inquiry\Glovis.cs" />
+    <Compile Include="Parser\Inquiry\GMS.cs" />
+    <Compile Include="Parser\Inquiry\GOE.cs" />
+    <Compile Include="Parser\Inquiry\Golar.cs" />
+    <Compile Include="Parser\Inquiry\GoodWood.cs" />
+    <Compile Include="Parser\Inquiry\Goodwood_excel.cs" />
+    <Compile Include="Parser\Inquiry\Grace.cs" />
+    <Compile Include="Parser\Inquiry\GreatEstern.cs" />
+    <Compile Include="Parser\Inquiry\GreenPearl.cs" />
+    <Compile Include="Parser\Inquiry\Grimaldi.cs" />
+    <Compile Include="Parser\Inquiry\Gulf.cs" />
+    <Compile Include="Parser\Inquiry\Halkidon.cs" />
+    <Compile Include="Parser\Inquiry\Halul_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Hanla_01.cs" />
+    <Compile Include="Parser\Inquiry\Hanwa.cs" />
+    <Compile Include="Parser\Inquiry\HartmannGas.cs" />
+    <Compile Include="Parser\Inquiry\Hartmann_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Hartman_pdf.cs" />
+    <Compile Include="Parser\Inquiry\HeaTech.cs" />
+    <Compile Include="Parser\Inquiry\HLine.cs" />
+    <Compile Include="Parser\Inquiry\HLineExcel.cs" />
+    <Compile Include="Parser\Inquiry\HMM_excel.cs" />
+    <Compile Include="Parser\Inquiry\HMM_SB_excel.cs" />
+    <Compile Include="Parser\Inquiry\HongkongMing.cs" />
+    <Compile Include="Parser\Inquiry\InquiryBase.cs" />
+    <Compile Include="Parser\Inquiry\Intergis.cs" />
+    <Compile Include="Parser\Inquiry\Interorient.cs" />
+    <Compile Include="Parser\Inquiry\Ionia.cs" />
+    <Compile Include="Parser\Inquiry\IONIAMAN.cs" />
+    <Compile Include="Parser\Inquiry\ISS.cs" />
+    <Compile Include="Parser\Inquiry\ITM.cs" />
+    <Compile Include="Parser\Inquiry\Janggum_excel.cs" />
+    <Compile Include="Parser\Inquiry\JGSS.cs" />
+    <Compile Include="Parser\Inquiry\jg_excel.cs" />
+    <Compile Include="Parser\Inquiry\JiBe_pdf.cs" />
+    <Compile Include="Parser\Inquiry\JK_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Kanghan.cs" />
+    <Compile Include="Parser\Inquiry\KGJS.cs" />
+    <Compile Include="Parser\Inquiry\Kinnetik.cs" />
+    <Compile Include="Parser\Inquiry\Klaveness.cs" />
+    <Compile Include="Parser\Inquiry\Kleimar.cs" />
+    <Compile Include="Parser\Inquiry\KMarine.cs" />
+    <Compile Include="Parser\Inquiry\KnutsenOasShipping.cs" />
+    <Compile Include="Parser\Inquiry\KOMASCO.cs" />
+    <Compile Include="Parser\Inquiry\Korea.cs" />
+    <Compile Include="Parser\Inquiry\Kotc.cs" />
+    <Compile Include="Parser\Inquiry\KSS.cs" />
+    <Compile Include="Parser\Inquiry\KSS_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Kyklades.cs" />
+    <Compile Include="Parser\Inquiry\Kyla.cs" />
+    <Compile Include="Parser\Inquiry\kYODO_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Laurel.cs" />
+    <Compile Include="Parser\Inquiry\Lomar_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Louis.cs" />
+    <Compile Include="Parser\Inquiry\Maerskdrilling.cs" />
+    <Compile Include="Parser\Inquiry\mailShipServ.cs" />
+    <Compile Include="Parser\Inquiry\Mar-dyn.cs" />
+    <Compile Include="Parser\Inquiry\Maran.cs" />
+    <Compile Include="Parser\Inquiry\Maran2.cs" />
+    <Compile Include="Parser\Inquiry\Marflet_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Marinsa.cs" />
+    <Compile Include="Parser\Inquiry\Marlow.cs" />
+    <Compile Include="Parser\Inquiry\Marlow2.cs" />
+    <Compile Include="Parser\Inquiry\Marmaras.cs" />
+    <Compile Include="Parser\Inquiry\Marwave_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Meister.cs" />
+    <Compile Include="Parser\Inquiry\MidEast.cs" />
+    <Compile Include="Parser\Inquiry\MILAHA_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Minerva.cs" />
+    <Compile Include="Parser\Inquiry\Misuzu.cs" />
+    <Compile Include="Parser\Inquiry\MisuzuRoRo.cs" />
+    <Compile Include="Parser\Inquiry\MolShip.cs" />
+    <Compile Include="Parser\Inquiry\MolTech.cs" />
+    <Compile Include="Parser\Inquiry\Motia.cs" />
+    <Compile Include="Parser\Inquiry\MotorDiagnoze_pdf.cs" />
+    <Compile Include="Parser\Inquiry\MTM.cs" />
+    <Compile Include="Parser\Inquiry\Nakilat.cs" />
+    <Compile Include="Parser\Inquiry\Navig8.cs" />
+    <Compile Include="Parser\Inquiry\NAVIGAZIONE_pdf.cs" />
+    <Compile Include="Parser\Inquiry\NaviosTankers.cs" />
+    <Compile Include="Parser\Inquiry\NDS.cs" />
+    <Compile Include="Parser\Inquiry\NGL.cs" />
+    <Compile Include="Parser\Inquiry\Noble.cs" />
+    <Compile Include="Parser\Inquiry\Norddeutsche.cs" />
+    <Compile Include="Parser\Inquiry\Northern.cs" />
+    <Compile Include="Parser\Inquiry\NorthernMarine.cs" />
+    <Compile Include="Parser\Inquiry\NPS.cs" />
+    <Compile Include="Parser\Inquiry\NSC.cs" />
+    <Compile Include="Parser\Inquiry\Oceanic.cs" />
+    <Compile Include="Parser\Inquiry\OCYAN.cs" />
+    <Compile Include="Parser\Inquiry\Odebrecht.cs" />
+    <Compile Include="Parser\Inquiry\OOCL.cs" />
+    <Compile Include="Parser\Inquiry\OSGShip.cs" />
+    <Compile Include="Parser\Inquiry\Oskar_pdf.cs" />
+    <Compile Include="Parser\Inquiry\OSMShip.cs" />
+    <Compile Include="Parser\Inquiry\Pacc.cs" />
+    <Compile Include="Parser\Inquiry\Pantheon.cs" />
+    <Compile Include="Parser\Inquiry\PantheonTankers_GS_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Patriot.cs" />
+    <Compile Include="Parser\Inquiry\PAVIMAR.cs" />
+    <Compile Include="Parser\Inquiry\PB.cs" />
+    <Compile Include="Parser\Inquiry\PeterDohle_pdf.cs" />
+    <Compile Include="Parser\Inquiry\PolalisExcel.cs" />
+    <Compile Include="Parser\Inquiry\Polaris.cs" />
+    <Compile Include="Parser\Inquiry\Polaris_excel.cs" />
+    <Compile Include="Parser\Inquiry\Polembros.cs" />
+    <Compile Include="Parser\Inquiry\POSSM.cs" />
+    <Compile Include="Parser\Inquiry\Premuda.cs" />
+    <Compile Include="Parser\Inquiry\PREMUDA_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Procurement.cs" />
+    <Compile Include="Parser\Inquiry\Qatar.cs" />
+    <Compile Include="Parser\Inquiry\QatarNavigation_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Raffles.cs" />
+    <Compile Include="Parser\Inquiry\RB_EXCEL.cs" />
+    <Compile Include="Parser\Inquiry\RCL_pdf.cs" />
+    <Compile Include="Parser\Inquiry\RedSea_excel.cs" />
+    <Compile Include="Parser\Inquiry\REEDEREI.cs" />
+    <Compile Include="Parser\Inquiry\Rickmers.cs" />
+    <Compile Include="Parser\Inquiry\RickmersExcel.cs" />
+    <Compile Include="Parser\Inquiry\ROD.cs" />
+    <Compile Include="Parser\Inquiry\Rosy.cs" />
+    <Compile Include="Parser\Inquiry\Rowan.cs" />
+    <Compile Include="Parser\Inquiry\SafeTechnical_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Saipem.cs" />
+    <Compile Include="Parser\Inquiry\SBM.cs" />
+    <Compile Include="Parser\Inquiry\SBM2.cs" />
+    <Compile Include="Parser\Inquiry\SCF.cs" />
+    <Compile Include="Parser\Inquiry\Scorpio_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Seadrill.cs" />
+    <Compile Include="Parser\Inquiry\SeaGlobe_pdf.cs" />
+    <Compile Include="Parser\Inquiry\SeaRiver.cs" />
+    <Compile Include="Parser\Inquiry\SeaspanNew.cs" />
+    <Compile Include="Parser\Inquiry\SeaTeam.cs" />
+    <Compile Include="Parser\Inquiry\Seateam_pdf.cs" />
+    <Compile Include="Parser\Inquiry\SeaWorld.cs" />
+    <Compile Include="Parser\Inquiry\Selandia.cs" />
+    <Compile Include="Parser\Inquiry\ShanghaiHighway.cs" />
+    <Compile Include="Parser\Inquiry\ShinChungLin.cs" />
+    <Compile Include="Parser\Inquiry\ShipServ.cs" />
+    <Compile Include="Parser\Inquiry\ShipServAnglo.cs" />
+    <Compile Include="Parser\Inquiry\ShipServMaerskLine.cs" />
+    <Compile Include="Parser\Inquiry\ShipServNew_pdf.cs" />
+    <Compile Include="Parser\Inquiry\ShipServNorbulk.cs" />
+    <Compile Include="Parser\Inquiry\ShipServScorpio.cs" />
+    <Compile Include="Parser\Inquiry\ShipServScorpioNew.cs" />
+    <Compile Include="Parser\Inquiry\ShipServShell.cs" />
+    <Compile Include="Parser\Inquiry\shipsSurveys_pdf.cs" />
+    <Compile Include="Parser\Inquiry\sinokor_excel.cs" />
+    <Compile Include="Parser\Inquiry\SK2.cs" />
+    <Compile Include="Parser\Inquiry\SKShipping.cs" />
+    <Compile Include="Parser\Inquiry\SOCATRA_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Solvang.cs" />
+    <Compile Include="Parser\Inquiry\Southern.cs" />
+    <Compile Include="Parser\Inquiry\Southern2.cs" />
+    <Compile Include="Parser\Inquiry\SPS_excel.cs" />
+    <Compile Include="Parser\Inquiry\SPS_pdf.cs" />
+    <Compile Include="Parser\Inquiry\SSSS.cs" />
+    <Compile Include="Parser\Inquiry\STOLT_excel.cs" />
+    <Compile Include="Parser\Inquiry\STOLT_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Suntech_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Syncro.cs" />
+    <Compile Include="Parser\Inquiry\Synergy.cs" />
+    <Compile Include="Parser\Inquiry\Tamar_pdf.cs" />
+    <Compile Include="Parser\Inquiry\TBmarine_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Thenamaris.cs" />
+    <Compile Include="Parser\Inquiry\THOMASSCHULTE_pdf.cs" />
+    <Compile Include="Parser\Inquiry\tms.cs" />
+    <Compile Include="Parser\Inquiry\Tolani.cs" />
+    <Compile Include="Parser\Inquiry\Torm.cs" />
+    <Compile Include="Parser\Inquiry\Transocean.cs" />
+    <Compile Include="Parser\Inquiry\TSAKOS.cs" />
+    <Compile Include="Parser\Inquiry\UASCs.cs" />
+    <Compile Include="Parser\Inquiry\Ultraship.cs" />
+    <Compile Include="Parser\Inquiry\UMAR.cs" />
+    <Compile Include="Parser\Inquiry\Unisea.cs" />
+    <Compile Include="Parser\Inquiry\Unisea2.cs" />
+    <Compile Include="Parser\Inquiry\UniseaShipping_pdf.cs" />
+    <Compile Include="Parser\Inquiry\Universal.cs" />
+    <Compile Include="Parser\Inquiry\Venturi.cs" />
+    <Compile Include="Parser\Inquiry\Vship2.cs" />
+    <Compile Include="Parser\Inquiry\Vships.cs" />
+    <Compile Include="Parser\Inquiry\Wallem.cs" />
+    <Compile Include="Parser\Inquiry\Wilhelmsen.cs" />
+    <Compile Include="Parser\Inquiry\WinnersMarine.cs" />
+    <Compile Include="Parser\Inquiry\Wisdom.cs" />
+    <Compile Include="Parser\Inquiry\WisdomMarine.cs" />
+    <Compile Include="Parser\Inquiry\WorldTanker.cs" />
+    <Compile Include="Parser\Inquiry\YangMing.cs" />
+    <Compile Include="Parser\Inquiry\Yuan.cs" />
+    <Compile Include="Parser\Inquiry\ZEABORN.cs" />
+    <Compile Include="Parser\Inquiry\ZenithGemi.cs" />
+    <Compile Include="Parser\Inquiry\Zodiac.cs" />
+    <Compile Include="Parser\Inquiry\한일후지코리아_pdf.cs" />
+    <Compile Include="Parser\OrderParser.cs" />
+    <Compile Include="Parser\Order\HHIOrder_excel.cs" />
+    <Compile Include="Parser\Order\MANOrder_pdf.cs" />
+    <Compile Include="Parser\Order\STXOrder_csv.cs" />
+    <Compile Include="Parser\QuotationFinder.cs" />
+    <Compile Include="Parser\QuotationParser.cs" />
+    <Compile Include="Parser\Quotation\AGM.cs" />
+    <Compile Include="Parser\Quotation\AlfaLaval.cs" />
+    <Compile Include="Parser\Quotation\AlfaLavalPdf.cs" />
+    <Compile Include="Parser\Quotation\ATOTAL_pdf.cs" />
+    <Compile Include="Parser\Quotation\Consillium.cs" />
+    <Compile Include="Parser\Quotation\Dacos.cs" />
+    <Compile Include="Parser\Quotation\Daesong_pdf.cs" />
+    <Compile Include="Parser\Quotation\DESCO_pdf.cs" />
+    <Compile Include="Parser\Quotation\DEX.cs" />
+    <Compile Include="Parser\Quotation\DHET.cs" />
+    <Compile Include="Parser\Quotation\donghwa.cs" />
+    <Compile Include="Parser\Quotation\Donghwa_mail.cs" />
+    <Compile Include="Parser\Quotation\DoosanEng.cs" />
+    <Compile Include="Parser\Quotation\Emerson_pdf.cs" />
+    <Compile Include="Parser\Quotation\Flumax_pdf.cs" />
+    <Compile Include="Parser\Quotation\Flynn.cs" />
+    <Compile Include="Parser\Quotation\GEAKOREA.cs" />
+    <Compile Include="Parser\Quotation\GRFT.cs" />
+    <Compile Include="Parser\Quotation\HaedongMetal_pdf.cs" />
+    <Compile Include="Parser\Quotation\HANA.cs" />
+    <Compile Include="Parser\Quotation\Hanyoung_pdf.cs" />
+    <Compile Include="Parser\Quotation\HiAirKorea.cs" />
+    <Compile Include="Parser\Quotation\HitechOcean.cs" />
+    <Compile Include="Parser\Quotation\Hymax_mail.cs" />
+    <Compile Include="Parser\Quotation\JETS.cs" />
+    <Compile Include="Parser\Quotation\JungA.cs" />
+    <Compile Include="Parser\Quotation\KND.cs" />
+    <Compile Include="Parser\Quotation\KPHE.cs" />
+    <Compile Include="Parser\Quotation\Kukdong.cs" />
+    <Compile Include="Parser\Quotation\KyungsungSRM.cs" />
+    <Compile Include="Parser\Quotation\MJ.cs" />
+    <Compile Include="Parser\Quotation\MJ_pdf.cs" />
+    <Compile Include="Parser\Quotation\MRC_pdf.cs" />
+    <Compile Include="Parser\Quotation\Nami.cs" />
+    <Compile Include="Parser\Quotation\OMCEast_pdf.cs" />
+    <Compile Include="Parser\Quotation\PANASIA_pdf.cs" />
+    <Compile Include="Parser\Quotation\PHE.cs" />
+    <Compile Include="Parser\Quotation\PNS_pdf.cs" />
+    <Compile Include="Parser\Quotation\Prime.cs" />
+    <Compile Include="Parser\Quotation\samgong_pdf.cs" />
+    <Compile Include="Parser\Quotation\Samju.cs" />
+    <Compile Include="Parser\Quotation\Samkun.cs" />
+    <Compile Include="Parser\Quotation\Sehong.cs" />
+    <Compile Include="Parser\Quotation\Seowon.cs" />
+    <Compile Include="Parser\Quotation\Shinwoo.cs" />
+    <Compile Include="Parser\Quotation\Sinseong.cs" />
+    <Compile Include="Parser\Quotation\SMSSME_pdf.cs" />
+    <Compile Include="Parser\Quotation\SNJ.cs" />
+    <Compile Include="Parser\Quotation\Sunjin.cs" />
+    <Compile Include="Parser\Quotation\TechFlower.cs" />
+    <Compile Include="Parser\Quotation\Thecentum.cs" />
+    <Compile Include="Parser\Quotation\thesafety.cs" />
+    <Compile Include="Parser\Quotation\TopSafe1_pdf.cs" />
+    <Compile Include="Parser\Quotation\Winners.cs" />
+    <Compile Include="Parser\Quotation\Withus.cs" />
+    <Compile Include="Parser\Quotation\Wooyang.cs" />
+    <Compile Include="Parser\Quotation\Wooyang_html.cs" />
+    <Compile Include="Parser\Quotation\YangshanMarine.cs" />
+    <Compile Include="Parser\Quotation\백드레인코리아_pdf.cs" />
+    <Compile Include="Parser\Quotation\서주해양_pdf.cs" />
+    <Compile Include="Parser\UNIPASS\UNIPASS_2.cs" />
+    <Compile Include="Parser\UNIPASS\UNIPASS_1.cs" />
+    <Compile Include="Parser\UnitConverter.cs" />
+    <Compile Include="Preregister.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Email">
+      <HintPath>..\..\..\..\AppLib\Aspose.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid">
+      <HintPath>..\..\..\..\AppLib\Dass.FlexGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU">
+      <HintPath>..\..\..\..\AppLib\Duzon.ERPU.dll</HintPath>
+    </Reference>
+    <Reference Include="DX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\DX.dll</HintPath>
+    </Reference>
+    <Reference Include="DzControlLib">
+      <HintPath>..\..\..\..\AppLib\DzControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DzHelpFormLib">
+      <HintPath>..\..\..\..\AppLib\DzHelpFormLib.dll</HintPath>
+    </Reference>
+    <Reference Include="INeoWeb">
+      <HintPath>..\..\..\..\AppLib\INeoWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json.v4">
+      <HintPath>..\..\..\..\AppLib\Newtonsoft.Json.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="PageBase">
+      <HintPath>..\..\..\..\AppLib\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dintec\Dintec.csproj">
+      <Project>{3f297cca-e9d7-461f-92a3-e522ddcd3996}</Project>
+      <Name>Dintec</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "D:\AppLib"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

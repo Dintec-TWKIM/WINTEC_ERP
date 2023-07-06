@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9E4B13B-9497-4CE4-B698-B9A39C1BE873}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DX</RootNamespace>
+    <AssemblyName>DX</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>IDE0017</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Email, Version=4.7.0.0, Culture=neutral, PublicKeyToken=ad504e9f0d34714a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Aspose.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Bytescout.BarCodeReader, Version=11.2.0.1989, Culture=neutral, PublicKeyToken=f7dd1bd9d40a50eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Bytescout.BarCodeReader.dll</HintPath>
+    </Reference>
+    <Reference Include="Bytescout.PDFExtractor, Version=8.8.0.3021, Culture=neutral, PublicKeyToken=f7dd1bd9d40a50eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Bytescout.PDFExtractor.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.5.20053.230, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\C1.Win.C1FlexGrid.2.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Dass.FlexGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="DataMatrix.net">
+      <HintPath>..\..\..\..\AppLib\DataMatrix.net.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Erpu.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.ERPU.dll</HintPath>
+    </Reference>
+    <Reference Include="DzControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\DzControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DzHelpFormLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\DzHelpFormLib.dll</HintPath>
+    </Reference>
+    <Reference Include="GemBox.Spreadsheet, Version=41.3.30.1101, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\GemBox.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="GenCode128">
+      <HintPath>..\..\..\..\AppLib\GenCode128.dll</HintPath>
+    </Reference>
+    <Reference Include="INeoWeb">
+      <HintPath>..\..\..\..\AppLib\INeoWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\AppLib\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.v4, Version=4.5.0.0, Culture=neutral, PublicKeyToken=96f7480b15191913, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Newtonsoft.Json.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="PageBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Parsing, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Parsing.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="P_CZ_MA_EMAIL_SUB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\P_CZ_MA_EMAIL_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="Select.Pdf, Version=18.3.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Select.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.QRCode, Version=1.0.4310.24318, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\ThoughtWorks.QRCode.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AUTH.cs" />
+    <Compile Include="CALC.cs" />
+    <Compile Include="DXr.cs" />
+    <Compile Include="DXu.cs" />
+    <Compile Include="Extentions\EXT_CON.cs" />
+    <Compile Include="Extentions\EXT_DATA.cs" />
+    <Compile Include="Extentions\EXT_WEB.cs" />
+    <Compile Include="EXTS.cs" />
+    <Compile Include="FILE.cs" />
+    <Compile Include="FileHandler\BARCODE.cs" />
+    <Compile Include="FileHandler\FoundBARCODE.cs" />
+    <Compile Include="FileHandler\HTML.cs" />
+    <Compile Include="FileHandler\PDF.cs" />
+    <Compile Include="FINDER.cs" />
+    <Compile Include="Form\KEY_CHECK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\KEY_CHECK.Designer.cs">
+      <DependentUpon>KEY_CHECK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\MAIL_OPTION.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\MAIL_OPTION.Designer.cs">
+      <DependentUpon>MAIL_OPTION.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\WARNING.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\WARNING.Designer.cs">
+      <DependentUpon>WARNING.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GVAR.cs" />
+    <Compile Include="HANENG.cs" />
+    <Compile Include="Hooking\AllInputSources.cs" />
+    <Compile Include="Hooking\KeyboardInput.cs" />
+    <Compile Include="Hooking\MouseInput.cs" />
+    <Compile Include="Hooking\WindowsHookHelper.cs" />
+    <Compile Include="TSQL.cs" />
+    <Compile Include="경로.cs" />
+    <Compile Include="권한.cs" />
+    <Compile Include="그룹웨어.cs" />
+    <Compile Include="디비.cs" />
+    <Compile Include="메시지.cs" />
+    <Compile Include="메신져.cs" />
+    <Compile Include="메일.cs" />
+    <Compile Include="문서.cs" />
+    <Compile Include="상수.cs" />
+    <Compile Include="메일서명.cs" />
+    <Compile Include="설정.cs" />
+    <Compile Include="쇼트너.cs" />
+    <Compile Include="수학.cs" />
+    <Compile Include="아웃룩.cs" />
+    <Compile Include="아이콘.cs" />
+    <Compile Include="JSON.cs" />
+    <Compile Include="LABEL.cs" />
+    <Compile Include="LOCAL.cs" />
+    <Compile Include="CODE.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="QR.cs" />
+    <Compile Include="SHORTNER.cs" />
+    <Compile Include="URL.cs" />
+    <Compile Include="UTIL.cs" />
+    <Compile Include="엑셀.cs" />
+    <Compile Include="열거형.cs" />
+    <Compile Include="워크플로우.cs" />
+    <Compile Include="유틸.cs" />
+    <Compile Include="유효성.cs" />
+    <Compile Include="코드.cs" />
+    <Compile Include="키워드.cs" />
+    <Compile Include="파일.cs" />
+    <Compile Include="파일선택.cs" />
+    <Compile Include="파일정보.cs" />
+    <Compile Include="헤더.cs" />
+    <Compile Include="확장.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dintec\Dintec.csproj">
+      <Project>{3f297cca-e9d7-461f-92a3-e522ddcd3996}</Project>
+      <Name>Dintec</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form\KEY_CHECK.resx">
+      <DependentUpon>KEY_CHECK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\MAIL_OPTION.resx">
+      <DependentUpon>MAIL_OPTION.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\WARNING.resx">
+      <DependentUpon>WARNING.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty_12x6.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty_20x6.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flip_x_18x18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flip_y_18x18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_expand.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_document_16_18x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_document_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_email_16_18x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_email_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_error_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_excel_16_18x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_excel_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_excel_csv_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_html_16_18x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_html_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_image_16_18x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_images_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_images2_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_pdf.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_pdf_16_18x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_pdf_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_view_detail_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_word_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minus_18x18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next_18x18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\no-image.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus_18x18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prev_18x18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate_18x18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate_20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\find_20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_circle_green_9_12x9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_circle_green_9_15x9.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "D:\AppLib"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

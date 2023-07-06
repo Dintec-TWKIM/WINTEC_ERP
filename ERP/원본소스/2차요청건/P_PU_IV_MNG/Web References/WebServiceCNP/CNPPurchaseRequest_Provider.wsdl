@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapjms="http://www.w3.org/2010/soapjms/" xmlns:tns="FI.CNPPurchaseRequest.providers:CNPPurchaseRequest_Provider" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" name="CNPPurchaseRequest_Provider" targetNamespace="FI.CNPPurchaseRequest.providers:CNPPurchaseRequest_Provider" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="FI.CNPPurchaseRequest.providers:CNPPurchaseRequest_Provider">
+      <xsd:element name="CNPPurchaseRequest_TgtGW_FL" type="tns:CNPPurchaseRequest_TgtGW_FL" />
+      <xsd:element name="CNPPurchaseRequest_TgtGW_FLResponse" type="tns:CNPPurchaseRequest_TgtGW_FLResponse" />
+      <xsd:complexType name="CNPPurchaseRequest_TgtGW_FL">
+        <xsd:sequence>
+          <xsd:element name="ERP_PKEY" nillable="true" type="xsd:string" />
+          <xsd:element name="SABUN" nillable="true" type="xsd:string" />
+          <xsd:element name="FORM_TYPE" nillable="true" type="xsd:string" />
+          <xsd:element name="JI_PAY" nillable="true" type="xsd:string" />
+          <xsd:element name="KO_PAY" nillable="true" type="xsd:string" />
+          <xsd:element name="PARTNER" nillable="true" type="xsd:string" />
+          <xsd:element name="REQ_DATE" nillable="true" type="xsd:string" />
+          <xsd:element name="REQ_CONDITION" nillable="true" type="xsd:string" />
+          <xsd:element name="BANK_NM" nillable="true" type="xsd:string" />
+          <xsd:element name="BANK_NO" nillable="true" type="xsd:string" />
+          <xsd:element name="BANK_NAME" nillable="true" type="xsd:string" />
+          <xsd:element name="PHONE_NO" nillable="true" type="xsd:string" />
+          <xsd:element maxOccurs="unbounded" name="ITEMS" nillable="true" type="tns:ITEMS" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ITEMS">
+        <xsd:sequence>
+          <xsd:element name="ARR_DATE" nillable="true" type="xsd:string" />
+          <xsd:element name="ARR_PRODUCTION" nillable="true" type="xsd:string" />
+          <xsd:element name="ARR_AMT" nillable="true" type="xsd:string" />
+          <xsd:element name="ARR_UNIT" nillable="true" type="xsd:string" />
+          <xsd:element name="ARR_PAY" nillable="true" type="xsd:string" />
+          <xsd:element name="ARR_VAT" nillable="true" type="xsd:string" />
+          <xsd:element name="ARR_SUM" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CNPPurchaseRequest_TgtGW_FLResponse">
+        <xsd:sequence>
+          <xsd:element name="MTYPE" nillable="true" type="xsd:string" />
+          <xsd:element name="MTEXT" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="CNPPurchaseRequest_Provider_PortType_CNPPurchaseRequest_TgtGW_FLResponse">
+    <wsdl:part name="parameters" element="tns:CNPPurchaseRequest_TgtGW_FLResponse" />
+  </wsdl:message>
+  <wsdl:message name="CNPPurchaseRequest_Provider_PortType_CNPPurchaseRequest_TgtGW_FL">
+    <wsdl:part name="parameters" element="tns:CNPPurchaseRequest_TgtGW_FL" />
+  </wsdl:message>
+  <wsdl:portType name="CNPPurchaseRequest_Provider_PortType">
+    <wsdl:operation name="CNPPurchaseRequest_TgtGW_FL">
+      <wsdl:input message="tns:CNPPurchaseRequest_Provider_PortType_CNPPurchaseRequest_TgtGW_FL" />
+      <wsdl:output message="tns:CNPPurchaseRequest_Provider_PortType_CNPPurchaseRequest_TgtGW_FLResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FI_CNPPurchaseRequest_providers_CNPPurchaseRequest_Provider_Binder" type="tns:CNPPurchaseRequest_Provider_PortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CNPPurchaseRequest_TgtGW_FL">
+      <soap:operation soapAction="FI_CNPPurchaseRequest_providers_CNPPurchaseRequest_Provider_Binder_CNPPurchaseRequest_TgtGW_FL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" parts="parameters" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" parts="parameters" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FI.CNPPurchaseRequest.providers.CNPPurchaseRequest_Provider">
+    <wsdl:port name="FI_CNPPurchaseRequest_providers_CNPPurchaseRequest_Provider_Port" binding="tns:FI_CNPPurchaseRequest_providers_CNPPurchaseRequest_Provider_Binder">
+      <soap:address location="http://165.244.237.222:5530/ws/FI.CNPPurchaseRequest.providers.CNPPurchaseRequest_Provider/FI_CNPPurchaseRequest_providers_CNPPurchaseRequest_Provider_Port" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

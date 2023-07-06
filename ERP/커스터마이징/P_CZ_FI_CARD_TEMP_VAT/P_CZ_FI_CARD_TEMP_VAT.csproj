@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA843789-2D5E-47E6-8B64-5BE17CEEC1B9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cz</RootNamespace>
+    <AssemblyName>P_CZ_FI_CARD_TEMP_VAT</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Win.C1FlexGrid.2">
+      <HintPath>..\..\..\..\AppLib\C1.Win.C1FlexGrid.2.dll</HintPath>
+    </Reference>
+    <Reference Include="coParameter">
+      <HintPath>..\..\..\..\AppLib\coParameter.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid">
+      <HintPath>..\..\..\..\AppLib\Dass.FlexGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Forms">
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Erpu.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Resource">
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Erpu.Resource.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Security">
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Erpu.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Scraping.Interface">
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Scraping.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Windows.Forms">
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.Erpiu.Windows.OneControls">
+      <HintPath>..\..\..\..\AppLib\Duzon.Erpiu.Windows.OneControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU">
+      <HintPath>..\..\..\..\AppLib\Duzon.ERPU.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU.FI">
+      <HintPath>..\..\..\..\AppLib\Duzon.ERPU.FI.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU.MF">
+      <HintPath>..\..\..\..\AppLib\Duzon.ERPU.MF.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.Windows.Print">
+      <HintPath>..\..\..\..\AppLib\Duzon.Windows.Print.dll</HintPath>
+    </Reference>
+    <Reference Include="DzControlLib">
+      <HintPath>..\..\..\..\AppLib\DzControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DzHelpFormLib">
+      <HintPath>..\..\..\..\AppLib\DzHelpFormLib.dll</HintPath>
+    </Reference>
+    <Reference Include="INeoWeb">
+      <HintPath>..\..\..\..\AppLib\INeoWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="PageBase">
+      <HintPath>..\..\..\..\AppLib\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CreateDataClass.cs" />
+    <Compile Include="DocuData.cs" />
+    <Compile Include="Enum.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="P_CZ_FI_CARD_TEMP_VAT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_FI_CARD_TEMP_VAT.Designer.cs">
+      <DependentUpon>P_CZ_FI_CARD_TEMP_VAT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_FI_CARD_TEMP_VAT_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_FI_CARD_DOCU_DATA_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_CARD_DOCU_DATA_SUB.Designer.cs">
+      <DependentUpon>P_CZ_FI_CARD_DOCU_DATA_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_CARD_DOCU_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_CARD_DOCU_SUB.Designer.cs">
+      <DependentUpon>P_CZ_FI_CARD_DOCU_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_CARD_DOCU_SUB_VAT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_CARD_DOCU_SUB_VAT.Designer.cs">
+      <DependentUpon>P_CZ_FI_CARD_DOCU_SUB_VAT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_CARD_EPDOCU_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_FI_CARD_EPDOCU_SUB.Designer.cs">
+      <DependentUpon>P_CZ_FI_CARD_EPDOCU_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_CARD_DELETE_KMB_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_CARD_DELETE_KMB_SUB.Designer.cs">
+      <DependentUpon>P_FI_CARD_DELETE_KMB_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_AVLFNC_PARTNER_CLOSE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_AVLFNC_PARTNER_CLOSE.Designer.cs">
+      <DependentUpon>P_FI_Z_AVLFNC_PARTNER_CLOSE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_HAATZ_CARDCLOSE_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_HAATZ_CARDCLOSE_SUB.Designer.cs">
+      <DependentUpon>P_FI_Z_HAATZ_CARDCLOSE_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_ISEC_GWSEND_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_ISEC_GWSEND_SUB.Designer.cs">
+      <DependentUpon>P_FI_Z_ISEC_GWSEND_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_MNS_CARD_VAT_ACCT_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_MNS_CARD_VAT_ACCT_SUB.Designer.cs">
+      <DependentUpon>P_FI_Z_MNS_CARD_VAT_ACCT_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_MTCN_CC_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_MTCN_CC_SUB.Designer.cs">
+      <DependentUpon>P_FI_Z_MTCN_CC_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_SEAHST_NOTICE_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_SEAHST_NOTICE_SUB.Designer.cs">
+      <DependentUpon>P_FI_Z_SEAHST_NOTICE_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_SSCARD_MAPPING_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\타회사화면\P_FI_Z_SSCARD_MAPPING_SUB.Designer.cs">
+      <DependentUpon>P_FI_Z_SSCARD_MAPPING_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="전자결재\P_CZ_FI_CARD_TEMP_VAT_GW.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="P_CZ_FI_CARD_TEMP_VAT.resx">
+      <DependentUpon>P_CZ_FI_CARD_TEMP_VAT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_FI_CARD_DOCU_SUB_VAT.resx">
+      <DependentUpon>P_CZ_FI_CARD_DOCU_SUB_VAT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_FI_CARD_EPDOCU_SUB.resx">
+      <DependentUpon>P_CZ_FI_CARD_EPDOCU_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\타회사화면\P_FI_CARD_DELETE_KMB_SUB.resx">
+      <DependentUpon>P_FI_CARD_DELETE_KMB_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\타회사화면\P_FI_Z_HAATZ_CARDCLOSE_SUB.resx">
+      <DependentUpon>P_FI_Z_HAATZ_CARDCLOSE_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\타회사화면\P_FI_Z_ISEC_GWSEND_SUB.resx">
+      <DependentUpon>P_FI_Z_ISEC_GWSEND_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\타회사화면\P_FI_Z_MNS_CARD_VAT_ACCT_SUB.resx">
+      <DependentUpon>P_FI_Z_MNS_CARD_VAT_ACCT_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\타회사화면\P_FI_Z_SEAHST_NOTICE_SUB.resx">
+      <DependentUpon>P_FI_Z_SEAHST_NOTICE_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\타회사화면\P_FI_Z_SSCARD_MAPPING_SUB.resx">
+      <DependentUpon>P_FI_Z_SSCARD_MAPPING_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\Procedure\SP_CZ_FI_CARD_TEMP_VAT_S.sql" />
+    <Content Include="전자결재\Html\HT_P_CZ_FI_CARD_TEMP_VAT_BODY.htm" />
+    <Content Include="전자결재\Html\HT_P_CZ_FI_CARD_TEMP_VAT_HEAD.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dintec\Dintec.csproj">
+      <Project>{3f297cca-e9d7-461f-92a3-e522ddcd3996}</Project>
+      <Name>Dintec</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\P_CZ_MA_HTML_VIEWER\P_CZ_MA_HTML_VIEWER.csproj">
+      <Project>{cc11dbc7-4be2-45d1-be2b-4d4a287cacc8}</Project>
+      <Name>P_CZ_MA_HTML_VIEWER</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\Applib</PostBuildEvent>
+  </PropertyGroup>
+</Project>

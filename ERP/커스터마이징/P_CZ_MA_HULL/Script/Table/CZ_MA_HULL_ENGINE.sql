@@ -1,0 +1,36 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [NEOE].[CZ_MA_HULL_ENGINE](
+	[NO_IMO] [nvarchar](10) NOT NULL,
+	[NO_ENGINE] [int] NOT NULL,
+	[CD_ENGINE] [nvarchar](3) NOT NULL,
+	[NM_MODEL] [nvarchar](100) NULL,
+	[CD_MAKER] [nvarchar](4) NULL,
+	[CAPACITY] [numeric](10, 0) NULL,
+	[SERIAL] [nvarchar](20) NULL,
+	[CLS_L] [nvarchar](4) NULL,
+	[CLS_M] [nvarchar](4) NULL,
+	[CLS_S] [nvarchar](4) NULL,
+	[DC_VERSION] [nvarchar](50) NULL,
+	[DC_RMK] [nvarchar](100) NULL,
+	[ID_INSERT] [nvarchar](10) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](10) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+	[FILE_NAME] [nvarchar](50) NULL,
+	[QT_HGS] [int] NULL,
+	[YN_SYNC] [nvarchar](1) NULL,
+	[PIC_HGS] [nvarchar](20) NULL,
+ CONSTRAINT [PK_CZ_MA_HULL_ENGINE] PRIMARY KEY CLUSTERED 
+(
+	[NO_IMO] ASC,
+	[NO_ENGINE] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO

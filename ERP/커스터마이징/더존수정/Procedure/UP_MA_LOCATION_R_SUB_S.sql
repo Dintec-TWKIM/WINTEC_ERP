@@ -1,0 +1,203 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[UP_MA_LOCATION_R_SUB_S]    Script Date: 2016-04-28 오후 5:36:48 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROC [NEOE].[UP_MA_LOCATION_R_SUB_S]  
+(  
+ @P_CD_COMPANY NVARCHAR(7),  
+ @P_CD_PLANT NVARCHAR(7),  
+ @P_NO_IO NVARCHAR(20),  
+ @P_CD_SL_MULTI TEXT = NULL, --출고창고  
+ @P_CD_GR_SL_MULTI TEXT = NULL, --입고창고  
+ @P_CD_ITEM_MULTI TEXT = NULL  
+)  
+  
+  
+AS  
+DECLARE @P_DT_DATE NVARCHAR(8)  
+  
+  
+--출고창고  
+BEGIN  
+  
+ SET @P_DT_DATE = NEOE.SF_SYSDATE(GETDATE())  
+   
+ SELECT   
+   L.CD_COMPANY,  
+   L.CD_LOCATION,  
+   L.NM_LOCATION,  
+   L.CD_PLANT,  
+   L.CD_SL,  
+   L.YN_USE,  
+   L.NO_SEQ,  
+   L.DC_RMK  
+    
+  FROM MA_LOCATION L  
+  WHERE L.CD_COMPANY = @P_CD_COMPANY  
+    AND L.CD_PLANT = @P_CD_PLANT  
+    AND L.CD_SL IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_CD_SL_MULTI))  
+    AND L.YN_USE = 'Y'  
+  
+   
+   
+END  
+  
+  
+BEGIN  
+   
+ SELECT   
+   L.CD_COMPANY,  
+   L.NO_IO,  
+   L.NO_IOLINE,  
+   L.CD_LOCATION,  
+   L.CD_PLANT,  
+   L.CD_SL,  
+   L.CD_ITEM,  
+   L.CD_QTIOTP,  
+   L.FG_PS,  
+   L.FG_IO,  
+   L.YN_RETURN,  
+   L.DT_IO,  
+   L.QT_IO  
+  FROM MM_QTIO_LOCATION L  
+  
+  WHERE L.NO_IO = @P_NO_IO  
+    AND L.CD_COMPANY = @P_CD_COMPANY  
+  
+      
+  
+   
+   
+END  
+  
+  
+--입고창고  
+BEGIN  
+   
+ SELECT   
+   L.CD_COMPANY,  
+   L.CD_LOCATION,  
+   L.NM_LOCATION,  
+   L.CD_PLANT,  
+   L.CD_SL,  
+   L.YN_USE,  
+   L.NO_SEQ,  
+   L.DC_RMK  
+    
+  FROM MA_LOCATION L  
+  WHERE L.CD_COMPANY = @P_CD_COMPANY  
+    AND L.CD_PLANT = @P_CD_PLANT  
+    AND L.CD_SL IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_CD_GR_SL_MULTI))  
+    AND L.YN_USE = 'Y'  
+  
+   
+   
+END  
+  
+  
+BEGIN  
+ SELECT   
+   I.CD_COMPANY,  
+   I.CD_PLANT,  
+   I.CD_SL,  
+   I.CD_LOCATION,  
+   I.CD_ITEM,  
+   I.CD_PJT,  
+   I.SEQ_PROJECT,  
+   SUM(ISNULL(I.QT_GOOD_OPEN,0) + ISNULL(I.QT_GOOD_GR,0) - ISNULL(I.QT_GOOD_GI,0)- ISNULL(L.QT_IO,0)) AS QT_LC_INV,  
+   SUM(ISNULL(I.QT_GOOD_OPEN,0) + ISNULL(I.QT_GOOD_GR,0) - ISNULL(I.QT_GOOD_GI,0) ) AS QT_LC_AVL  
+  
+     
+     
+  FROM   
+  (   
+   SELECT V.CD_COMPANY,  
+       V.CD_PLANT,  
+       V.CD_ITEM,  
+       V.CD_SL,  
+       V.CD_LOCATION,  
+       V.CD_PJT,  
+       V.SEQ_PROJECT,  
+       SUM(ISNULL(QT_GOOD_OPEN,0)) AS QT_GOOD_OPEN,  
+       SUM(ISNULL(QT_GOOD_GR,0)) AS QT_GOOD_GR,  
+       SUM(ISNULL(QT_GOOD_GI,0)) AS QT_GOOD_GI  
+    FROM MM_QTIO_LOCATION_INV V  
+    WHERE V.CD_COMPANY = @P_CD_COMPANY  
+     AND V.CD_PLANT = @P_CD_PLANT  
+        --AND V.P_YR = SUBSTRING(@P_DT_DATE,1,4)   --이조회조건은 년집계가 만들어지면 그때 사용해야합니다.  
+     AND (V.CD_SL IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_CD_SL_MULTI))  
+      OR V.CD_SL IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_CD_GR_SL_MULTI)))  
+     AND V.CD_ITEM IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_CD_ITEM_MULTI))   
+   GROUP BY  
+       V.CD_COMPANY,  
+       V.CD_PLANT,  
+       V.CD_ITEM,  
+       V.CD_SL,  
+       V.CD_LOCATION,  
+       V.CD_PJT,  
+       V.SEQ_PROJECT  
+     
+  )I  
+  LEFT OUTER JOIN -- 수불번호가 존재한다면 수불이일어난 수량은 제외하고 재고수량을 표기하여야하는게 맞음  
+   (  
+    SELECT CD_COMPANY,  
+      CD_PLANT,  
+      CD_SL,  
+      CD_LOCATION,  
+      CD_ITEM,  
+      CD_PJT,  
+      SEQ_PROJECT,  
+      CASE WHEN YN_RETURN = 'N' AND FG_PS = '1' THEN SUM(ISNULL(QT_IO,0))  
+        WHEN YN_RETURN = 'N' AND FG_PS = '2' THEN -1 * SUM(ISNULL(QT_IO,0))  
+        WHEN YN_RETURN = 'Y' AND FG_PS = '1' THEN -1 * SUM(ISNULL(QT_IO,0))  
+        WHEN YN_RETURN = 'Y' AND FG_PS = '2' THEN -1 * -1 * SUM(ISNULL(QT_IO,0))  
+      END AS QT_IO  
+        
+     FROM   
+     MM_QTIO_LOCATION   
+    WHERE  NO_IO = @P_NO_IO   
+       AND CD_COMPANY = @P_CD_COMPANY  
+       AND CD_PLANT = @P_CD_PLANT  
+    GROUP BY  
+      CD_COMPANY,  
+      CD_PLANT,  
+      CD_SL,  
+      CD_LOCATION,  
+      CD_ITEM,  
+      CD_PJT,  
+      SEQ_PROJECT,  
+      YN_RETURN,  
+      FG_PS  
+     
+   )L  
+    ON L.CD_COMPANY = I.CD_COMPANY  
+   AND L.CD_PLANT = I.CD_PLANT  
+   AND L.CD_SL = I.CD_SL  
+   AND L.CD_LOCATION = I.CD_LOCATION  
+   AND L.CD_ITEM = I.CD_ITEM  
+   AND L.CD_PJT = I.CD_PJT  
+   AND L.SEQ_PROJECT = I.SEQ_PROJECT  
+  WHERE I.CD_COMPANY = @P_CD_COMPANY  
+    AND I.CD_PLANT = @P_CD_PLANT  
+    --AND I.P_YR = SUBSTRING(@P_DT_DATE,1,4)   --이조회조건은 년집계가 만들어지면 그때 사용해야합니다.  
+    AND (I.CD_SL IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_CD_SL_MULTI))  
+   OR I.CD_SL IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_CD_GR_SL_MULTI)))  
+    AND I.CD_ITEM IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_CD_ITEM_MULTI))  
+    
+  GROUP BY   
+   I.CD_COMPANY,  
+   I.CD_PLANT,  
+   I.CD_SL,  
+   I.CD_LOCATION,  
+   I.CD_ITEM,  
+   I.CD_PJT,  
+   I.SEQ_PROJECT  
+END
+GO
+

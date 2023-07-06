@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3F297CCA-E9D7-461F-92A3-E522DDCD3996}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dintec</RootNamespace>
+    <AssemblyName>Dintec</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>%24/ERP/커스터마이징/Dintec</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccAuxPath>https://dintec.visualstudio.com</SccAuxPath>
+    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Email">
+      <HintPath>..\..\..\..\AppLib\Aspose.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Bytescout.PDFExtractor, Version=8.8.0.3021, Culture=neutral, PublicKeyToken=f7dd1bd9d40a50eb, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1FlexGrid.2">
+      <HintPath>..\..\..\..\AppLib\C1.Win.C1FlexGrid.2.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonFunction">
+      <HintPath>..\..\..\..\AppLib\CommonFunction.dll</HintPath>
+    </Reference>
+    <Reference Include="coParameter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0629c82a28f3ac5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\coParameter.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid">
+      <HintPath>..\..\..\..\AppLib\Dass.FlexGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid.Utils">
+      <HintPath>..\..\..\..\AppLib\Dass.FlexGrid.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGridLight">
+      <HintPath>..\..\..\..\AppLib\Dass.FlexGridLight.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data, Version=5.0.1136.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data.Oracle, Version=8.4.344.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data.Oracle.Design, Version=8.4.344.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data.Oracle.Vs, Version=8.4.344.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Erpu.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Resource, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Erpu.Resource.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Erpu.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.WorkGuide, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Erpu.WorkGuide.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.BizOn.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.Erpiu.Windows.OneControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.Erpiu.Windows.OneControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.ERPU">
+      <HintPath>..\..\..\..\AppLib\Duzon.ERPU.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.Windows.Print, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Duzon.Windows.Print.dll</HintPath>
+    </Reference>
+    <Reference Include="DzControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\DzControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DzHelpFormLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\DzHelpFormLib.dll</HintPath>
+    </Reference>
+    <Reference Include="GemBox.Spreadsheet, Version=41.3.30.1101, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\GemBox.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="H_CZ_HELP">
+      <HintPath>..\..\..\..\AppLib\H_CZ_HELP.dll</HintPath>
+    </Reference>
+    <Reference Include="INeoWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\INeoWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Outlook.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Outlook.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.v4">
+      <HintPath>..\..\..\..\AppLib\Newtonsoft.Json.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="PageBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="P_CZ_MA_EMAIL_SUB">
+      <HintPath>..\..\..\..\AppLib\P_CZ_MA_EMAIL_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="SautinSoft.PdfFocus">
+      <HintPath>..\..\..\..\AppLib\SautinSoft.PdfFocus.dll</HintPath>
+    </Reference>
+    <Reference Include="Select.Pdf">
+      <HintPath>..\..\..\..\AppLib\Select.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.QRCode">
+      <HintPath>..\..\..\..\AppLib\ThoughtWorks.QRCode.dll</HintPath>
+    </Reference>
+    <Reference Include="ZSDK_API">
+      <HintPath>..\..\..\..\AppLib\ZSDK_API.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoMail\MailSorter.cs" />
+    <Compile Include="AutoWeb\AutoWeb.cs" />
+    <Compile Include="AutoWeb\AutoWebBroswer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoWeb\AutoWebBroswer.Designer.cs">
+      <DependentUpon>AutoWebBroswer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoWeb\Buyer\Glovis.cs" />
+    <Compile Include="AutoWeb\Buyer\Scorpio.cs" />
+    <Compile Include="AutoWeb\Buyer\Sps.cs" />
+    <Compile Include="BASE.cs" />
+    <Compile Include="Calculator.cs" />
+    <Compile Include="Certify.cs" />
+    <Compile Include="Constant.cs" />
+    <Compile Include="ControlExt.cs" />
+    <Compile Include="Crypt.cs" />
+    <Compile Include="CT.cs" />
+    <Compile Include="DHL\DHL_xml.cs" />
+    <Compile Include="DHL\RawPrinterHelper.cs" />
+    <Compile Include="DHL\UnitConvert_dhl.cs" />
+    <Compile Include="DIR.cs" />
+    <Compile Include="E2H.cs" />
+    <Compile Include="EXCEL.cs" />
+    <Compile Include="EXT.cs" />
+    <Compile Include="Extensions\SQLExtentions.cs" />
+    <Compile Include="FILE.cs" />
+    <Compile Include="Form\H_CZ_FILE_LIST.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_FILE_LIST.Designer.cs">
+      <DependentUpon>H_CZ_FILE_LIST.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\H_CZ_GRID_CONFIG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_GRID_CONFIG.Designer.cs">
+      <DependentUpon>H_CZ_GRID_CONFIG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ACTIVE.cs" />
+    <Compile Include="MSG.cs" />
+    <Compile Include="NOITCE.cs" />
+    <Compile Include="PATH.cs" />
+    <Compile Include="PRT.cs" />
+    <Compile Include="RPA.cs" />
+    <Compile Include="SEND.cs" />
+    <Compile Include="SQL.cs" />
+    <Compile Include="DxControls\DxCurrencyBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DxControls\DxTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DxPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EalryWarningSystem\EalryWarningSystem.cs" />
+    <Compile Include="EalryWarningSystem\WarningLevel.cs" />
+    <Compile Include="EngHanConverter.cs" />
+    <Compile Include="Form\H_CZ_EXTRA_COST.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_EXTRA_COST.Designer.cs">
+      <DependentUpon>H_CZ_EXTRA_COST.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\H_CZ_DEBUG_PRINT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_DEBUG_PRINT.Designer.cs">
+      <DependentUpon>H_CZ_DEBUG_PRINT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\H_CZ_WORKING_HOURS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_WORKING_HOURS.Designer.cs">
+      <DependentUpon>H_CZ_WORKING_HOURS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interpolator.cs" />
+    <Compile Include="Json.cs" />
+    <Compile Include="ExcelReader.cs" />
+    <Compile Include="Form\H_CZ_ATTACHMENT_LIST.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_ATTACHMENT_LIST.Designer.cs">
+      <DependentUpon>H_CZ_ATTACHMENT_LIST.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\H_CZ_CHECK_PW.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_CHECK_PW.Designer.cs">
+      <DependentUpon>H_CZ_CHECK_PW.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DBMgr.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FileMgr.cs" />
+    <Compile Include="FlexUtil.cs" />
+    <Compile Include="Form\H_CZ_MAIL_OPTION.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_MAIL_OPTION.Designer.cs">
+      <DependentUpon>H_CZ_MAIL_OPTION.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\H_CZ_MA_PITEM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\H_CZ_MA_PITEM.Designer.cs">
+      <DependentUpon>H_CZ_MA_PITEM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generator\YangMing.cs" />
+    <Compile Include="GetCon.cs" />
+    <Compile Include="GetDb.cs" />
+    <Compile Include="GetTo.cs" />
+    <Compile Include="GroupWare.cs" />
+    <Compile Include="Html.cs" />
+    <Compile Include="Icons.cs" />
+    <Compile Include="MailSign.cs" />
+    <Compile Include="Messenger.cs" />
+    <Compile Include="PdfReader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Python\Python.cs" />
+    <Compile Include="QRCode.cs" />
+    <Compile Include="ReportViewer.cs" />
+    <Compile Include="SetCon.cs" />
+    <Compile Include="SetGrid.cs" />
+    <Compile Include="StartUp.cs" />
+    <Compile Include="UCurrencyBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UDatePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UPeriodPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UT.cs" />
+    <Compile Include="UTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Util.cs" />
+    <Compile Include="DxWebBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VesselSchedule.cs" />
+    <Compile Include="Warning.cs" />
+    <Compile Include="WorkFlow.cs" />
+    <Compile Include="Zebra.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="licenses.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AutoWeb\AutoWebBroswer.resx">
+      <DependentUpon>AutoWebBroswer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_EXTRA_COST.resx">
+      <DependentUpon>H_CZ_EXTRA_COST.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_ATTACHMENT_LIST.resx">
+      <DependentUpon>H_CZ_ATTACHMENT_LIST.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_CHECK_PW.resx">
+      <DependentUpon>H_CZ_CHECK_PW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_DEBUG_PRINT.resx">
+      <DependentUpon>H_CZ_DEBUG_PRINT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_FILE_LIST.resx">
+      <DependentUpon>H_CZ_FILE_LIST.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_GRID_CONFIG.resx">
+      <DependentUpon>H_CZ_GRID_CONFIG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_MAIL_OPTION.resx">
+      <DependentUpon>H_CZ_MAIL_OPTION.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_MA_PITEM.resx">
+      <DependentUpon>H_CZ_MA_PITEM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\H_CZ_WORKING_HOURS.resx">
+      <DependentUpon>H_CZ_WORKING_HOURS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty_12x6.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty_20x6.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_expand.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_pdf.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_excel_csv_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_images_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_images2_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_pdf_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_view_detail_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_word_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_document_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_image_16_18x16.png" />
+    <None Include="Resources\icon_document_16_18x16.png" />
+    <None Include="Resources\icon_excel_16_18x16.png" />
+    <None Include="Resources\icon_email_16_18x16.png" />
+    <None Include="Resources\icon_pdf_16_18x16.png" />
+    <None Include="Resources\icon_pdf_16%2820%29x16.png" />
+    <None Include="Resources\icon_email_16x16.png" />
+    <None Include="Resources\icon_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EalryWarningSystem\Script\Procedure\SP_CZ_SA_EALRY_WARNING_SYSTEM.sql" />
+    <None Include="Resources\no-image.gif" />
+    <None Include="Resources\next_18x18.png" />
+    <None Include="Resources\prev_18x18.png" />
+    <None Include="Resources\minus_18x18.png" />
+    <None Include="Resources\plus_18x18.png" />
+    <None Include="Resources\flip_y_18x18.png" />
+    <None Include="Resources\flip_x_18x18.png" />
+    <None Include="Resources\rotate_18x18.png" />
+    <None Include="Resources\rotate_20x20.png" />
+    <None Include="Resources\rotate_16x16.png" />
+    <None Include="Resources\rotate.png" />
+    <None Include="Resources\icon_html_16_18x16.png" />
+    <None Include="Resources\icon_html_16x16.png" />
+    <None Include="Resources\icon_error_16x16.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "D:\AppLib"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

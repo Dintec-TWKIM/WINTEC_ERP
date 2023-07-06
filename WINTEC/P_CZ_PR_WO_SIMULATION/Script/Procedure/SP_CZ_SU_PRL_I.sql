@@ -1,0 +1,71 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SU_PRL_I]    Script Date: 2021-03-12 오후 4:40:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [NEOE].[SP_CZ_SU_PRL_I]
+(
+    @P_CD_COMPANY		NVARCHAR(7),
+    @P_CD_PLANT			NVARCHAR(7),
+    @P_NO_PR			NVARCHAR(20),
+    @P_NO_LINE			NUMERIC(5, 0),
+    @P_DT_DLV			NVARCHAR(10),
+    @P_CD_ITEM			NVARCHAR(50),
+    @P_QT_PR			NUMERIC(17,4),
+    @P_QT_PO			NUMERIC(17,4),
+    @P_CD_PARTNER		NVARCHAR(20),
+    @P_ST_PROC			NVARCHAR(3),
+    @P_NO_SO			NVARCHAR(20),    
+	@P_NO_SOLINE		NUMERIC(5, 0),
+    @P_DC_RMK			NVARCHAR(100), 
+    @P_ID_INSERT		NVARCHAR(15)
+)
+AS
+
+INSERT INTO SU_PRL
+(
+	CD_COMPANY,
+    CD_PLANT,
+    NO_PR,
+    NO_LINE,
+    DT_DLV,
+    CD_ITEM,
+    QT_PR,
+    QT_PO,
+    QT_PR_MM,
+    QT_PO_MM,
+    CD_PARTNER,
+    ST_PROC,
+    NO_SO,
+    NO_SOLINE,
+    DC_RMK,
+    ID_INSERT,
+	DTS_INSERT
+)
+VALUES 
+(
+	@P_CD_COMPANY,
+    @P_CD_PLANT,
+    @P_NO_PR,
+    @P_NO_LINE,
+    @P_DT_DLV,
+    @P_CD_ITEM,
+    CEILING(@P_QT_PR),
+    @P_QT_PO,
+    CEILING(@P_QT_PR),
+    @P_QT_PO,
+    @P_CD_PARTNER,
+    @P_ST_PROC,
+    @P_NO_SO,
+    @P_NO_SOLINE,
+    @P_DC_RMK, 
+    @P_ID_INSERT,
+	NEOE.SF_SYSDATE(GETDATE())
+)
+
+GO

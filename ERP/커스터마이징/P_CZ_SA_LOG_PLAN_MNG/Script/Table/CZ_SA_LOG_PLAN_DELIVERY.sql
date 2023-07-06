@@ -1,0 +1,42 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_LOG_PLAN_DELIVERY]    Script Date: 2023-02-27 오후 4:39:02 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_LOG_PLAN_DELIVERY](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[NO_REV] [int] NOT NULL,
+	[NO_IDX] [int] NOT NULL,
+	[NO_GIR] [nvarchar](20) NULL,
+	[DC_LOCATION] [nvarchar](20) NULL,
+	[DC_TASK] [nvarchar](20) NULL,
+	[CD_PARTNER] [nvarchar](20) NULL,
+	[LN_PARTNER] [nvarchar](50) NULL,
+	[NO_EMP] [nvarchar](10) NULL,
+	[QT_ITEM] [int] NULL,
+	[NO_IMO] [nvarchar](10) NULL,
+	[DT_COMPLETE] [nvarchar](8) NULL,
+	[NO_SO_PRE] [nvarchar](50) NULL,
+	[DC_UPDATE] [nvarchar](500) NULL,
+	[DC_LIMIT] [nvarchar](50) NULL,
+	[DC_ETC] [nvarchar](max) NULL,
+	[QT_TON] [nchar](10) NULL,
+	[ID_INSERT] [nvarchar](14) NULL,
+	[DTS_INSERT] [nvarchar](15) NULL,
+	[ID_UPDATE] [nvarchar](14) NULL,
+	[DTS_UPDATE] [nvarchar](15) NULL,
+ CONSTRAINT [PK_CZ_SA_LOG_PLAN_DELIVERY] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[NO_REV] ASC,
+	[NO_IDX] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+

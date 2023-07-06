@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F1FDEA80-FDCD-46EA-9A5B-FA7C95EAF313}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>P_CZ_SA_GIR</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>cz</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.5.20053.230, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="CommonFunction, Version=1.0.0.0, Culture=neutral, PublicKeyToken=59dfe63321a02d8d, processorArchitecture=MSIL" />
+    <Reference Include="coParameter">
+      <Name>coParameter</Name>
+      <HintPath>U:\common\coParameter.dll</HintPath>
+    </Reference>
+    <Reference Include="Dass.FlexGrid">
+      <Name>Dass.FlexGrid</Name>
+      <HintPath>U:\common\Dass.FlexGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Resource, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.Erpiu.Windows.OneControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU.MF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.ERPU.SA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.Windows.Print, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DzControlLib">
+      <Name>DzControlLib</Name>
+      <HintPath>U:\common\DzControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DzHelpFormLib">
+      <Name>DzHelpFormLib</Name>
+      <HintPath>U:\common\DzHelpFormLib.dll</HintPath>
+    </Reference>
+    <Reference Include="INeoWeb">
+      <Name>INeoWeb</Name>
+      <HintPath>U:\common\INeoWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.v4, Version=4.5.0.0, Culture=neutral, PublicKeyToken=96f7480b15191913, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppLib\Newtonsoft.Json.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="PageBase">
+      <Name>PageBase</Name>
+      <HintPath>U:\common\PageBase.dll</HintPath>
+    </Reference>
+    <Reference Include="PrtControls">
+      <Name>PrtControls</Name>
+      <HintPath>U:\common\PrtControls.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_STOCK_SUB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\AppLib\pur\P_PU_STOCK_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_GIR.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_SA_GIR.Designer.cs">
+      <DependentUpon>P_CZ_SA_GIR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_SA_GIR_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_SA_GIR_AUTO_CPR\P_CZ_SA_GIR_AUTO_CPR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_AUTO_CPR\P_CZ_SA_GIR_AUTO_CPR.Designer.cs">
+      <DependentUpon>P_CZ_SA_GIR_AUTO_CPR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_AUTO_CPR\P_CZ_SA_GIR_AUTO_CPR_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_SA_GIR_CHARGE\P_CZ_SA_GIR_CHARGE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_CHARGE\P_CZ_SA_GIR_CHARGE.Designer.cs">
+      <DependentUpon>P_CZ_SA_GIR_CHARGE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_CHARGE\P_CZ_SA_GIR_CHARGE_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_SA_GIR_COUNT\P_CZ_SA_GIR_COUNT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_COUNT\P_CZ_SA_GIR_COUNT.Designer.cs">
+      <DependentUpon>P_CZ_SA_GIR_COUNT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_COUNT\P_CZ_SA_GIR_COUNT_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_SA_GIR_CUTOFF\P_CZ_SA_GIR_CUTOFF_BIZ.cs" />
+    <Compile Include="관련도움창\P_CZ_SA_GIR_CUTOFF\P_CZ_SA_GIR_CUTOFF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_CUTOFF\P_CZ_SA_GIR_CUTOFF.Designer.cs">
+      <DependentUpon>P_CZ_SA_GIR_CUTOFF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_FORMAT\P_CZ_SA_GIR_FORMAT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_FORMAT\P_CZ_SA_GIR_FORMAT.Designer.cs">
+      <DependentUpon>P_CZ_SA_GIR_FORMAT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_SA_GIR_FORMAT\P_CZ_SA_GIR_FORMAT_BIZ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="P_CZ_SA_GIR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>P_CZ_SA_GIR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_SA_GIR_AUTO_CPR\P_CZ_SA_GIR_AUTO_CPR.resx">
+      <DependentUpon>P_CZ_SA_GIR_AUTO_CPR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_SA_GIR_CHARGE\P_CZ_SA_GIR_CHARGE.resx">
+      <DependentUpon>P_CZ_SA_GIR_CHARGE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_SA_GIR_COUNT\P_CZ_SA_GIR_COUNT.resx">
+      <DependentUpon>P_CZ_SA_GIR_COUNT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_SA_GIR_CUTOFF\P_CZ_SA_GIR_CUTOFF.resx">
+      <DependentUpon>P_CZ_SA_GIR_CUTOFF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_SA_GIR_FORMAT\P_CZ_SA_GIR_FORMAT.resx">
+      <DependentUpon>P_CZ_SA_GIR_FORMAT.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0%28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0%28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\공통\Procedure\SP_CZ_SA_GIRL_CHECK_XML.sql" />
+    <Content Include="Script\공통\Procedure\SP_CZ_SA_GIR_PACK_INFO.sql" />
+    <Content Include="Script\공통\Procedure\SP_CZ_SA_GIR_STA.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIR_NOT_IN_CHK.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIRL_XML.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIR_AUTO_BATCH.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIR_AUTO_SUBMIT.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIR_AUTO_SUBMIT_S.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIR_AUTO_REG.sql" />
+    <Content Include="Script\물류업무협조전\Table\CZ_SA_GIRH_REMARK.sql" />
+    <Content Include="관련도움창\P_CZ_SA_GIR_AUTO_CPR\Script\Procedure\SP_CZ_SA_GIR_AUTO_CPR_S.sql" />
+    <Content Include="관련도움창\P_CZ_SA_GIR_CHARGE\Script\Table\CZ_SA_GIRH_CHARGE.sql" />
+    <Content Include="Script\물류업무협조전\Table\SA_GIRL.sql" />
+    <Content Include="Script\송장정보\Procedure\SP_CZ_TR_EXINVH_I.sql" />
+    <Content Include="Script\송장정보\Procedure\SP_CZ_TR_EXINVH_U.sql" />
+    <Content Include="Script\송장정보\Procedure\SP_CZ_TR_EXINV_D.sql" />
+    <Content Include="Script\송장정보\Procedure\SP_CZ_TR_EXINV_S.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIRH_I.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIRH_U.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIR_D.sql" />
+    <Content Include="Script\물류업무협조전\Procedure\SP_CZ_SA_GIR_S.sql" />
+    <Content Include="Script\물류업무협조전\Table\CZ_SA_GIRH_FORWARDER.sql" />
+    <Content Include="Script\물류업무협조전\Table\CZ_SA_GIRH_WORK_DETAIL.sql" />
+    <Content Include="Script\송장정보\Table\CZ_TR_INVH.sql" />
+    <Content Include="Script\송장정보\Table\CZ_TR_INVL.sql" />
+    <Content Include="Script\송장정보\Trigger\TD_CZ_TR_INVH.sql" />
+    <Content Include="Script\송장정보\Trigger\TD_CZ_TR_INVL.sql" />
+    <Content Include="Script\송장정보\Trigger\TI_CZ_TR_INVL.sql" />
+    <Content Include="관련도움창\P_CZ_SA_GIR_CHARGE\Script\Procedure\SP_CZ_SA_GIR_CHARGE_XML.sql" />
+    <Content Include="관련도움창\P_CZ_SA_GIR_CHARGE\Script\Procedure\SP_CZ_SA_GIR_CHARGE_S.sql" />
+    <Content Include="관련도움창\P_CZ_SA_GIR_COUNT\Script\SP_CZ_SA_GIR_COUNT.sql" />
+    <Content Include="관련도움창\P_CZ_SA_GIR_COUNT\Script\SP_CZ_SA_GIR_PACK_COUNT.sql" />
+    <Content Include="관련도움창\P_CZ_SA_GIR_CUTOFF\Script\SP_CZ_SA_GIR_CUTOFF_S.sql" />
+    <Content Include="관련도움창\P_CZ_SA_GIR_FORMAT\Script\Procedure\SP_CZ_SA_GIR_FORMAT_S.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dintec\Dintec.csproj">
+      <Project>{3f297cca-e9d7-461f-92a3-e522ddcd3996}</Project>
+      <Name>Dintec</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DX\DX.csproj">
+      <Project>{f9e4b13b-9497-4ce4-b698-b9a39c1be873}</Project>
+      <Name>DX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\P_CZ_MA_FILE_SUB\P_CZ_MA_FILE_SUB.csproj">
+      <Project>{89f2222d-c795-4df7-9f2b-6ebe3296648e}</Project>
+      <Name>P_CZ_MA_FILE_SUB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\P_CZ_SA_GIR_SCH_SUB\P_CZ_SA_GIR_SCH_SUB.csproj">
+      <Project>{2bb040b5-47fb-44c6-ba12-08ed5009ac77}</Project>
+      <Name>P_CZ_SA_GIR_SCH_SUB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\P_CZ_SA_GIR_SUB\P_CZ_SA_GIR_SUB.csproj">
+      <Project>{131005a3-f5a9-4ce7-95c1-c92e0ad943cd}</Project>
+      <Name>P_CZ_SA_GIR_SUB</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) D:\AppLib</PostBuildEvent>
+  </PropertyGroup>
+</Project>

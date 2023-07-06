@@ -1,0 +1,38 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_PR_MATCHING_DEACTIVATE]    Script Date: 2020-07-10 오전 9:22:11 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_PR_MATCHING_DEACTIVATE](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[CD_PLANT] [nvarchar](7) NOT NULL,
+	[NO_ID] [nvarchar](20) NOT NULL,
+	[STA_DEACTIVATE] [nvarchar](4) NULL,
+	[NO_WO] [nvarchar](20) NULL,
+	[CD_ITEM] [nvarchar](20) NULL,
+	[CD_PITEM] [nvarchar](20) NULL,
+	[NUM_P1_OUT] [numeric](7, 4) NULL,
+	[NUM_P2_OUT] [numeric](7, 4) NULL,
+	[NUM_P3_OUT] [numeric](7, 4) NULL,
+	[NUM_P1_IN] [numeric](7, 4) NULL,
+	[NUM_P2_IN] [numeric](7, 4) NULL,
+	[NUM_P3_IN] [numeric](7, 4) NULL,
+	[DC_RMK] [nvarchar](500) NULL,
+	[ID_INSERT] [nvarchar](10) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](10) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_PR_MATCHING_DEACTIVATE_1] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[CD_PLANT] ASC,
+	[NO_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+

@@ -1,0 +1,270 @@
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+데이터 형태를 '요약'으로 하면, 파라미터 없어도 해당 테이블에서 자료 가져올 수 있음.
+특히 '요약'으로 해놓고, 타입을 MIN/MAX 등으로 지정하면 숫자 외 문자도 가져올 수 있음!
+==> 인보이스 커버에 안들어오던 헤드 데이터 다 가져와짐!
+
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+
+SB14000001
+NS15000001
+FB16000593
+
+
+============================================================================= 
+■더블클릭해서 데이터 수정/지움 가능하도록 하는 방법
+
+if (This.Text=="")
+{This.Text = DataSource.GetDataRow()["필드명"]}
+
+** 단, 기존 데이터 완전히 지우면 적용이 안됨
+** 기존 데이터를 수정하거나, 공백으로 나타내고 싶을 시 스페이스바 눌러주도록!
+
+
+============================================================================= 
+■해외인보이스(완납) 인보이스번호 프린트 창에서 수정가능하도록
+
+//인보이스 MIN
+if (This.Text=="")
+{This.Text = DataSource.GetDataTable("1", "2").Compute("MIN(NO_IV2)", "").ToString()};
+
+
+============================================================================= 
+■SB파일이고 국내매입처일 경우 발주서에 해당 문구 디폴트 출력
+
+OR 옵션처리 (과장님 여쭤보기)
+
+if(DataSource.GetParams("CD_NATION")=="001")
+if(DataSource.GetParams("NO_SO").ToString().Substring(0,2)=="SB")
+{This.Text="물품 입고 시, 거래 명세서 동봉 바랍니다."};
+
+
+============================================================================= 
+■ 마지막 행이면 아래 행 선 긋기 
+
+if(DataSource.State==States.LastRowPrinting)
+	{
+	This.BorderThickness.Bottom=1;
+	This.BottomBorderColor=Color.Black;
+	}
+  
+
+
+============================================================================= 
+품의서에서 국내/해외 구매 건일때만 지출예정일자 표시되어라
+(defalut 글자색 투명, 해당 건일때만 검정색 글씨로 표기)
+
+//국내 구매
+if(DataSource.GetDataRow()["CD_DOCU"]==45)
+{This.TextColor=Color.Black}
+
+//해외 구매
+if(DataSource.GetDataRow()["CD_DOCU"]==46)
+{This.TextColor=Color.Black}
+
+============================================================================= 
+** //는 안먹히게 하는 것 (주석처리)
+** 네번째줄은 row가 나타나게 하는 것
+** 다섯번째줄은 연산 (sum 등) but DRD에서 안먹히는 듯.....★★★
+
+//This.Text+="원정";
+
+//This.SystemFieldName = "AM_CR";
+//This.FieldName = "AM_DR";
+
+//This.Text = DataSource.GetDataTable("", "FI_DOCU").Rows[0]["AM_DR"].ToString();
+
+★★★★★요약값 표시!
+■This.Text = DataSource.GetDataTable("", "FI_DOCU").Compute("MAX(AM_CR)", "").ToString();
+(단, 그룹밴드에서만 사용 가능. MIN,MAX만 됨, SUM안됨)
+
+■■ 부가세 맥스값이 0이면 GST 0% (디폴트는 7%)
+if(DataSource.GetDataTable("", "2").Compute("MAX(VAT_EX)", "").ToString()==0)
+{This.Text="GST(0%)"}
+
+■■//대체전표이면 숨겨라
+if(DataSource.GetDataRow()["TP_DOCU"]=="3")
+{This.Text=""}
+
+■■//매출등록 시 비용이 부대비용이면(SD~) 순번에 +표시
+if(DataSource.GetDataRow()["CD_ITEM"].ToString().Substring(0,2)=="SD")
+{This.Text="+"};
+
+
+=============================================================================
+리포트 수백장 겉도는 현상 ★★★★ (12/8)
+
+최소 행 수를 지정해놨을 때, 동적 테이블 위치에 따라서 수백장 돌 수도 있다.
+해결법 : 최소행 수 없애기 OR 줄이기.
+
+=============================================================================
+표시형식 통일하기
+
+순번 0.##
+수량 0.##
+외화금액 ###,##0.00 
+원화금액 ###,##0 (OR 혹시 간혹 소수점 발생하면 ###,##0.##)
+
+
+
+=============================================================================
+
+물류업무협조전
+
+tp_row가 E일때 (추가줄) 머지 효과
+if(DataSource.GetDataRow()["TP_ROW"]=="E")
+{This.TopBorderColor=Color.Transparent(or White);}
+
+
+
+=============================================================================
+
+금액 0원 표시할 때
+if(DataSource.GetParams("RT_DC")==0)
+{This.Visible=false;}
+
+금액 표기방법
+###,##0.## ('소숫점자릿수-없음'으로 지정)
+(cf. ###,###.##으로 할 경우, 0 값일때 0으로 안나온다)
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+
+통화에 따라 소수점자리 다르게하기
+
+원화일때 ###,##0 형식
+
+데이터
+if(DataSource.GetDataRow()["NM_EXCH"]=="KRW")
+{This.Format="#,##0"};
+
+파라미터
+if(DataSource.GetParams("NM_EXCH")=="KRW")
+{This.Format="#,##0"};
+
+
+
+if 원화아닐때
+  {This.Format = "#,##0.00"};
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+[전표조회출력] 품의서에서 영세(수출)건에 '부가세예수금' 계정은 안보이게 처리
+
+if(DataSource.GetDataRow()["NM_TAX"]=="영세(수출)")
+if(DataSource.GetDataRow()["NM_ACCT"]=="부가세예수금")
+{This.Text=""};
+
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+
+■[필드 값 앞에 글자 표시할 때]
+This.Text = "거래명세서 No : " + This.Text;
+
+■[필드 값 뒤에 글자 표시할 때]
+This.Text+="원정"
+
+■[번호붙이기]
+This.Text = DataSource.PrintRow +1;
+
+■[환율로 나누기] ** 필드값만 되고, 요약(SUM)은 안됨
+This.Text = (DataSource.GetDataRow()["관련컬럼"])/1000 
+
+This.Text = (DataSource.GetDataRow()["AM_AC1"]/DataSource.GetDataRow()["AM_PLAN1"])*100 
+This.Text = (DataSource.GetDataRow()["필드명"]/DataSource.GetDataRow()["필드명"])*100 
+This.Text = (DataSource.GetDataRow()["필드명"]+DataSource.GetDataRow()["필드명"])*100 
+This.Text = (DataSource.GetDataRow()["필드명"]-DataSource.GetDataRow()["필드명"])*100 
+This.Text = (DataSource.GetDataRow()["필드명"]*DataSource.GetDataRow()["필드명"])*100 
+
+■[여러 필드값 텍스트 합치기]
+This.Text=(DataSource.GetDataRow()["NM_ACCT"])+"   "+(DataSource.GetDataRow()["NMD_MNGD"])
+
+■ 짝수행 색깔 변경
+if(DataSource.PrintRow % 2 != 0)
+       This.BackGroundColorHtml = "200,200,200";
+
+■품목번호 매기기
+This.Text = DataSource.PrintRow +1;
+
+
+■필드값이 0보다 클 경우
+if(DataSource.GetDataRow()["필드명"]>0)
+{
+}
+
+■(입금전표에서) 차변금액이 0이면, 대변금액 값을 불러와라
+if( DataSource.GetDataRow()["AM_DR"]==0)
+This.Text=DataSource.GetDataRow()["AM_CR"]
+
+
+This.Text=(DataSource.GetDataRow()["AM_SUM"])/(DataSource.GetDataRow()["RT_EXCH"])
+
+■Ready Information
+준비수량=0, Not Ready
+준비수량>0, Partially Ready
+준비수량=수주수량, Ready
+
+if( DataSource.GetDataRow()["QT_READY"]==0)
+{This.Text="NotReady";} 
+if( DataSource.GetDataRow()["QT_READY"]>0) 
+{This.Text="Partially Ready";}
+if( DataSource.GetDataRow()["QT_READY"]==DataSource.GetDataRow()["QT_SO"]) 
+{This.Text="Ready";}
+
+
+■ 값이 0이면 0으로 텍스팅하라
+if( DataSource.GetDataRow()["AM_AMT"]==0.0000)
+{This.Text="０";} 
+
+
+
+
+This.Text+="원정";
+if(DataSource.GetDataRow()["AM_DR"]==0)
+This.Text=DataSource.GetDataRow()["AM_CR"]
+
+
+■값이 null이 아니면 (값이 있으면) ~~~와 같이 텍스팅하라.
+if( DataSource.GetDataRow()["PIC"]!="")
+This.Text="PIC : "+This.Text;
+
+
+-----------------
+-----------------
+
+■파라미터값 선명+호선 연결
+This.Text=DataSource.GetParams("NM_VESSEL")+" / "+DataSource.GetParams("NO_HULL")
+
+
+■파라미터값이 0(혹은 공란) 일 때 표기
+
+if(DataSource.GetParams("DC_RMK_INQ")=="")
+{
+This.Text="테스트"}
+
+
+■파라미터 값을 나타내고, 신한카드일 때 <<수기입력>>으로 표기
+
+This.Text=DataSource.GetParams("LN_PARTNER");
+if(DataSource.GetParams("LN_PARTNER")=="신한카드")
+{This.Text="<<수기입력>>"}
+
+
+■파라미터 값이 신한카드가 아니면 LN_PARTNER 값 나타내고, 신한카드이면 공란(수정가능) 처리 (**단 데이터형태는 일반)
+if(DataSource.GetParams("LN_PARTNER")!="신한카드")
+This.Text=DataSource.GetParams("LN_PARTNER");
+
+
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+if(DataSource.GetDataRow()["TP_ROW"] == "S")
+       {
+       This.FontBold=true;
+       This.FontUnderLine=true;
+       }
+
+This.Text+="%"

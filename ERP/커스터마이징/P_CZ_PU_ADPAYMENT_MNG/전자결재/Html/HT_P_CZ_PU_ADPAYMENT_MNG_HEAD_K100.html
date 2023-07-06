@@ -1,0 +1,90 @@
+﻿<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		html, body, form, table, thead, tbody, tfoot, tr, th, td, input, textarea, img { margin:0; padding:0; border:0; outline:0; line-height:1; font-family:굴림; font-size:9pt; }	
+		table { border-collapse:collapse; border-spacing:0; }		
+
+		.appdoc { width:647px; margin:0 auto; text-align:left; }
+		.appdoc .title { font-size:30px; font-weight:bold; text-align:center; margin-bottom:10px; }
+		.appdoc .contents { border:solid 2px #787878; }
+		.appdoc .contents > table { width:100%; }
+		.appdoc .contents > table > tbody > tr { height:30px; }
+		.appdoc .contents > table > tbody > tr > th { border-right:solid 1px #787878; border-bottom:solid 1px #b1b1b1; font-weight:normal; }
+		.appdoc .contents > table > tbody > tr > td { border-right:solid 1px #787878; border-bottom:solid 1px #b1b1b1; vertical-align:middle; }
+		.appdoc .contents .cell01 { border-right:none; }
+		.appdoc .contents .cell02 { border-bottom:none; }
+		.appdoc .contents .cell03 { border-right:none; border-bottom:none; }
+		
+		.appdoc .df02 input		{ width:70px !important; text-align:center; margin:0px 5px 0px 0px !important; }
+		.appdoc .df02 select	{ width:40px !important; height:19px !important; }
+		
+		.appdoc .df05 { border-bottom:solid 1px #787878 !important; }
+		.appdoc .df05 table > tbody > tr:last-child { border-bottom:none; }
+		
+		.appdoc .input-text		{ height:17px; padding:0 !important; }
+		.appdoc .pop_tb_btn		{ margin-top:-11px !important; }
+		.appdoc .pop_tb_btn a { height:13px; }
+		
+		#divFormContents { position:absolute; left:10px; top:10px; }
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$(".df02").children("br").remove(); 									// 날짜와 시간 사이 <br> 제거
+			$(".df05 > table > tbody > tr").eq(1).css("border", "none"); 			// view, print에서 협의 아래 border 제거
+			$(".df05 > div > table > tbody > tr").eq(1).css("border", "none");      // write에서 협의 아래 border 제거
+		});
+	</script>
+
+	<div class="appdoc">
+		<div style="height:30px;"></div>
+		<div class="title">선지급 품의서</div>
+		<div class="contents">
+			<table>
+				<colgroup>
+					<col width="89px" />
+					<col width="190px" />
+					<col width="368px" />
+				</colgroup>
+				<tr>
+					<th>문 서 번 호</th>
+					<td>&nbsp;_DF01_</td>
+					<td class="cell01 df05" rowspan="4">_DF05_</td>
+				</tr>
+				<tr>
+					<th>작 성 일 자</th>
+					<td class="df02">&nbsp;_DF02_</td>
+				</tr>
+				<tr>
+					<th>작 성 부 서</th>
+					<td>&nbsp;_DF03_</td>
+				</tr>
+				<tr>
+					<th>작 &nbsp; 성 &nbsp; 자</th>
+					<td>&nbsp;_DF04_</td>
+				</tr>
+				<tr>
+					<th>수신 및 참조</th>
+					<td colspan="2" class="cell01 df07">&nbsp;_DF07_</td>
+				</tr>
+				<tr>
+					<th>제 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 목</th>
+					<td colspan="2" class="cell01">&nbsp;_DF10_</td>
+				</tr>
+				<tr style="height:550px">
+					<td colspan="3" style="vertical-align:top;">
+						<div style="padding:10px 10px 10px 10px;">_DFINTER_</div>
+						<div id="divFormContents" style="padding:10px 0 0 10px;">_DF11_</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="cell02">참 조 문 서</th>
+					<td colspan="2" class="cell03">&nbsp;_DFREF_</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

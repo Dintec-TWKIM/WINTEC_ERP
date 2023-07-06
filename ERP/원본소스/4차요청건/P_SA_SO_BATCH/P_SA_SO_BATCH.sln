@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P_SA_SO_BATCH", "P_SA_SO_BATCH.csproj", "{78905126-B67E-45DE-89F0-AA249A57A687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P_SA_SO_BATCH_VAT", "..\P_SA_SO_BATCH_VAT\P_SA_SO_BATCH_VAT.csproj", "{E640FF86-29FC-4CEE-B05E-0A115E40B69F}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 2
+		SccProjectUniqueName0 = P_SA_SO_BATCH.csproj
+		SccProjectName0 = \u0022$/ERPU/ERP-U-2009/Sale/040.수주관리/P_SA_SO_BATCH\u0022,\u0020JLSOAAAA
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectUniqueName1 = ..\\P_SA_SO_BATCH_VAT\\P_SA_SO_BATCH_VAT.csproj
+		SccProjectName1 = \u0022$/ERPU/ERP-U-2009/Sale/040.수주관리/P_SA_SO_BATCH_VAT\u0022,\u0020KLSOAAAA
+		SccLocalPath1 = ..\\P_SA_SO_BATCH_VAT
+		SccProvider1 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78905126-B67E-45DE-89F0-AA249A57A687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78905126-B67E-45DE-89F0-AA249A57A687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78905126-B67E-45DE-89F0-AA249A57A687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78905126-B67E-45DE-89F0-AA249A57A687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E640FF86-29FC-4CEE-B05E-0A115E40B69F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E640FF86-29FC-4CEE-B05E-0A115E40B69F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E640FF86-29FC-4CEE-B05E-0A115E40B69F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E640FF86-29FC-4CEE-B05E-0A115E40B69F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

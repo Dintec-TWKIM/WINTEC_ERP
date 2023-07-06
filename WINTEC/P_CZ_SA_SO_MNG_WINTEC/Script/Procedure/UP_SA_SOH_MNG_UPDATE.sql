@@ -1,0 +1,50 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[UP_SA_SOH_MNG_UPDATE]    Script Date: 2019-11-14 오후 3:12:40 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+/*******************************************      
+*********************************************/     
+ALTER PROCEDURE [NEOE].[UP_SA_SOH_MNG_UPDATE]      
+(      
+	@P_CD_COMPANY	NVARCHAR(7),	--회사    
+	@P_NO_SO		NVARCHAR(20),	--수주번호    
+	@P_DC_RMK		NVARCHAR(100),	--비고  
+	@P_TXT_USERDEF2 NVARCHAR(400) = NULL,
+	@P_DC_RMK_TEXT  NTEXT = NULL,
+	@P_NO_EMP		NVARCHAR(10) = NULL, 
+	@P_DC_RMK1		NVARCHAR(100) = NULL
+)      
+AS      
+
+DECLARE @V_SERVER_KEY VARCHAR(50)
+	       
+SELECT  @V_SERVER_KEY = MAX(SERVER_KEY)
+FROM    CM_SERVER_CONFIG    
+WHERE   YN_UPGRADE = 'Y'       
+    
+UPDATE	SA_SOH  
+SET		DC_RMK		 = @P_DC_RMK,
+		TXT_USERDEF2 = @P_TXT_USERDEF2,
+		DC_RMK_TEXT  = @P_DC_RMK_TEXT,
+		DC_RMK1		 = @P_DC_RMK1
+WHERE	CD_COMPANY	 = @P_CD_COMPANY    
+AND		NO_SO		 = @P_NO_SO
+
+
+IF (@V_SERVER_KEY = 'GLOZEN' OR @V_SERVER_KEY = 'DZSQLv4')
+BEGIN
+	UPDATE	SA_SOH  
+	SET		NO_EMP = @P_NO_EMP
+	WHERE	CD_COMPANY	 = @P_CD_COMPANY    
+		AND NO_SO		 = @P_NO_SO
+		AND	ISNULL(NO_EMP,'') = ''
+	
+END
+GO
+

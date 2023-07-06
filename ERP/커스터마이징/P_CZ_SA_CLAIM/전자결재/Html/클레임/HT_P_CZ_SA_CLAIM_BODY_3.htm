@@ -1,0 +1,77 @@
+﻿<table style="width:100%; border:2px solid black; margin-bottom: 20px; font-size: 9pt; font-family: 굴림; border-collapse:collapse; border-spacing:0;">
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">클 레 임 번 호</th>
+            <td style="border:solid 1px black; text-align:center">@@NO_CLAIM</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">발 행 일 자</th>
+            <td style="border:solid 1px black; text-align:center">@@DT_INPUT</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">수 주 번 호</th>
+            <td style="border:solid 1px black; text-align:center">@@NO_SO</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">계 약 번 호</th>
+            <td style="border:solid 1px black; text-align:center">@@NO_CONTRACT</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">매 출 처</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_PARTNER</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">호 선 명</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_VESSEL</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">매 입 처</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_SUPPLIER</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">클 레 임 사 유</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_CLAIM</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">항 목 분 류</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_ITEM</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">원 인 구 분</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_CAUSE</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">고 객 사 요 청 사 항</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_REQUEST</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">실 물 반 품 여 부</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_RETURN</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">포 장 사 이 즈</th>
+            <td style="border:solid 1px black; text-align:center">@@DC_PACK_SIZE</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">포 장 무 게</th>
+            <td style="border:solid 1px black; text-align:center">@@QT_PACK_WEIGHT</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">클 레 임 원 인</th>
+            <td style="padding: 10px; border: solid 1px black; text-align:left" colspan="3"
+                valign="top">
+                @@NM_REASON
+            </td>
+        </tr>
+        <tr style="height:130px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">종 결 내 용</th>
+            <td style="padding: 10px; border: solid 1px black; text-align:left" colspan="3"
+                valign="top">
+                @@DC_CLOSING
+            </td>
+        </tr>
+        @@DC_SUPPLIER_REWARD
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">종 결 일 자</th>
+            <td style="border:solid 1px black; text-align:center">@@DT_CLOSING</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">종 결 비 용</th>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_TOTAL_CLS</td>
+        </tr>
+    </tbody>
+</table>
+
+@@TXT_CLAIM_ITEM_LIST
+
+@@TXT_INVENTORY_INPUT_LIST
+
+<div style="text-align:center">상기와 같이 클레임 현황을 종결보고 합니다.</div>

@@ -1,0 +1,31 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_GIR_PLAN]    Script Date: 2019-12-11 오전 11:01:23 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_GIR_PLAN](
+	[TP_PLAN] [nvarchar](4) NOT NULL,
+	[SEQ_PLAN] [numeric](18, 0) NOT NULL,
+	[DT_PLAN] [nvarchar](8) NOT NULL,
+	[NO_EMP] [nvarchar](10) NOT NULL,
+	[CD_COMPANY] [nvarchar](7) NULL,
+	[NO_GIR] [nvarchar](20) NULL,
+	[DC_RMK] [nvarchar](500) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+ CONSTRAINT [PK_CZ_SA_GIR_PLAN] PRIMARY KEY CLUSTERED 
+(
+	[SEQ_PLAN] ASC,
+	[TP_PLAN] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

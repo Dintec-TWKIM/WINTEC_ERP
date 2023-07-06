@@ -1,0 +1,99 @@
+﻿<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">전 표 번 호</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">작 성 일 자</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">회 계 일 자</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">전 표 유 형</th>
+        </tr>
+        <tr style="height:30px">
+            <td style="border:solid 1px black; text-align:center">@@NO_DOCU</td>
+            <td style="border:solid 1px black; text-align:center">@@DT_WRITE</td>
+            <td style="border:solid 1px black; text-align:center">@@DT_ACCT</td>
+            <td style="border:solid 1px black; text-align:center">@@FI_TYPE</td>
+        </tr>
+		<tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">통 화 명</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">환 율</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">외 화 금 액</th>
+			<th style="border:solid 1px black; text-align:center; background-color:Silver">원 화 금 액</th>
+        </tr>
+		<tr style="height:30px">
+            <td style="border:solid 1px black; text-align:center" >@@NM_EXCH</td>
+			<td style="border:solid 1px black; text-align:center">@@RT_EXCH</td>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_EX</td>
+			<td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_KR</td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+	<tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">매 출 처</th>
+			<th style="border:solid 1px black; text-align:left; padding-left:10px; font-weight: bold;" colspan="3">@@CD_PARTNER</th>
+        </tr>
+    </tbody>
+	<tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">선 명</th>
+			<td style="border:solid 1px black; text-align:left; padding-left:10px" colspan="3">@@NM_VESSEL</td>
+        </tr>
+    </tbody>
+	<tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">송 품 번 호</th>
+			<th style="border:solid 1px black; text-align:center; background-color:Silver">송 품 일 자</th>
+			<th style="border:solid 1px black; text-align:center; background-color:Silver">영 업 물 류</th>
+			<th style="border:solid 1px black; text-align:center; background-color:Silver">회 계 담 당</th>
+        </tr>
+    </tbody>
+	<tbody>
+        <tr style="height:30px">
+			<td style="border:solid 1px black; text-align:center">@@NO_IO</td>
+			<td style="border:solid 1px black; text-align:center">@@DT_IO</td>
+			<td style="border:solid 1px black; text-align:center">@@LOG_EMP</td>
+			<td style="border:solid 1px black; text-align:center">@@ACCT_EMP</td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="80%" align="center"></colgroup>
+	<colgroup width="20%" align="center"></colgroup>
+	<tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:left; padding-left:10px; font-weight: bold;">금 액 : 일금 @@AM_HAN 원정</th>
+			<th style="border:solid 1px black; text-align:right; padding-right:10px; font-weight: bold;">(\ @@AM_KR)</th>
+        </tr>
+		@@1_TXT_DOCU
+    </tbody>
+</table>
+
+<table style="width:100%; border:2px solid black; margin-bottom: 10px; font-size: 9pt; font-family: 굴림">
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+    <colgroup width="25%" align="center"></colgroup>
+	<colgroup width="25%" align="center"></colgroup>
+	<tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver", colspan ="2">계 정 과 목</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">차 변</th>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">대 변</th>
+        </tr>
+        @@2_TXT_DOCU
+    </tbody>
+	<tr style="height:30px">
+		<th style="border:solid 1px black; text-align:center; background-color:Silver", colspan ="2">합 계</th>
+        <td style="border:solid 1px black; text-align:right; padding-right:10px; font-weight: bold;">@@AM_CR_TOTAL</td>
+		<td style="border:solid 1px black; text-align:right; padding-right:10px; font-weight: bold;">@@AM_DR_TOTAL</td>
+    </tr>
+</table>

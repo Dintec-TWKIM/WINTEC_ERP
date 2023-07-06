@@ -1,0 +1,46 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[UP_SA_SOL_TO_GIRL_SELECT]    Script Date: 2019-11-04 오전 10:39:21 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROC [NEOE].[UP_SA_SOL_TO_GIRL_SELECT]
+(
+    @P_CD_COMPANY       NVARCHAR(7), 
+    @P_NO_SO            NVARCHAR(20),
+    @P_FG_LANG     NVARCHAR(4) = NULL	--언어
+)
+AS
+-- MultiLang Call
+EXEC UP_MA_LOCAL_LANGUAGE @P_FG_LANG
+
+--출하의뢰된 건
+SELECT SO.NO_SO, SO.SEQ_SO, GIR.NO_SO, GIR.SEQ_SO SEQ_SO_GIR, SO.CD_ITEM, P.NM_ITEM
+FROM SA_SOL SO
+    INNER JOIN SA_GIRL GIR ON GIR.CD_COMPANY = @P_CD_COMPANY
+                                AND GIR.NO_SO = @P_NO_SO
+                                AND GIR.SEQ_SO = SO.SEQ_SO
+    LEFT OUTER JOIN DZSN_MA_PITEM P ON P.CD_COMPANY = @P_CD_COMPANY
+                                AND P.CD_PLANT = SO.CD_PLANT
+                                AND P.CD_ITEM = SO.CD_ITEM
+WHERE SO.CD_COMPANY = @P_CD_COMPANY
+    AND SO.NO_SO = @P_NO_SO
+
+--출하의뢰되지 않은건
+SELECT SO.NO_SO, SO.SEQ_SO, GIR.NO_SO, GIR.SEQ_SO SEQ_SO_GIR, SO.CD_ITEM, P.NM_ITEM
+FROM SA_SOL SO
+    LEFT OUTER JOIN SA_GIRL GIR ON GIR.CD_COMPANY = @P_CD_COMPANY
+                                AND GIR.NO_SO = @P_NO_SO
+                                AND GIR.SEQ_SO = SO.SEQ_SO
+    LEFT OUTER JOIN DZSN_MA_PITEM P ON P.CD_COMPANY = @P_CD_COMPANY
+                                AND P.CD_PLANT = SO.CD_PLANT
+                                AND P.CD_ITEM = SO.CD_ITEM
+WHERE SO.CD_COMPANY = @P_CD_COMPANY
+    AND SO.NO_SO = @P_NO_SO
+    AND (GIR.NO_SO IS NULL OR GIR.NO_SO = '')
+GO
+

@@ -1,0 +1,1 @@
+/rv DT_ACCT_P[회계일자] DT_ACCT_P1[20030201] DT_ACCT_P2[20030218] CD_PC_P[회계단위] CD_PC_P1[회계단위1] NO_P[NO] NM_ACCT_P[계정과목] AM_DR_P[차변금액] AM_CR_P[대변금액] NM_NOTE_P[적요] DS_PARTNER_P[거래처] TOTAL_P[계] TOT_P[합계] R_FI_DOCU_RPT_001_P[전    표] 

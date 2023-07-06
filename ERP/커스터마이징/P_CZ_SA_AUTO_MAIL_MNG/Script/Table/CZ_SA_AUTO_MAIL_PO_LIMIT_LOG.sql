@@ -1,0 +1,43 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_AUTO_MAIL_PO_LIMIT_LOG]    Script Date: 2022-01-11 ¿ÀÈÄ 5:51:41 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_AUTO_MAIL_PO_LIMIT_LOG](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[NO_PO] [nvarchar](20) NOT NULL,
+	[NO_SO] [nvarchar](20) NOT NULL,
+	[DT_LIMIT] [nvarchar](8) NOT NULL,
+	[DT_SEND] [nvarchar](8) NOT NULL,
+	[IDX] [int] NULL,
+	[CD_PARTNER] [nvarchar](20) NULL,
+	[NO_ORDER] [nvarchar](200) NULL,
+	[NM_VESSEL] [nvarchar](50) NULL,
+	[NO_HULL] [nvarchar](20) NULL,
+	[DT_PO] [nvarchar](8) NULL,
+	[DT_EXPECT] [nvarchar](8) NULL,
+	[YN_URGENT] [nvarchar](1) NULL,
+	[NM_KOR] [nvarchar](40) NULL,
+	[NO_TEL] [nvarchar](20) NULL,
+	[DC_RMK1] [nvarchar](max) NULL,
+	[FROM_EMAIL] [nvarchar](200) NULL,
+	[TO_EMAIL] [nvarchar](max) NULL,
+	[ID_INSERT] [nvarchar](10) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_SA_AUTO_MAIL_PO_LIMIT_LOG] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[NO_PO] ASC,
+	[NO_SO] ASC,
+	[DT_LIMIT] ASC,
+	[DT_SEND] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+

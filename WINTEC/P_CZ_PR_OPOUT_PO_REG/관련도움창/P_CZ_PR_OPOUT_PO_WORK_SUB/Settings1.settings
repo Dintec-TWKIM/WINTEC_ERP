@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="cz.관련도움창.P_CZ_PR_OPOUT_PO_WORK_SUB" GeneratedClassName="Settings1">
+  <Profiles />
+  <Settings>
+    <Setting Name="Wo_DcRmk_Apply_YN" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,98 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SA_GIRH_SCH_SUB_S]    Script Date: 2015-06-02 오후 5:17:10 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+--EXEC SP_CZ_SA_GIRH_SCH_SUB_S 'TEST', '', '', '', '20151001', '20151023', 'N', '', '', '', 'Y'
+ALTER PROCEDURE [NEOE].[SP_CZ_SA_GIRH_SCH_SUB_S]  
+(    
+    @P_CD_COMPANY           NVARCHAR(7),    
+	@P_NO_GIR				NVARCHAR(20),  
+    @P_CD_PLANT             NVARCHAR(7),  
+    @P_CD_PARTNER           NVARCHAR(20),  
+    @P_DT_GIR_FROM          NCHAR(8),  
+    @P_DT_GIR_TO            NCHAR(8),  
+    @P_YN_RETURN            NCHAR(1),
+    @P_FG_IO                NCHAR(3) = '',
+    @P_NO_PROJECT           NVARCHAR(20) = '',
+    @P_NO_EMP_LOGIN         NVARCHAR(10) = NULL,
+	@P_YN_PACKING			NVARCHAR(1)
+)    
+AS
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+DECLARE @V_YN_MFG_AUTH  NVARCHAR(1)
+DECLARE @QUERY			NVARCHAR(MAX)
+DECLARE @HEADER			NVARCHAR(MAX)
+DECLARE @DETAIL			NVARCHAR(MAX)
+DECLARE @LINE			NVARCHAR(MAX)
+
+SELECT  @V_YN_MFG_AUTH = ISNULL(YN_MFG_AUTH, 'N')
+FROM    MA_ENV
+WHERE   CD_COMPANY = @P_CD_COMPANY
+
+IF @P_YN_PACKING = 'Y'
+BEGIN
+	SET @HEADER = 'CZ_SA_GIRH_PACK'
+	SET @DETAIL = 'CZ_SA_GIRH_PACK_DETAIL'
+	SET @LINE = 'CZ_SA_GIRL_PACK GL'
+END
+ELSE
+BEGIN
+	SET @HEADER = 'SA_GIRH'
+	SET @DETAIL = 'CZ_SA_GIRH_WORK_DETAIL'
+	SET @LINE = 'SA_GIRL GL'
+END
+
+BEGIN
+SET @QUERY = 'SELECT SGH.NO_GIR,
+					 SGH.STA_GIR,
+					 SGH.DT_GIR,
+					 MP.LN_PARTNER,
+					 ME.NM_KOR,
+					 SGH.CD_PLANT,
+					 SGH.TP_BUSI,
+					 GD.CD_RMK,
+					 MC.NM_SYSDEF AS NM_RMK,  
+					 GD.DC_RMK
+		      FROM ' + @HEADER + ' SGH
+			  LEFT JOIN ' + @DETAIL + ' GD ON GD.CD_COMPANY = SGH.CD_COMPANY AND GD.NO_GIR = SGH.NO_GIR 
+			  LEFT JOIN MA_EMP ME ON SGH.CD_COMPANY = ME.CD_COMPANY AND SGH.NO_EMP = ME.NO_EMP 
+			  LEFT JOIN MA_PARTNER MP ON SGH.CD_COMPANY = MP.CD_COMPANY AND SGH.CD_PARTNER = MP.CD_PARTNER
+			  LEFT JOIN MM_EJTP EJ ON SGH.CD_COMPANY = EJ.CD_COMPANY AND SGH.TP_GI = EJ.CD_QTIOTP
+			  LEFT JOIN MA_CODEDTL MC ON MC.CD_COMPANY = GD.CD_COMPANY AND MC.CD_FIELD = ''CZ_SA00032'' AND MC.CD_SYSDEF = GD.CD_RMK
+			  WHERE SGH.CD_COMPANY = ''' + @P_CD_COMPANY + ''' 
+			  AND SGH.DT_GIR BETWEEN ' + @P_DT_GIR_FROM + ' AND ' + @P_DT_GIR_TO + '
+			  AND SGH.YN_RETURN = ''' + @P_YN_RETURN + '''
+			  AND (ISNULL(''' + @P_NO_GIR + ''', '''') = '''' OR SGH.NO_GIR = ''' + @P_NO_GIR + ''')
+			  AND (ISNULL(''' + @P_CD_PLANT + ''', '''') = '''' OR SGH.CD_PLANT = ''' + @P_CD_PLANT + ''')
+			  AND (ISNULL(''' + @P_CD_PARTNER + ''', '''') = '''' OR SGH.CD_PARTNER = ''' + @P_CD_PARTNER + ''') 
+			  AND (ISNULL(''' + @P_FG_IO + ''', '''') = '''' OR EJ.FG_IO = ''' + @P_FG_IO + ''')
+			  AND EXISTS (SELECT 1
+			  			  FROM ' + @LINE + '
+						  LEFT JOIN CZ_SA_QTNL QL ON QL.CD_COMPANY = GL.CD_COMPANY AND QL.NO_FILE = GL.NO_SO AND QL.NO_LINE = GL.SEQ_SO
+			  			  WHERE GL.CD_COMPANY = ''' + @P_CD_COMPANY + '''
+			  			  AND GL.NO_GIR = SGH.NO_GIR
+			              AND (ISNULL(''' + @P_NO_PROJECT + ''', '''') = '''' OR GL.NO_PROJECT = ''' + @P_NO_PROJECT+ ''') 
+			  AND (''' + @V_YN_MFG_AUTH + ''' = ''N'' OR
+			      (''' + @V_YN_MFG_AUTH + ''' = ''Y'' AND EXISTS (SELECT 1
+			  													  FROM ' + @LINE + '
+			  													  WHERE GL.CD_COMPANY = ''' + @P_CD_COMPANY + '''
+			  													  AND GL.NO_GIR = SGH.NO_GIR
+			  													  AND GL.CD_SALEGRP IN (SELECT CD_AUTH
+			  																		    FROM MA_MFG_AUTH AUTH
+			  																		    WHERE GL.CD_COMPANY = AUTH.CD_COMPANY
+			  																		    AND GL.CD_SALEGRP = AUTH.CD_AUTH
+			  																		    AND AUTH.FG_AUTH = ''SA_GROUP''
+			  																		    AND AUTH.NO_EMP = ''' + @P_NO_EMP_LOGIN + '''))))) '
+
+EXEC SP_EXECUTESQL @QUERY
+PRINT @QUERY  
+END
+
+GO

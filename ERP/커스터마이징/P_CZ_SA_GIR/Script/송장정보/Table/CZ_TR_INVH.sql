@@ -1,0 +1,114 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_TR_INVH]    Script Date: 2021-03-15 오후 4:35:17 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_TR_INVH](
+	[NO_INV] [nvarchar](20) NOT NULL,
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[DT_BALLOT] [nchar](8) NOT NULL,
+	[CD_BIZAREA] [nvarchar](7) NULL,
+	[CD_SALEGRP] [nvarchar](7) NOT NULL,
+	[NO_EMP] [nvarchar](10) NULL,
+	[FG_LC] [nchar](3) NOT NULL,
+	[CD_PARTNER] [nvarchar](20) NOT NULL,
+	[CD_EXCH] [nvarchar](3) NULL,
+	[AM_EX] [numeric](17, 4) NOT NULL,
+	[DT_LOADING] [nchar](8) NOT NULL,
+	[CD_ORIGIN] [nvarchar](3) NULL,
+	[CD_AGENT] [nvarchar](7) NULL,
+	[CD_EXPORT] [nvarchar](7) NULL,
+	[CD_PRODUCT] [nvarchar](7) NULL,
+	[SHIP_CORP] [nvarchar](7) NULL,
+	[NM_VESSEL] [nvarchar](50) NULL,
+	[COND_TRANS] [nvarchar](50) NULL,
+	[TP_TRANSPORT] [nvarchar](3) NULL,
+	[TP_TRANS] [nvarchar](3) NULL,
+	[TP_PACKING] [nvarchar](3) NULL,
+	[CD_WEIGHT] [nvarchar](3) NULL,
+	[GROSS_WEIGHT] [numeric](17, 4) NULL,
+	[NET_WEIGHT] [numeric](17, 4) NULL,
+	[PORT_LOADING] [nvarchar](50) NULL,
+	[PORT_ARRIVER] [nvarchar](50) NULL,
+	[DESTINATION] [nvarchar](50) NULL,
+	[NO_SCT] [numeric](10, 0) NULL,
+	[NO_ECT] [numeric](10, 0) NULL,
+	[CD_NOTIFY] [nvarchar](20) NULL,
+	[DT_TO] [nchar](8) NULL,
+	[NO_LC] [nvarchar](20) NULL,
+	[NO_SO] [nvarchar](20) NULL,
+	[REMARK1] [nvarchar](100) NULL,
+	[REMARK2] [nvarchar](100) NULL,
+	[REMARK3] [nvarchar](100) NULL,
+	[REMARK4] [nvarchar](100) NULL,
+	[REMARK5] [nvarchar](100) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[NO_TO] [nvarchar](20) NULL,
+	[NO_BL] [nvarchar](20) NULL,
+	[NM_NOTIFY] [nvarchar](100) NULL,
+	[ADDR1_NOTIFY] [nvarchar](400) NULL,
+	[ADDR2_NOTIFY] [nvarchar](400) NULL,
+	[CD_CONSIGNEE] [nvarchar](50) NULL,
+	[NM_CONSIGNEE] [nvarchar](100) NULL,
+	[ADDR1_CONSIGNEE] [nvarchar](400) NULL,
+	[ADDR2_CONSIGNEE] [nvarchar](400) NULL,
+	[REMARK] [text] NULL,
+	[NM_PARTNER] [nvarchar](100) NULL,
+	[ADDR1_PARTNER] [nvarchar](400) NULL,
+	[ADDR2_PARTNER] [nvarchar](400) NULL,
+	[NM_EXPORT] [nvarchar](100) NULL,
+	[ADDR1_EXPORT] [nvarchar](400) NULL,
+	[ADDR2_EXPORT] [nvarchar](400) NULL,
+	[NO_SR] [nvarchar](20) NULL,
+	[COND_PRICE] [nvarchar](3) NULL,
+	[DESCRIPTION] [nvarchar](150) NULL,
+	[GROSS_VOLUME] [numeric](17, 4) NULL,
+	[FG_FREIGHT] [nvarchar](3) NULL,
+	[AM_FREIGHT] [numeric](17, 4) NULL,
+	[DT_SAILING_ON] [nvarchar](8) NULL,
+	[YN_RETURN] [nvarchar](1) NOT NULL,
+	[CD_BANK] [nvarchar](20) NULL,
+	[COND_PAY] [nvarchar](6) NULL,
+	[TXT_REMARK2] [nvarchar](4000) NULL,
+	[TXT_REMARK3] [text] NULL,
+	[ARRIVER_COUNTRY] [nvarchar](3) NULL,
+	[YN_INSURANCE] [nvarchar](1) NULL,
+	[YN_DUTY] [nvarchar](1) NULL,
+ CONSTRAINT [PK_CZ_TR_INVH] PRIMARY KEY CLUSTERED 
+(
+	[NO_INV] ASC,
+	[CD_COMPANY] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [NEOE].[CZ_TR_INVH] ADD  CONSTRAINT [DF__CZ_TR_INVH__DT_BALL__0F8DFED8]  DEFAULT ('00000000') FOR [DT_BALLOT]
+GO
+
+ALTER TABLE [NEOE].[CZ_TR_INVH] ADD  CONSTRAINT [DF__CZ_TR_INVH__CD_EXCH__10822311]  DEFAULT ('0') FOR [CD_EXCH]
+GO
+
+ALTER TABLE [NEOE].[CZ_TR_INVH] ADD  CONSTRAINT [DF__CZ_TR_INVH__AM_EX__1176474A]  DEFAULT ((0)) FOR [AM_EX]
+GO
+
+ALTER TABLE [NEOE].[CZ_TR_INVH] ADD  CONSTRAINT [DF__CZ_TR_INVH__DT_LOAD__126A6B83]  DEFAULT ('00000000') FOR [DT_LOADING]
+GO
+
+ALTER TABLE [NEOE].[CZ_TR_INVH] ADD  CONSTRAINT [DF__CZ_TR_INVH__DT_TO__135E8FBC]  DEFAULT ('00000000') FOR [DT_TO]
+GO
+
+ALTER TABLE [NEOE].[CZ_TR_INVH] ADD  CONSTRAINT [DF_CZ_TR_INVH_AM_FREIGHT]  DEFAULT ((0)) FOR [AM_FREIGHT]
+GO
+
+ALTER TABLE [NEOE].[CZ_TR_INVH] ADD  CONSTRAINT [DF__CZ_TR_INV__YN_RE__597E968A]  DEFAULT ('N') FOR [YN_RETURN]
+GO
+
+

@@ -1,0 +1,87 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[UP_FI_PARTNERPTR_INSERT]    Script Date: 2019-11-04 오전 10:54:56 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [NEOE].[UP_FI_PARTNERPTR_INSERT]
+(
+	@P_CD_COMPANY  		NVARCHAR(7),
+	@P_CD_PARTNER  		NVARCHAR(20),
+	@P_SEQ				NUMERIC(5),
+	@P_NM_PTR			NVARCHAR(20),
+	@P_NM_EMAIL			NVARCHAR(80),
+	@P_NO_HP			NVARCHAR(15),
+	@P_NO_TEL			NVARCHAR(20),
+	@P_CLIENT_NOTE		NVARCHAR(100),
+	@P_USE_YN			NVARCHAR(1),
+	@P_ID_INSERT		NVARCHAR(15),
+	@P_NO_FAX			NVARCHAR(20),
+	@P_NM_DEPT			NVARCHAR(100)	= NULL,
+	@P_NM_DUTY_RESP		NVARCHAR(100)	= NULL,
+	@P_EN_DUTY_RESP		NVARCHAR(100)	= NULL,
+	@P_EN_PTR			NVARCHAR(100)	= NULL
+) AS
+-- ================================================
+-- AUTHOR      : 이대성
+-- CREATE DATE : 2010.03.24
+--
+-- MODULE      : 시스템
+-- SYSTEM      : 시스템관리
+-- SUBSYSTEM   : 거래처정보
+-- PAGE        : 거래처정보관리/담당자추가 도움창
+-- PROJECT     : P_FI_PARTNERPTR_SUB
+-- DESCRIPTION :
+-- ================================================
+-- CHANGE HISTORY
+-- v1.0 : 2011.02.16 이대성 수정 - 주요사용 컬럼 추가
+-- v1.1 : 2012.08.21 박창수 수정 - 팩스번호 컬럼 추가
+-- ================================================
+SET NOCOUNT ON
+
+INSERT INTO FI_PARTNERPTR
+(
+	CD_COMPANY,
+	CD_PARTNER,
+	SEQ,
+	NM_PTR,
+	NM_EMAIL,
+	NO_HP,
+	NO_TEL,
+	CLIENT_NOTE,
+	USE_YN,
+	ID_INSERT,
+	DTS_INSERT,
+	NO_FAX,
+	NM_DEPT,
+	NM_DUTY_RESP,
+	EN_DUTY_RESP,
+	EN_PTR
+)
+VALUES
+(
+	@P_CD_COMPANY,
+	@P_CD_PARTNER,
+	@P_SEQ,
+	@P_NM_PTR,
+	@P_NM_EMAIL,
+	@P_NO_HP,
+	@P_NO_TEL,
+	@P_CLIENT_NOTE,
+	@P_USE_YN,
+	@P_ID_INSERT,
+	NEOE.SF_SYSDATE(GETDATE()),
+	@P_NO_FAX,
+	@P_NM_DEPT,
+	@P_NM_DUTY_RESP,
+	@P_EN_DUTY_RESP,
+	@P_EN_PTR
+)
+
+SET NOCOUNT OFF
+GO
+

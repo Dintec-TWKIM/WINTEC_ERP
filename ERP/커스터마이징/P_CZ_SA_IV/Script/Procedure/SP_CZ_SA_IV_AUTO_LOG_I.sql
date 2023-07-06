@@ -1,0 +1,70 @@
+USE [NEOE]
+GO
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SA_IV_AUTO_LOG_I]    Script Date: 2016-04-12 오전 11:07:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [NEOE].[SP_CZ_SA_IV_AUTO_LOG_I]    
+(    
+    @P_CD_COMPANY       NVARCHAR(7),
+    @P_NO_IO            NVARCHAR(20), 
+    @P_DT_IO            NVARCHAR(8), 
+    @P_DT_LOADING       NVARCHAR(8),  
+    @P_YN_COLOR         NVARCHAR(1), 
+    @P_TP_INV           NVARCHAR(3), 
+    @P_FROM_EMAIL       NVARCHAR(MAX), 
+    @P_TO_EMAIL         NVARCHAR(MAX),  
+    @P_CC               NVARCHAR(MAX), 
+    @P_WEB_EMAIL        NVARCHAR(MAX),  
+    @P_YN_RESULT        NVARCHAR(1),
+    @P_ID_INSERT        NVARCHAR(15)
+)    
+AS
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+DECLARE @V_NO_HST INT
+
+SELECT @V_NO_HST = (ISNULL(MAX(NO_HST), 0) + 1) 
+FROM CZ_SA_IV_AUTO_LOG
+WHERE CD_COMPANY = @P_CD_COMPANY
+AND NO_IO = @P_NO_IO
+
+INSERT INTO CZ_SA_IV_AUTO_LOG
+(
+    CD_COMPANY, 
+    NO_IO, 
+    NO_HST, 
+    DT_IO, 
+    DT_LOADING, 
+    YN_COLOR, 
+    TP_INV, 
+    FROM_EMAIL, 
+    TO_EMAIL, 
+    CC, 
+    WEB_EMAIL, 
+    YN_RESULT,
+    ID_INSERT, 
+    DTS_INSERT
+)
+VALUES
+(
+    @P_CD_COMPANY,
+    @P_NO_IO, 
+    @V_NO_HST,
+    @P_DT_IO, 
+    @P_DT_LOADING,  
+    @P_YN_COLOR, 
+    @P_TP_INV, 
+    @P_FROM_EMAIL, 
+    @P_TO_EMAIL,  
+    @P_CC, 
+    @P_WEB_EMAIL,  
+    @P_YN_RESULT,
+    @P_ID_INSERT,
+    NEOE.SF_SYSDATE(GETDATE())
+)
+
+GO

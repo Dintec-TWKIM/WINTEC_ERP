@@ -1,0 +1,272 @@
+USE [NEOE]
+GO
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_FI_ETAX_DIFF_RPT_S]    Script Date: 2018-02-09 오전 9:32:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [NEOE].[SP_CZ_FI_ETAX_DIFF_RPT_S]
+(
+	@P_CD_COMPANY		NVARCHAR(7),
+    @P_DT_FROM          NVARCHAR(8),
+    @P_DT_TO            NVARCHAR(8),
+    @P_YN_DIFF          NVARCHAR(1),
+    @P_NO_ETAX          NVARCHAR(50)
+) 
+AS
+ 
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+;WITH A1 AS
+(
+    SELECT EX.NO_COMPANY1,
+           EX.DT_START,
+           COUNT(1) AS CNT,
+           SUM(EX.AM_TAXSTD) AS AM_TAXSTD,
+           SUM(EX.AM_ADDTAX) AS AM_ADDTAX
+    FROM FI_ETAX EX
+    WHERE EX.CD_COMPANY = @P_CD_COMPANY
+    AND EX.DT_START BETWEEN @P_DT_FROM AND @P_DT_TO
+    AND EX.TP_GUBUN = '2'
+    GROUP BY EX.NO_COMPANY1, EX.DT_START
+),
+B1 AS
+(
+    SELECT TX.ID_UPDATE,
+           TX.DT_START,
+           COUNT(1) AS CNT,
+           SUM(TX.AM_TAXSTD) AS AM_TAXSTD,
+           SUM(TX.AM_ADDTAX) AS AM_ADDTAX
+    FROM FI_TAX TX
+    WHERE TX.CD_COMPANY = @P_CD_COMPANY
+    AND TX.DT_START BETWEEN @P_DT_FROM AND @P_DT_TO
+    AND TX.TP_TAX IN ('21', '22', '23', '38', '43', '69')
+    GROUP BY TX.ID_UPDATE, TX.DT_START
+),
+C1 AS
+(
+    SELECT A.NO_COMPANY1,
+           A.DT_START,
+           A.CNT AS CNT1,
+           A.AM_TAXSTD AS AM_TAXSTD1,
+           A.AM_ADDTAX AS AM_ADDTAX1,
+           B.ID_UPDATE AS NO_COMPANY2,
+           B.CNT AS CNT2,
+           B.AM_TAXSTD AS AM_TAXSTD2,
+           B.AM_ADDTAX AS AM_ADDTAX2,
+           (A.CNT - B.CNT) AS CNT_DIFF,
+           (A.AM_TAXSTD - B.AM_TAXSTD) AS AM_TAXSTD_DIFF,
+           (A.AM_ADDTAX - B.AM_ADDTAX) AS AM_ADDTAX_DIFF
+    FROM A1 A
+    LEFT JOIN B1 B ON B.ID_UPDATE = A.NO_COMPANY1 AND B.DT_START = A.DT_START
+    WHERE (ISNULL(A.AM_TAXSTD, 0) <> ISNULL(B.AM_TAXSTD, 0) OR ISNULL(A.AM_ADDTAX, 0) <> ISNULL(B.AM_ADDTAX, 0))
+),
+D1 AS
+(
+    SELECT EX.CD_COMPANY,
+           EX.NO_ETAX,
+           EX.DT_START,
+           EX.NO_COMPANY1,
+           EX.NM_COMPANY1,
+           EX.AM_SUM,
+           EX.AM_TAXSTD,
+           EX.AM_ADDTAX,
+           EX.TP_TAX,
+           EX.NM_BIGO,
+           EX.BUY_DAM_EMAIL,
+           EX.BUY_DAM_EMAIL2,
+           EX.NM_ITEM,
+           ME.NM_KOR,
+           ROW_NUMBER() OVER (PARTITION BY EX.NO_COMPANY1, EX.DT_START, EX.AM_TAXSTD, EX.AM_ADDTAX ORDER BY EX.DT_START) AS IDX
+    FROM FI_ETAX EX
+    LEFT JOIN MA_EMP ME ON ME.CD_COMPANY = EX.CD_COMPANY AND ME.NO_EMAIL = EX.BUY_DAM_EMAIL AND ISNULL(EX.BUY_DAM_EMAIL, '') <> ''
+    WHERE EX.CD_COMPANY = @P_CD_COMPANY
+    AND EX.DT_START BETWEEN @P_DT_FROM AND @P_DT_TO
+    AND EX.TP_GUBUN = '2'
+    AND (ISNULL(@P_YN_DIFF, 'N') = 'N' OR EXISTS (SELECT 1 
+                                                  FROM C1 C 
+                                                  WHERE C.NO_COMPANY1 = EX.NO_COMPANY1
+                                                  AND C.DT_START = EX.DT_START))
+),
+E1 AS
+(
+    SELECT D.CD_COMPANY,
+           D.NO_ETAX,
+           D.DT_START,
+           D.NO_COMPANY1,
+           D.NM_COMPANY1,
+           D.AM_SUM,
+           D.AM_TAXSTD,
+           D.AM_ADDTAX,
+           D.TP_TAX,
+           D.NM_BIGO,
+           D.BUY_DAM_EMAIL,
+           D.BUY_DAM_EMAIL2,
+           D.NM_ITEM,
+           D.NM_KOR,
+           (CASE WHEN EXISTS (SELECT 1 
+                              FROM CZ_PU_ETAXH TX
+                              WHERE TX.CD_COMPANY = @P_CD_COMPANY
+                              AND TX.NO_ETAX = D.NO_ETAX) THEN 'Y' ELSE 'N' END) AS YN_AUTO
+    FROM D1 D
+    LEFT JOIN (SELECT TX.ID_UPDATE,
+                      TX.DT_START,
+                      TX.AM_TAXSTD,
+                      TX.AM_ADDTAX,
+                      ROW_NUMBER() OVER (PARTITION BY TX.ID_UPDATE, TX.DT_START, TX.AM_TAXSTD, TX.AM_ADDTAX ORDER BY TX.DT_START) AS IDX
+               FROM FI_TAX TX
+               WHERE TX.CD_COMPANY = @P_CD_COMPANY
+               AND TX.DT_START BETWEEN @P_DT_FROM AND @P_DT_TO
+               AND TX.TP_TAX IN ('21', '22', '23', '38', '43', '69')) TX
+    ON TX.ID_UPDATE = D.NO_COMPANY1 AND TX.DT_START = D.DT_START AND TX.AM_TAXSTD = D.AM_TAXSTD AND TX.AM_ADDTAX = D.AM_ADDTAX AND TX.IDX = D.IDX
+    WHERE (ISNULL(@P_YN_DIFF, 'N') = 'N' OR TX.IDX IS NULL)
+),
+A2 AS
+(
+    SELECT EX.NO_COMPANY1,
+           EX.DT_START,
+           COUNT(1) AS CNT,
+           SUM(EX.AM_TAXSTD) AS AM_TAXSTD,
+           SUM(EX.AM_ADDTAX) AS AM_ADDTAX
+    FROM FI_ETAX2 EX
+    WHERE EX.CD_COMPANY = @P_CD_COMPANY
+    AND EX.DT_START BETWEEN @P_DT_FROM AND @P_DT_TO
+    AND EX.TP_GUBUN = '2'
+    GROUP BY EX.NO_COMPANY1, EX.DT_START
+),
+B2 AS
+(
+    SELECT TX.ID_UPDATE,
+           TX.DT_START,
+           COUNT(1) AS CNT,
+           SUM(TX.AM_TAXSTD) AS AM_TAXSTD,
+           SUM(TX.AM_ADDTAX) AS AM_ADDTAX
+    FROM FI_TAX TX
+    WHERE TX.CD_COMPANY = @P_CD_COMPANY
+    AND TX.DT_START BETWEEN @P_DT_FROM AND @P_DT_TO
+    AND TX.TP_TAX IN ('26','27','29','32','40','44','46','48','51','54','61','63','65','67')
+    GROUP BY TX.ID_UPDATE, TX.DT_START
+),
+C2 AS
+(
+    SELECT A.NO_COMPANY1,
+           A.DT_START,
+           A.CNT AS CNT1,
+           A.AM_TAXSTD AS AM_TAXSTD1,
+           A.AM_ADDTAX AS AM_ADDTAX1,
+           B.ID_UPDATE AS NO_COMPANY2,
+           B.CNT AS CNT2,
+           B.AM_TAXSTD AS AM_TAXSTD2,
+           B.AM_ADDTAX AS AM_ADDTAX2,
+           (A.CNT - B.CNT) AS CNT_DIFF,
+           (A.AM_TAXSTD - B.AM_TAXSTD) AS AM_TAXSTD_DIFF,
+           (A.AM_ADDTAX - B.AM_ADDTAX) AS AM_ADDTAX_DIFF
+    FROM A2 A
+    LEFT JOIN B2 B ON B.ID_UPDATE = A.NO_COMPANY1 AND B.DT_START = A.DT_START
+    WHERE (ISNULL(A.AM_TAXSTD, 0) <> ISNULL(B.AM_TAXSTD, 0) OR ISNULL(A.AM_ADDTAX, 0) <> ISNULL(B.AM_ADDTAX, 0))
+),
+D2 AS
+(
+    SELECT EX.CD_COMPANY,
+           EX.NO_ETAX,
+           EX.DT_START,
+           EX.NO_COMPANY1,
+           EX.NM_COMPANY1,
+           EX.AM_SUM,
+           EX.AM_TAXSTD,
+           EX.AM_ADDTAX,
+           EX.TP_TAX,
+           EX.NM_BIGO,
+           EX.BUY_DAM_EMAIL,
+           EX.BUY_DAM_EMAIL2,
+           EX.NM_ITEM,
+           ME.NM_KOR,
+           ROW_NUMBER() OVER (PARTITION BY EX.NO_COMPANY1, EX.DT_START, EX.AM_TAXSTD, EX.AM_ADDTAX ORDER BY EX.DT_START) AS IDX
+    FROM FI_ETAX2 EX
+    LEFT JOIN MA_EMP ME ON ME.CD_COMPANY = EX.CD_COMPANY AND ME.NO_EMAIL = EX.BUY_DAM_EMAIL AND ISNULL(EX.BUY_DAM_EMAIL, '') <> ''
+    WHERE EX.CD_COMPANY = @P_CD_COMPANY
+    AND EX.DT_START BETWEEN @P_DT_FROM AND @P_DT_TO
+    AND EX.TP_GUBUN = '2'
+    AND (ISNULL(@P_YN_DIFF, 'N') = 'N' OR EXISTS (SELECT 1 
+                                                  FROM C2 C 
+                                                  WHERE C.NO_COMPANY1 = EX.NO_COMPANY1
+                                                  AND C.DT_START = EX.DT_START))
+),
+E2 AS
+(
+    SELECT D.CD_COMPANY,
+           D.NO_ETAX,
+           D.DT_START,
+           D.NO_COMPANY1,
+           D.NM_COMPANY1,
+           D.AM_SUM,
+           D.AM_TAXSTD,
+           D.AM_ADDTAX,
+           D.TP_TAX,
+           D.NM_BIGO,
+           D.BUY_DAM_EMAIL,
+           D.BUY_DAM_EMAIL2,
+           D.NM_ITEM,
+           D.NM_KOR,
+           (CASE WHEN EXISTS (SELECT 1 
+                              FROM CZ_PU_ETAXH TX
+                              WHERE TX.CD_COMPANY = @P_CD_COMPANY
+                              AND TX.NO_ETAX = D.NO_ETAX) THEN 'Y' ELSE 'N' END) AS YN_AUTO
+    FROM D2 D
+    LEFT JOIN (SELECT TX.ID_UPDATE,
+                      TX.DT_START,
+                      TX.AM_TAXSTD,
+                      TX.AM_ADDTAX,
+                      ROW_NUMBER() OVER (PARTITION BY TX.ID_UPDATE, TX.DT_START, TX.AM_TAXSTD, TX.AM_ADDTAX ORDER BY TX.DT_START) AS IDX
+               FROM FI_TAX TX
+               WHERE TX.CD_COMPANY = @P_CD_COMPANY
+               AND TX.DT_START BETWEEN @P_DT_FROM AND @P_DT_TO
+               AND TX.TP_TAX IN ('26','27','29','32','40','44','46','48','51','54','61','63','65','67')) TX
+    ON TX.ID_UPDATE = D.NO_COMPANY1 AND TX.DT_START = D.DT_START AND TX.AM_TAXSTD = D.AM_TAXSTD AND TX.AM_ADDTAX = D.AM_ADDTAX AND TX.IDX = D.IDX
+    WHERE (ISNULL(@P_YN_DIFF, 'N') = 'N' OR TX.IDX IS NULL)
+)
+SELECT 'N' AS S,
+       E.NO_ETAX,
+       E.DT_START,
+       E.NO_COMPANY1,
+       E.NM_COMPANY1,
+       E.AM_SUM,
+       E.AM_TAXSTD,
+       E.AM_ADDTAX,
+       E.TP_TAX,
+       E.NM_BIGO,
+       E.BUY_DAM_EMAIL,
+       E.BUY_DAM_EMAIL2,
+       E.NM_ITEM,
+       E.NM_KOR,
+       E.YN_AUTO,
+       '001' AS TP_ETAX,
+       ED.DC_RMK
+FROM E1 E
+LEFT JOIN CZ_FI_ETAX_DIFF_RPT ED ON ED.CD_COMPANY = E.CD_COMPANY AND ED.NO_ETAX = E.NO_ETAX
+WHERE (ISNULL(@P_NO_ETAX, '') = '' OR E.NO_ETAX = @P_NO_ETAX)
+UNION ALL
+SELECT 'N' AS S,
+       E.NO_ETAX,
+       E.DT_START,
+       E.NO_COMPANY1,
+       E.NM_COMPANY1,
+       E.AM_SUM,
+       E.AM_TAXSTD,
+       E.AM_ADDTAX,
+       E.TP_TAX,
+       E.NM_BIGO,
+       E.BUY_DAM_EMAIL,
+       E.BUY_DAM_EMAIL2,
+       E.NM_ITEM,
+       E.NM_KOR,
+       E.YN_AUTO,
+       '002' AS TP_ETAX,
+       ED.DC_RMK
+FROM E2 E
+LEFT JOIN CZ_FI_ETAX_DIFF_RPT ED ON ED.CD_COMPANY = E.CD_COMPANY AND ED.NO_ETAX = E.NO_ETAX
+WHERE (ISNULL(@P_NO_ETAX, '') = '' OR E.NO_ETAX = @P_NO_ETAX)
+ORDER BY E.NO_COMPANY1, E.DT_START DESC
+
+

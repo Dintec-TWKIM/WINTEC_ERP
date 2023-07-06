@@ -1,0 +1,45 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="cz" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Tx_내역표시구분" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Tx_내역표시_Text" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Tx_품목표시구분" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Tx_공급자연락처구분" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Tx_공급자E_Mail" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Tx_공급자Hp" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="내역표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="품목표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)">일괄</Value>
+    </Setting>
+    <Setting Name="주소표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)">자동</Value>
+    </Setting>
+    <Setting Name="스탬프표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)">없음</Value>
+    </Setting>
+    <Setting Name="로고표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)">딘텍</Value>
+    </Setting>
+    <Setting Name="서명표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)">표시</Value>
+    </Setting>
+    <Setting Name="직인표시" Type="System.String" Scope="User">
+      <Value Profile="(Default)">미표시</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

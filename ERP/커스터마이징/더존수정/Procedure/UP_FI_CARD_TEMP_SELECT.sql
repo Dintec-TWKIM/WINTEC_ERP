@@ -1,0 +1,92 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [NEOE].[UP_FI_CARD_TEMP_SELECT]
+(
+	@P_CD_COMPANY	NVARCHAR(7),
+	@P_ACCT_NO		NTEXT,
+	@P_DT_FROM		NCHAR(8),
+	@P_DT_TO		NCHAR(8),
+	@P_ST_DOCU		VARCHAR(1)
+)
+AS
+/*******************************************
+**  SYSTEM			: 회계관리
+**  SUB SYSTEM		: 은행연동
+**  PAGE			: 법인카드승인내역
+**  DESC			:
+**  RETURN VALUES
+**
+**  작    성    자  :
+**  작    성    일	: 2006.11.27
+**
+**  수    정    자  : 심현주
+**  수 정 내 용		:
+*********************************************
+** CHANGE HISTORY
+** 2011.07.18 박창수 수정 (display 컬럼 추가)
+*********************************************
+*********************************************/
+
+SELECT 'N' S, 
+	   CT.C_CODE, 
+	   CT.ACCT_NO, 
+	   CT.BANK_CODE, 
+	   CT.TRADE_DATE, 
+	   CT.TRADE_TIME,
+	   CT.SEQ,
+	   (ISNULL(FC.NM_CARD, '') + ISNULL(CT.CLIENT_NOTE, '')) AS CLIENT_NOTE, 
+	   CT.TRADE_PLACE, 
+	   CT.PAY_TERM, 
+	   CT.PAY_MON, 
+	   CT.ASK_MON, 
+	   CT.DUE_DATE, 
+	   CT.ADMIN_NO,
+	   CT.ADMIN_GU,
+	   CT.ADMIN_AMT, 
+	   CT.ADMIN_TAX,
+	   CT.TRANS_GUBUN,
+	   CT.S_IDNO,
+	   CT.TRANS_FLAG,
+	   CT.DOCU_STAT,
+	   CT.INSERT_DATE, 
+	   CT.INSERT_TIME, 
+	   CT.INSERT_ID, 
+	   CT.NODE_CODE, 
+	   CT.DEPT_CODE, 
+	   CT.DATA_CODE,
+	   CT.WRITE_DATE, 
+	   CT.DATA_NO,
+	   CT.LINE_NO, 
+	   CT.NO_DOCU ,
+	   (CT.NODE_CODE+'-'+CT.NO_DOCU+'-'+CONVERT(VARCHAR(5), CT.LINE_NO)) FI_NODOCU,
+	   CT.CARD_TYPE,
+	   CT.SUPPLY_AMT,
+	   CT.VAT_AMT,
+	   CT.SERVICE_CHARGE,
+	   CT.MERC_NUM,
+	   CT.MERC_REPR,
+	   CT.TRADE_PLACE_TEL,
+	   CT.TRADE_PLACE_POST,
+	   CT.TRADE_PLACE_ADDR,
+	   CT.MCC_CODE_NAME,
+	   CT.MCC_CODE,
+	   CT.OVERSEAS_USE,
+	   CT.CURRENCY,
+	   CT.TRAN_AMT,
+	   CT.AQUI_RATE,
+	   CT.SEEKDATE,
+	   CT.VAT_TYPE,
+	   CT.CLOSE_YN,
+	   CT.CLOSEDATE	
+FROM CARD_TEMP CT
+LEFT JOIN FI_CARD FC ON FC.CD_COMPANY = CT.C_CODE AND REPLACE(FC.NO_CARD, '-', '') = CT.ACCT_NO
+WHERE CT.ACCT_NO IN (SELECT CD_STR FROM GETTABLEFROMSPLIT2(@P_ACCT_NO))
+AND CT.TRADE_DATE BETWEEN @P_DT_FROM AND @P_DT_TO
+AND	CT.C_CODE = @P_CD_COMPANY
+AND	(@P_ST_DOCU = '' OR @P_ST_DOCU IS NULL OR (@P_ST_DOCU = '0' AND CT.NO_DOCU IS NULL) OR (@P_ST_DOCU = '1' AND CT.NO_DOCU IS NOT NULL))
+ORDER BY CT.ACCT_NO, CT.TRADE_DATE, CT.TRADE_TIME, CT.SEQ ASC
+
+RETURN
+GO

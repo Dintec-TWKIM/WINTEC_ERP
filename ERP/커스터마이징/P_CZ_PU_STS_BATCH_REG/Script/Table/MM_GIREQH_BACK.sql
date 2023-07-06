@@ -1,0 +1,55 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[MM_GIREQH_BACK]    Script Date: 2017-03-09 오후 1:11:52 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[MM_GIREQH_BACK](
+	[NO_GIREQ] [nvarchar](20) NOT NULL,
+	[CD_PLANT] [nvarchar](7) NOT NULL,
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[DT_GIREQ] [nchar](8) NOT NULL,
+	[FG_GIREQ] [nchar](3) NULL,
+	[FG_GI] [nchar](3) NULL,
+	[CD_DEPT] [nvarchar](24) NULL,
+	[NO_EMP] [nvarchar](10) NULL,
+	[DC50_PO] [nvarchar](100) NULL,
+	[CD_SL] [nvarchar](7) NULL,
+	[NO_PR_PACK] [nvarchar](20) NULL,
+	[CD_GRPLANT] [nvarchar](7) NULL,
+	[CD_PARTNER] [nvarchar](20) NULL,
+	[FG_MODULE] [nvarchar](20) NULL,
+	[CD_PJT] [nvarchar](20) NULL,
+	[CD_CAR] [nvarchar](20) NULL,
+	[DC_RMK2] [nvarchar](100) NULL,
+	[YN_APP] [nvarchar](5) NULL,
+	[ST_STAT] [nvarchar](5) NULL,
+	[GI_PARTNER] [varchar](20) NULL,
+	[CNT_PRINT] [numeric](5, 0) NULL,
+	[LAST_PRINT_ID] [nvarchar](15) NULL,
+	[DATE_USERDEF1] [nvarchar](15) NULL,
+	[ID_DELETE] [nvarchar](15) NULL,
+	[DTS_DELETE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_MM_GIREQH_BACK] PRIMARY KEY CLUSTERED 
+(
+	[NO_GIREQ] ASC,
+	[CD_COMPANY] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [NEOE].[MM_GIREQH_BACK] ADD  DEFAULT ('PU') FOR [FG_MODULE]
+GO
+
+ALTER TABLE [NEOE].[MM_GIREQH_BACK] ADD  DEFAULT ('N') FOR [YN_APP]
+GO
+
+ALTER TABLE [NEOE].[MM_GIREQH_BACK] ADD  CONSTRAINT [DF__MM_GIREQH_BACK__ST_ST__2EFBB90A]  DEFAULT ('N') FOR [ST_STAT]
+GO
+
+

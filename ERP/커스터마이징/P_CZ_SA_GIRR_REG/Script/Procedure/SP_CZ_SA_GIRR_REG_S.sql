@@ -1,0 +1,226 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SA_GIRR_REG_S]    Script Date: 2021-03-26 오후 1:43:42 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [NEOE].[SP_CZ_SA_GIRR_REG_S]  
+(            
+    @P_CD_COMPANY       NVARCHAR(7),          
+    @P_NO_GIR           NVARCHAR(20),          
+    @P_CD_PLANT         NVARCHAR(7),
+    @P_FG_LANG		    NVARCHAR(4) = NULL	--언어
+)
+AS
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
+-- MultiLang Call
+EXEC UP_MA_LOCAL_LANGUAGE @P_FG_LANG
+
+DECLARE	@V_FSIZE_UM		NUMERIC(3,0),
+		@V_UPDOWN_UM	NVARCHAR(3),
+		@V_FORMAT_UM	NVARCHAR(50),
+		@V_SERVER_KEY	NVARCHAR(50)
+
+SELECT @V_SERVER_KEY = MAX(SERVER_KEY)
+FROM CM_SERVER_CONFIG  
+WHERE YN_UPGRADE = 'Y'     		
+
+EXEC UP_SF_GETUNIT_UM @P_CD_COMPANY, 'SA', 'I', @V_FSIZE_UM OUTPUT, @V_UPDOWN_UM OUTPUT, @V_FORMAT_UM OUTPUT
+IF @@ERROR <> 0 RETURN	
+
+SELECT A.NO_GIR,  --의뢰번호          
+	   A.DT_GIR,  --의뢰일자           
+	   A.CD_PARTNER, --거래처          
+	   (SELECT LN_PARTNER FROM DZSN_MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_PARTNER) LN_PARTNER, --거래처명          
+	   A.CD_PLANT,  --공장          
+	   A.TP_BUSI,  --거래구분          
+	   B.CD_SALEGRP, --영업그룹코드          
+	   (SELECT NM_SALEGRP FROM DZSN_MA_SALEGRP WHERE CD_COMPANY = A.CD_COMPANY AND CD_SALEGRP = B.CD_SALEGRP) NM_SALEGRP , --영업그룹명          
+	   A.NO_EMP,  --사원          
+	   (SELECT NM_KOR FROM DZSN_MA_EMP WHERE CD_COMPANY = A.CD_COMPANY AND NO_EMP = A.NO_EMP) NM_KOR, --담당자명          
+	   B.TP_GI,  --출하형태(반품형태)          
+	   (SELECT NM_QTIOTP FROM DZSN_MM_EJTP WHERE  CD_COMPANY = A.CD_COMPANY AND CD_QTIOTP = B.TP_GI) NM_GI, --출하형태명(반품형태명)          
+	   B.TP_VAT,  --과세구분          
+	   B.RT_VAT,  --과세구분          
+	   B.IV,   --유무환구분          
+	   B.CD_EXCH,  --환종          
+	   B.RT_EXCH,  --환율          
+	   B.FG_TAXP,  --처리구분          
+	   A.DC_RMK,  --비고          
+	   A.GI_PARTNER,        
+	   A.FG_UM,
+	   A.TXT_USERDEF4   
+FROM SA_GIRH A          
+JOIN (SELECT TOP 1 NO_GIR,
+	  			   CD_SALEGRP,
+	  			   TP_GI,
+	  			   TP_VAT,
+	  			   RT_VAT,
+	  			   IV,
+	  			   CD_EXCH,
+	  			   RT_EXCH,
+	  			   FG_TAXP          
+      FROM SA_GIRL           
+      WHERE CD_COMPANY = @P_CD_COMPANY          
+      AND NO_GIR = @P_NO_GIR          
+      AND RET = 'Y') B
+ON B.NO_GIR = A.NO_GIR          
+WHERE A.CD_COMPANY = @P_CD_COMPANY              
+AND A.NO_GIR = @P_NO_GIR          
+ORDER BY A.NO_GIR
+
+/*  
+ * END USER 배송정보 테이블 추가 : DZSN_SA_SOL_DLV   
+ * 이 테이블은 SA_GIRL 과 1:1 관계이나 업무상 데이터가 들어가지 않는 경우 있다는거~  
+ * 따라서 LEFT JOIN 해주어야 한다.  
+ * 배송정보 SA_SOL_DLV.FG_TRACK 기능추가 =>  SO : 수주등록, M : 출고요청등록, R : 출하반품의뢰등록   
+ * 업무상 다른화면에서 같은 번호를 넣는경우 발생에 따라 FG_TRACK 를 PK로 잡아 주었다.  
+ * 따라서 조인을 걸때 FG_TRACK 를 꼭 해주지 않으면 카테시안 곱이 발생할수 있다.  
+ */  
+SELECT 'N' AS S,
+       A.SEQ_GIR,   --의뢰항번          
+	   A.CD_ITEM,   --품목코드          
+	   A.TP_ITEM,   --품목타입          
+	   A.DT_DUEDATE,  --납품요청일          
+	   A.DT_REQGI,   --출하예정일          
+	   A.YN_INSPECT,       --검사유무          
+	   A.CD_SL,   --창고코드          
+	   MS.NM_SL,   --창고명          
+	   A.QT_GIR,   --반품수량          
+	   A.UM,    --단가(UI에서계산)          
+	   A.AM_GIR,   --금액(UI에서계산)    0.      
+	   A.AM_GIRAMT,  --원화금액(UI에서계산)          
+	   A.AM_VAT,   --부가세(UI에서계산)           
+	   A.UNIT,    --재고단위          
+	   A.QT_GIR_IM,  --반품재고수량          
+	   A.GI_PARTNER,  --납품처          
+	   MP.LN_PARTNER,      
+	   A.NO_PROJECT,  --프로젝트          
+	   S.NM_PROJECT,  --프로젝트명              
+	   A.NO_EMP,   --담당자          
+	   B.NM_ITEM,   --품목명          
+	   B.STND_ITEM,  --규격          
+	   B.UNIT_SO_FACT,     --재고단위수량          
+	   A.NO_IO_MGMT,  --반품수불번호          
+	   A.NO_IOLINE_MGMT,   --반품수불항번          
+	   A.NO_SO_MGMT,  --반품수주번호          
+	   A.NO_SOLINE_MGMT,   --반품수주항번          
+	   A.QT_GI,   --반품출하수량          
+	   A.NO_LC,   --LC번호          
+	   A.SEQ_LC,   --LC항번          
+	   A.TP_IV,   --매출형태          
+	   A.DC_RMK,       
+	   A.QT_GI_IM,   --재고단위 출고수량      
+	   A.STA_GIR,   --출하의뢰상태      
+	   D.NM_CUST_DLV,
+	   D.CD_ZIP,
+	   D.ADDR1,
+	   D.ADDR2,
+	   D.NO_TEL_D1,
+	   D.NO_TEL_D2,
+	   D.TP_DLV,
+	   D.DC_REQ,
+	   D.FG_TRACK,
+	   A.NO_SO,
+	   A.SEQ_SO,	-- 2010.06.14 장은경
+	   A.TP_BUSI,
+	   A.TP_GI,
+	   A.CD_SALEGRP,
+	   A.TP_VAT,
+	   A.RT_VAT,
+	   A.CD_EXCH,
+	   A.RT_EXCH,
+	   A.FG_TAXP,
+	   A.IV, -- 2010.06.14 장은경
+	   A.QT_QC_PASS,
+	   A.QT_QC_BAD,
+	   A.YN_QC_FIX,    -- 2010.11.09 서건수
+	   B.FG_SERNO,
+	   0.0 AS UM_SO,
+	   0.0 AS AM_SO,
+	   0.0 AS AM_SOAMT,
+	   0.0 AS AM_SOVAT,
+       MO.TP_SALEPRICE,			--2011-09-05, 최승애, 단가형태
+       A.AM_GIRAMT + A.AM_VAT AS AMVAT_GIR,    --부가세포함 원화금액
+       G.CD_ITEM_REF,
+	   P.NM_ITEM AS NM_ITEM_REF,
+       P.STND_ITEM AS STND_ITEM_REF,
+       A.YN_PICKING,
+       D.CD_USERDEF1 AS DLV_CD_USERDEF1,
+       D.TXT_USERDEF1 AS DLV_TXT_USERDEF1,
+       D.TP_DLV_DUE,
+       D.NO_ORDER,
+       D.NM_CUST,
+       D.NO_TEL1,
+       D.NO_TEL2,
+       G.QT_SO,
+       B.UNIT_SO,
+	   A.TP_UM_TAX, 
+       (CASE WHEN A.TP_UM_TAX = 'Y' THEN A.UMVAT_GIR
+								    ELSE NEOE.FN_SF_GETUNIT_UM('SA', '', @V_FSIZE_UM, @V_UPDOWN_UM, @V_FORMAT_UM, (A.AM_GIRAMT + A.AM_VAT) / A.QT_GIR) END) AS UMVAT_GIR,   --부가세포함 원화단가
+	   A.SEQ_PROJECT,  
+       SPL.CD_ITEM AS CD_UNIT,  
+       UNIT.NM_ITEM AS NM_UNIT,  
+       UNIT.STND_ITEM AS STND_UNIT,
+	   (CASE WHEN ISNULL(G.DC2, '0') = '0' THEN SOL.DC2 ELSE G.DC2 END) AS DC2,
+	   B.GRP_ITEM,
+	   B.GRP_MFG,
+	   B.STND_DETAIL_ITEM,
+	   B.MAT_ITEM,
+	   B.PARTNER AS ITEM_PARTNER,
+	   CD.NM_SYSDEF AS NM_GRP_MFG,
+	   IG.NM_ITEMGRP,
+	   ITEM_PN.LN_PARTNER AS NM_ITEM_PARTNER,
+	   M.TXT_USERDEF1,
+	   A.NUM_USERDEF1,
+	   A.NUM_USERDEF2,
+	   A.CD_USERDEF1,
+	   A.CD_USERDEF2,
+	   A.CD_USERDEF3,
+	   A.CD_USERDEF4,
+	   A.CD_USERDEF5,
+	   A.CD_USERDEF6,
+	   A.TXT_USERDEF1 AS GIRL_TXT_USERDEF1,
+	   A.TXT_USERDEF2 AS GIRL_TXT_USERDEF2,
+	   A.TXT_USERDEF3 AS GIRL_TXT_USERDEF3,
+	   A.TXT_USERDEF4 AS GIRL_TXT_USERDEF4,
+	   A.TXT_USERDEF5 AS GIRL_TXT_USERDEF5,
+	   A.TXT_USERDEF6 AS GIRL_TXT_USERDEF6,
+	   A.TXT_USERDEF7 AS GIRL_TXT_USERDEF7
+FROM SA_GIRL A          
+JOIN SA_GIRH C ON A.CD_COMPANY = C.CD_COMPANY AND A.NO_GIR = C.NO_GIR    
+LEFT JOIN SA_SOL_DLV D ON A.CD_COMPANY = D.CD_COMPANY AND A.NO_GIR = D.NO_SO AND A.SEQ_GIR = D.SEQ_SO AND D.FG_TRACK = 'R' --배송정보 조회  
+LEFT JOIN MA_PITEM B ON C.CD_COMPANY = B.CD_COMPANY AND C.CD_PLANT = B.CD_PLANT  AND A.CD_ITEM = B.CD_ITEM          
+LEFT JOIN MA_PARTNER MP ON A.CD_COMPANY = MP.CD_COMPANY AND A.GI_PARTNER = MP.CD_PARTNER      
+LEFT JOIN SA_SOH H ON A.CD_COMPANY = H.CD_COMPANY AND A.NO_SO = H.NO_SO 
+LEFT JOIN SA_SOL G ON A.CD_COMPANY = G.CD_COMPANY AND A.NO_SO = G.NO_SO  AND A.SEQ_SO = G.SEQ_SO              
+LEFT JOIN MA_SL MS ON A.CD_COMPANY = MS.CD_COMPANY AND B.CD_PLANT = MS.CD_PLANT AND A.CD_SL = MS.CD_SL --AND H.CD_BIZAREA = MS.CD_BIZAREA      
+LEFT JOIN SA_PROJECTH S ON A.CD_COMPANY = S.CD_COMPANY AND A.NO_PROJECT = S.NO_PROJECT-- AND H.NO_HST = S.NO_SEQ       
+LEFT JOIN MA_SALEGRP B1 ON  A.CD_COMPANY = B1.CD_COMPANY AND A.CD_SALEGRP = B1.CD_SALEGRP   
+LEFT JOIN MA_SALEORG MO ON  B1.CD_COMPANY = MO.CD_COMPANY AND B1.CD_SALEORG = MO.CD_SALEORG
+LEFT JOIN MA_PITEM P ON G.CD_COMPANY = P.CD_COMPANY AND G.CD_PLANT = P.CD_PLANT AND G.CD_ITEM_REF = P.CD_ITEM
+LEFT JOIN SA_PROJECTL SPL ON A.CD_COMPANY = SPL.CD_COMPANY AND A.NO_PROJECT = SPL.NO_PROJECT AND A.SEQ_PROJECT = SPL.SEQ_PROJECT  
+LEFT JOIN MA_PITEM UNIT ON SPL.CD_COMPANY = UNIT.CD_COMPANY AND SPL.CD_PLANT = UNIT.CD_PLANT AND SPL.CD_ITEM = UNIT.CD_ITEM   
+LEFT JOIN (SELECT CD_COMPANY, NO_SO, SEQ_SO, DC2  FROM SA_SOL WHERE CD_COMPANY = @P_CD_COMPANY AND @V_SERVER_KEY LIKE 'EMDM%') SOL ON SOL.CD_COMPANY = A.CD_COMPANY AND SOL.NO_SO = A.NO_SO_MGMT  AND SOL.SEQ_SO = A.NO_SOLINE_MGMT -- 대구특수금속 전용
+LEFT JOIN MA_CODEDTL CD ON CD.CD_COMPANY = B.CD_COMPANY AND CD.CD_FIELD ='MA_B000066' AND CD.CD_SYSDEF = B.GRP_MFG
+LEFT JOIN MA_ITEMGRP IG ON IG.CD_COMPANY = B.CD_COMPANY AND IG.CD_ITEMGRP = B.GRP_ITEM
+LEFT JOIN MA_PARTNER ITEM_PN ON ITEM_PN.CD_COMPANY = B.CD_COMPANY AND ITEM_PN.CD_PARTNER = B.PARTNER
+LEFT JOIN (SELECT MAX(L2.TXT_USERDEF1) TXT_USERDEF1, M.NO_IO, M.NO_IOLINE
+		   FROM MM_QTIO M
+		   LEFT JOIN SA_SOL L2 ON M.CD_COMPANY= L2.CD_COMPANY AND M.NO_PSO_MGMT = L2.NO_SO AND M.NO_PSOLINE_MGMT = L2.SEQ_SO
+		   WHERE M.CD_COMPANY = @P_CD_COMPANY
+		   GROUP BY M.NO_IO, M.NO_IOLINE) M 
+ON M.NO_IO = A.NO_IO_MGMT AND M.NO_IOLINE = A.NO_IOLINE_MGMT
+WHERE A.CD_COMPANY = @P_CD_COMPANY              
+AND A.NO_GIR = @P_NO_GIR              
+AND C.CD_PLANT = @P_CD_PLANT        
+AND A.RET = 'Y'         
+ORDER BY A.NO_GIR, A.SEQ_GIR
+
+GO

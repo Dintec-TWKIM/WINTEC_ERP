@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P_CZ_ROUT_UM", "P_CZ_ROUT_UM\P_CZ_ROUT_UM.csproj", "{F53B5963-243F-4441-A811-5F4656A61ABC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H_CZ_HELP", "..\H_CZ_HELP\H_CZ_HELP.csproj", "{3A985A47-6041-4B50-8EAF-80CB5894F6DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F53B5963-243F-4441-A811-5F4656A61ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F53B5963-243F-4441-A811-5F4656A61ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F53B5963-243F-4441-A811-5F4656A61ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F53B5963-243F-4441-A811-5F4656A61ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A985A47-6041-4B50-8EAF-80CB5894F6DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A985A47-6041-4B50-8EAF-80CB5894F6DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A985A47-6041-4B50-8EAF-80CB5894F6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A985A47-6041-4B50-8EAF-80CB5894F6DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

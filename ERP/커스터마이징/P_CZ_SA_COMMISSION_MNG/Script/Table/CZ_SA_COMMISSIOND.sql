@@ -1,0 +1,44 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_COMMISSIOND]    Script Date: 2020-04-02 오전 8:53:12 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_COMMISSIOND](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[NO_COMMISSION] [nvarchar](20) NOT NULL,
+	[YN_ADDED] [nvarchar](1) NOT NULL,
+	[NO_IV] [nvarchar](20) NOT NULL,
+	[NO_SO] [nvarchar](20) NOT NULL,
+	[DT_SO] [nvarchar](8) NULL,
+	[DT_IV] [nvarchar](8) NULL,
+	[DT_RCP] [nvarchar](8) NULL,
+	[CD_EXCH] [nvarchar](4) NULL,
+	[AM_IV] [numeric](18, 2) NULL,
+	[AM_CHARGE] [numeric](18, 2) NULL,
+	[AM_NET] [numeric](18, 2) NULL,
+	[YN_CHARGE] [nvarchar](1) NULL,
+	[RT_COMMISSION] [numeric](5, 2) NULL,
+	[AM_COMMISSION] [numeric](18, 2) NULL,
+	[AM_OUTSTANDING] [numeric](18, 2) NULL,
+	[AM_COMMISSION_BEFORE] [numeric](18, 2) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_SA_COMMISSIOND_1] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[NO_COMMISSION] ASC,
+	[YN_ADDED] ASC,
+	[NO_IV] ASC,
+	[NO_SO] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

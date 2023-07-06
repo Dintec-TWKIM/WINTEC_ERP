@@ -1,0 +1,52 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[UP_PU_RCVH_UPDATE]    Script Date: 2022-03-24 오후 5:48:05 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER PROC [NEOE].[UP_PU_RCVH_UPDATE]  
+(  
+ @P_CD_COMPANY  NVARCHAR(7),        -- 회사  
+ @P_NO_RCV  NVARCHAR(20),                -- 의뢰번호  
+ @P_DC_RMK  NVARCHAR(50),                -- 비고    
+ @P_ID_UPDATE  NVARCHAR(15),                -- 수정자  
+ @P_DC_RMK_TEXT		TEXT = NULL
+)  
+AS  
+BEGIN  
+         DECLARE @P_DTS_UPDATE VARCHAR(14),
+				 @V_CD_EXC          NVARCHAR(3),  
+				 @V_CD_EXC_MENU     NVARCHAR(3)
+
+ SET @P_DTS_UPDATE = REPLACE(REPLACE(REPLACE(CONVERT(VARCHAR(20), GETDATE(), 120), '-',''), ' ', ''),':','')
+ SELECT @V_CD_EXC = CD_EXC FROM MA_EXC WHERE CD_COMPANY = @P_CD_COMPANY  AND EXC_TITLE = '물류데이터전송연동 사용유무'  
+ SELECT @V_CD_EXC_MENU = CD_EXC FROM MA_EXC_MENU WHERE CD_COMPANY = @P_CD_COMPANY 
+												AND CD_TITLE = 'PU_A00000042'
+												AND NM_TITLE = '입고의뢰_물류데이터전송연동_사용유무'
+  
+ UPDATE PU_RCVH  
+ SET DC_RMK=@P_DC_RMK, DTS_UPDATE=@P_DTS_UPDATE, ID_UPDATE=@P_ID_UPDATE, 
+	 DC_RMK_TEXT = @P_DC_RMK_TEXT  
+ WHERE NO_RCV=@P_NO_RCV  AND CD_COMPANY=@P_CD_COMPANY    
+ 
+  
+ IF(@V_CD_EXC = '100' AND @V_CD_EXC_MENU IN ('100', '200'))
+  BEGIN
+	UPDATE MM_REQ_PUSH
+	SET    DC_RMK_H = @P_DC_RMK 
+	WHERE  NO_ISURCV  = @P_NO_RCV 
+	AND    CD_COMPANY = @P_CD_COMPANY     
+	AND    FG_PUSH = 'N'
+	AND    FG_IO IN ('001', '030')
+  END
+    
+  
+END
+GO
+
+

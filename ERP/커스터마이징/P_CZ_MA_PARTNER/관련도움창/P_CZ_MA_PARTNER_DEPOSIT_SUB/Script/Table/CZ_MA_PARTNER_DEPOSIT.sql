@@ -1,0 +1,41 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_MA_PARTNER_DEPOSIT]    Script Date: 2020-12-22 오후 2:59:48 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_MA_PARTNER_DEPOSIT](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[CD_PARTNER] [nvarchar](20) NOT NULL,
+	[NO_DEPOSIT] [nvarchar](40) NOT NULL,
+	[YN_USE] [nvarchar](1) NULL,
+	[CD_BANK] [nvarchar](3) NOT NULL,
+	[NM_BANK] [nvarchar](200) NULL,
+	[CD_BANK_NATION] [nvarchar](3) NULL,
+	[NO_SORT] [nvarchar](20) NULL,
+	[NO_SWIFT] [nvarchar](20) NULL,
+	[CD_DEPOSIT] [nvarchar](3) NULL,
+	[NM_DEPOSIT] [nvarchar](100) NULL,
+	[DC_DEPOSIT_TEL] [nvarchar](50) NULL,
+	[CD_DEPOSIT_NATION] [nvarchar](3) NULL,
+	[DC_DEPOSIT_ADDRESS] [nvarchar](200) NULL,
+	[NO_BANK_BIC] [nvarchar](20) NULL,
+	[DC_RMK] [nvarchar](50) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_MA_PARTNER_DEPOSIT] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[CD_PARTNER] ASC,
+	[NO_DEPOSIT] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

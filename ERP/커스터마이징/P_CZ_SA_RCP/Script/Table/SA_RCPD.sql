@@ -1,0 +1,48 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[SA_RCPD]    Script Date: 2016-05-18 오후 7:34:04 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[SA_RCPD](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[NO_RCP] [nvarchar](20) NOT NULL,
+	[NO_TX] [nvarchar](20) NOT NULL,
+	[NO_DOCU] [nvarchar](20) NOT NULL,
+	[NO_DOLINE] [numeric](5, 0) NOT NULL,
+	[DT_IV] [nvarchar](8) NOT NULL,
+	[TP_SO] [nvarchar](3) NOT NULL,
+	[AM_IV] [numeric](17, 4) NOT NULL,
+	[AM_RCP_TX] [numeric](17, 4) NOT NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+	[AM_IV_EX] [numeric](17, 4) NULL,
+	[RT_EXCH_IV] [numeric](11, 4) NULL,
+	[AM_PL] [numeric](17, 4) NULL,
+	[AM_RCP_TX_EX] [numeric](17, 4) NULL,
+	[CD_USERDEF1] [nvarchar](4) NULL,
+ CONSTRAINT [PK_SA_RCPD_1] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[NO_RCP] ASC,
+	[NO_TX] ASC,
+	[NO_DOCU] ASC,
+	[NO_DOLINE] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [NEOE].[SA_RCPD] ADD  CONSTRAINT [DF__SA_RCPD__AM_IV__02491253]  DEFAULT ((0)) FOR [AM_IV]
+GO
+
+ALTER TABLE [NEOE].[SA_RCPD] ADD  CONSTRAINT [DF__SA_RCPD__AM_RCP___033D368C]  DEFAULT ((0)) FOR [AM_RCP_TX]
+GO
+
+

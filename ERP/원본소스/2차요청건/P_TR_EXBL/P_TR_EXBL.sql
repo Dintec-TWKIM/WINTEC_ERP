@@ -1,0 +1,1047 @@
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_SELECT'))
+DROP PROCEDURE UP_TR_EXBL_SELECT
+GO 
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_SELECT
+ * 관련페이지: 수출 >> 선적등록 >> 조회
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_SELECT '',''
+ *********************************************************************************************************/ 
+  
+CREATE PROCEDURE UP_TR_EXBL_SELECT
+	@P_CD_COMPANY   NVARCHAR(7),  
+	@P_NO_BL		NVARCHAR(20) -- 선적번호  
+AS  
+BEGIN
+	SELECT  NO_BL,		-- B/L번호  
+		NO_TO,			-- 통관번호  
+		NO_INV,			-- 송장번호  
+		CD_BIZAREA,		-- 사업장  
+		CD_SALEGRP,		-- 영업그룹  
+		NO_EMP,			-- 담당자  
+		CD_PARTNER,		-- 거래처  
+		DT_BALLOT,		-- 기표일자  
+		CD_EXCH,		-- 환종  
+		RT_EXCH,		-- 환율  
+		AM_EX,			-- 외화금액  
+		FLOOR(AM) AS AM,-- 원화금액  
+		AM_EXNEGO,		-- NEGO외화금액  
+		AM_NEGO,		-- NEGO원화금액  
+		YN_SLIP,		-- 전표처리상태  
+		NO_SLIP,		-- 전표번호  
+		CD_EXPORT,		-- 수출자  
+		DT_LOADING,		-- 선적예정일  
+		DT_ARRIVAL,		-- 도착예정일  
+		SHIP_CORP,		-- 선사  
+		NM_VESSEL,		-- VESSEL명  
+		PORT_LOADING,	-- 선적지  
+		PORT_NATION,	-- 도착국  
+		PORT_ARRIVER,	-- 도착지  
+		COND_SHIPMENT,	-- 선적조건  
+		FG_BL,			-- 선적구분  
+		FG_LC,			-- LC구분  
+		COND_PAY,		-- 결제형태  
+		COND_DAYS,		-- 결제일수  
+		DT_PAYABLE,		-- 결제만기일  
+		REMARK1,		-- 비고1  
+		REMARK2,		-- 비고2  
+		REMARK3,		-- 비고3  
+		(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_PARTNER) NM_PARTNER,    
+		(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.SHIP_CORP) NM_SHIP_CORP,    
+		(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_EXPORT) NM_EXPORT,    
+		(SELECT NM_KOR FROM MA_EMP WHERE CD_COMPANY = A.CD_COMPANY AND NO_EMP = A.NO_EMP) NM_KOR,    
+		(SELECT NM_SALEGRP FROM MA_SALEGRP WHERE CD_COMPANY = A.CD_COMPANY AND CD_SALEGRP = A.CD_SALEGRP) NM_SALEGRP,    
+		(SELECT NM_BIZAREA FROM MA_BIZAREA WHERE CD_COMPANY = A.CD_COMPANY AND CD_BIZAREA = A.CD_BIZAREA) NM_BIZAREA  
+	FROM TR_EXBL A  
+	WHERE NO_BL = @P_NO_BL    
+	AND CD_COMPANY = @P_CD_COMPANY 
+ END
+ GO  
+  
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_DELETE'))
+DROP PROCEDURE UP_TR_EXBL_DELETE
+GO 
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_DELETE
+ * 관련페이지: 수출 >> 선적등록 >> 삭제
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_DELETE '',''
+ *********************************************************************************************************/ 
+  
+CREATE PROCEDURE UP_TR_EXBL_DELETE    
+	@P_CD_COMPANY   NVARCHAR(7),  
+	@P_NO_BL		NVARCHAR(40)  
+AS    
+BEGIN
+	IF EXISTS (SELECT * FROM TR_COSTEXH WHERE CD_COMPANY = @P_CD_COMPANY AND FG_PRODUCT = '004' AND NO_BL = @P_NO_BL)  
+	BEGIN  
+		SET NOCOUNT OFF  
+		RAISERROR -5000 '판매 경비가 등록되어 있어 삭제할 수 없습니다.'  
+		RETURN  
+	END  
+  
+	DELETE FROM TR_EXBLL
+	WHERE NO_BL = @P_NO_BL
+	AND CD_COMPANY = @P_CD_COMPANY
+  
+	DELETE FROM TR_EXBL    
+	WHERE NO_BL = @P_NO_BL
+	AND	CD_COMPANY = @P_CD_COMPANY
+END
+GO
+
+  
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_INSERT'))
+DROP PROCEDURE UP_TR_EXBL_INSERT
+GO 
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_INSERT
+ * 관련페이지: 수출 >> 선적등록 >> 저장
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_INSERT '',''
+ *********************************************************************************************************/ 
+ 
+CREATE PROCEDURE UP_TR_EXBL_INSERT    
+	@P_NO_BL			NVARCHAR(20),    
+	@P_CD_COMPANY		NVARCHAR(7),    
+	@P_NO_TO			NVARCHAR(20),    
+	@P_NO_INV			NVARCHAR(20),    
+	@P_CD_BIZAREA		NVARCHAR(7),    
+	
+	@P_CD_SALEGRP		NVARCHAR(7),    
+	@P_NO_EMP			NVARCHAR(10),    
+	@P_CD_PARTNER		NVARCHAR(7),    
+	@P_DT_BALLOT		NCHAR(8),    
+	@P_CD_EXCH			NVARCHAR(3),    
+	
+	@P_RT_EXCH			NUMERIC(15,4),    
+	@P_AM_EX			NUMERIC(17,4),    
+	@P_AM				NUMERIC(17,4),    
+	@P_AM_EXNEGO		NUMERIC(17,4),    
+	@P_AM_NEGO			NUMERIC(17,4),    
+	
+	@P_YN_SLIP			NCHAR(1),    
+	@P_NO_SLIP			NVARCHAR(12),    
+	@P_CD_EXPORT		NVARCHAR(7),    
+	@P_DT_LOADING		NCHAR(8),    
+	@P_DT_ARRIVAL		NCHAR(8),    
+	
+	@P_SHIP_CORP		NVARCHAR(7),    
+	@P_NM_VESSEL		NVARCHAR(50),    
+	@P_PORT_LOADING		NVARCHAR(50),    
+	@P_PORT_NATION		NVARCHAR(3),    
+	@P_PORT_ARRIVER		NVARCHAR(50),    
+	
+	@P_COND_SHIPMENT	NVARCHAR(3),    
+	@P_FG_BL			NVARCHAR(3),    
+	@P_FG_LC			NVARCHAR(3),    
+	@P_COND_PAY			NVARCHAR(3),    
+	@P_COND_DAYS		NUMERIC(4,0),    
+	
+	@P_DT_PAYABLE		NCHAR(8),    
+	@P_REMARK1			NVARCHAR(100),    
+	@P_REMARK2			NVARCHAR(100),    
+	@P_REMARK3			NVARCHAR(100),    
+	@P_ID_INSERT		NVARCHAR(15)    
+AS    
+BEGIN  
+	DECLARE @P_DTS_INSERT VARCHAR(14),    
+			@P_CNT  NUMERIC(4,0)    
+    
+	SET @P_DTS_INSERT = REPLACE(REPLACE(REPLACE(CONVERT(VARCHAR(20), GETDATE(), 120), '-',''), ' ', ''),':','')    
+	SET @P_CNT = 0    
+    
+	BEGIN    
+		SELECT @P_CNT =  ISNULL(COUNT(*),0)    
+		FROM TR_EXBL    
+		WHERE CD_COMPANY = @P_CD_COMPANY AND NO_BL = @P_NO_BL    
+	END    
+    
+	-- 중복된 자료가 없으면 INSERT    
+	IF @P_CNT = 0     
+	BEGIN    
+		INSERT INTO TR_EXBL (NO_BL,			CD_COMPANY,		NO_TO,		NO_INV,		CD_BIZAREA,		CD_SALEGRP,     
+							 NO_EMP,		CD_PARTNER,		DT_BALLOT,  CD_EXCH,	RT_EXCH,		AM_EX,     
+							 AM,			AM_EXNEGO,		AM_NEGO,	YN_SLIP,	NO_SLIP,		CD_EXPORT,     
+							 DT_LOADING,	DT_ARRIVAL,		SHIP_CORP,  NM_VESSEL,  PORT_LOADING,	PORT_NATION,     
+							 PORT_ARRIVER,  COND_SHIPMENT,	FG_BL,		FG_LC,		COND_PAY,		COND_DAYS,     
+							 DT_PAYABLE,	REMARK1,		REMARK2,	REMARK3,	ID_INSERT,		DTS_INSERT)
+							    
+		VALUES(@P_NO_BL,		@P_CD_COMPANY,		@P_NO_TO,		@P_NO_INV,		@P_CD_BIZAREA,		@P_CD_SALEGRP,     
+			   @P_NO_EMP,		@P_CD_PARTNER,		@P_DT_BALLOT,	@P_CD_EXCH,		@P_RT_EXCH,			@P_AM_EX,     
+			   FLOOR(@P_AM),	@P_AM_EXNEGO,		@P_AM_NEGO,		'N',			@P_NO_SLIP,			@P_CD_EXPORT,     
+			   @P_DT_LOADING,	@P_DT_ARRIVAL,		@P_SHIP_CORP,	@P_NM_VESSEL,	@P_PORT_LOADING,	@P_PORT_NATION,     
+			   @P_PORT_ARRIVER, @P_COND_SHIPMENT,	@P_FG_BL,		@P_FG_LC,		@P_COND_PAY,		@P_COND_DAYS,     
+			   @P_DT_PAYABLE,	@P_REMARK1,			@P_REMARK2,		@P_REMARK3,		@P_ID_INSERT,		@P_DTS_INSERT)
+			
+		-- 통관테이블의 선적여부를 'Y' 업데이트 한다.    
+		UPDATE TR_EXTO SET   YN_BL = 'Y'    
+		WHERE CD_COMPANY = @P_CD_COMPANY AND NO_TO = @P_NO_TO    
+	END    
+END
+GO   
+
+
+  
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_UPDATE'))
+DROP PROCEDURE UP_TR_EXBL_UPDATE
+GO 
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_UPDATE
+ * 관련페이지: 수출 >> 선적등록 >> 수정
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_UPDATE '',''
+ *********************************************************************************************************/ 
+ 
+CREATE PROCEDURE UP_TR_EXBL_UPDATE    
+	@P_NO_BL			NVARCHAR(20),    
+	@P_CD_COMPANY		NVARCHAR(7),    
+	@P_NO_TO			NVARCHAR(20),    
+	@P_NO_INV			NVARCHAR(20),    
+	@P_CD_BIZAREA		NVARCHAR(7),    
+	
+	@P_CD_SALEGRP		NVARCHAR(7),    
+	@P_NO_EMP			NVARCHAR(10),    
+	@P_CD_PARTNER		NVARCHAR(7),    
+	@P_DT_BALLOT		NCHAR(8),    
+	@P_CD_EXCH			NVARCHAR(3),    
+	
+	@P_RT_EXCH			NUMERIC(15,4),    
+	@P_AM_EX			NUMERIC(17,4),    
+	@P_AM				NUMERIC(17,4),    
+	@P_AM_EXNEGO		NUMERIC(17,4),    
+	@P_AM_NEGO			NUMERIC(17,4),    
+	
+	@P_YN_SLIP			NCHAR(1),    
+	@P_NO_SLIP			NVARCHAR(12),    
+	@P_CD_EXPORT		NVARCHAR(7),    
+	@P_DT_LOADING		NCHAR(8),    
+	@P_DT_ARRIVAL		NCHAR(8),    
+	
+	@P_SHIP_CORP		NVARCHAR(7),    
+	@P_NM_VESSEL		NVARCHAR(50),    
+	@P_PORT_LOADING		NVARCHAR(50),    
+	@P_PORT_NATION		NVARCHAR(3),    
+	@P_PORT_ARRIVER		NVARCHAR(50),    
+	
+	@P_COND_SHIPMENT	NVARCHAR(3),    
+	@P_FG_BL			NVARCHAR(3),    
+	@P_FG_LC			NVARCHAR(3),    
+	@P_COND_PAY			NVARCHAR(3),    
+	@P_COND_DAYS		NUMERIC(4,0),    
+	
+	@P_DT_PAYABLE		NCHAR(8),    
+	@P_REMARK1			NVARCHAR(100),    
+	@P_REMARK2			NVARCHAR(100),    
+	@P_REMARK3			NVARCHAR(100),    
+	@P_ID_UPDATE		NVARCHAR(15)    
+AS    
+BEGIN 
+	DECLARE @P_DTS_UPDATE VARCHAR(14)    
+	SET @P_DTS_UPDATE = REPLACE(REPLACE(REPLACE(CONVERT(VARCHAR(20), GETDATE(), 120), '-',''), ' ', ''),':','')    
+
+	UPDATE TR_EXBL 
+	SET     
+		NO_TO			= @P_NO_TO,  
+		NO_INV			= @P_NO_INV,  
+		CD_BIZAREA		= @P_CD_BIZAREA,     
+		CD_SALEGRP		= @P_CD_SALEGRP,  
+		NO_EMP			= @P_NO_EMP,  
+		CD_PARTNER		= @P_CD_PARTNER,     
+		DT_BALLOT		= @P_DT_BALLOT,  
+		CD_EXCH			= @P_CD_EXCH,  
+		RT_EXCH			= @P_RT_EXCH,     
+		AM_EX			= @P_AM_EX,  
+		AM				= FLOOR(@P_AM),  
+		AM_EXNEGO		= @P_AM_EXNEGO,     
+		AM_NEGO			= @P_AM_NEGO,  
+		YN_SLIP			= @P_YN_SLIP,  
+		NO_SLIP			= @P_NO_SLIP,     
+		CD_EXPORT		= @P_CD_EXPORT,  
+		DT_LOADING		= @P_DT_LOADING,  
+		DT_ARRIVAL		= @P_DT_ARRIVAL,     
+		SHIP_CORP		= @P_SHIP_CORP,  
+		NM_VESSEL		= @P_NM_VESSEL,  
+		PORT_LOADING    = @P_PORT_LOADING,     
+		PORT_NATION		= @P_PORT_NATION,  
+		PORT_ARRIVER    = @P_PORT_ARRIVER,  
+		COND_SHIPMENT   = @P_COND_SHIPMENT,     
+		FG_BL			= @P_FG_BL,  
+		FG_LC			= @P_FG_LC,  
+		COND_PAY		= @P_COND_PAY,     
+		COND_DAYS		= @P_COND_DAYS,  
+		DT_PAYABLE		= @P_DT_PAYABLE,  
+		REMARK1			= @P_REMARK1,     
+		REMARK2			= @P_REMARK2,  
+		REMARK3			= @P_REMARK3,  
+		ID_UPDATE		= @P_ID_UPDATE,     
+		DTS_UPDATE		= @P_DTS_UPDATE    
+	WHERE NO_BL = @P_NO_BL    
+	AND CD_COMPANY = @P_CD_COMPANY        
+END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_LINE_INSERT'))
+DROP PROCEDURE UP_TR_EXBL_LINE_INSERT
+GO 
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_LINE_INSERT
+ * 관련페이지: 수출 >> 선적등록 >> 라인저장
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_LINE_INSERT '',''
+ *********************************************************************************************************/ 
+
+CREATE PROCEDURE UP_TR_EXBL_LINE_INSERT
+	@P_CD_COMPANY	NVARCHAR(7),
+	@P_NO_BL		NVARCHAR(20),
+	@P_NO_TO		NVARCHAR(20),
+	@P_NO_INV		NVARCHAR(20),
+	@P_DTS_INSERT	NVARCHAR(14),
+	@P_ID_INSERT	NVARCHAR(15),
+	@P_DTS_UPDATE	NVARCHAR(14),
+	@P_ID_UPDATE	NVARCHAR(15)
+AS
+BEGIN
+	IF NOT EXISTS(SELECT TOP 1 NO_BL FROM TR_EXBLL WHERE CD_COMPANY = @P_CD_COMPANY AND NO_BL = @P_NO_BL AND NO_TO = @P_NO_TO AND NO_INV = @P_NO_INV)
+	BEGIN
+		INSERT INTO TR_EXBLL(CD_COMPANY, NO_BL, NO_TO, NO_INV, DTS_INSERT, ID_INSERT)
+		VALUES(@P_CD_COMPANY, @P_NO_BL, @P_NO_TO, @P_NO_INV, @P_DTS_INSERT, @P_ID_INSERT)
+	END
+	
+	ELSE
+	BEGIN
+		UPDATE TR_EXBLL
+		SET
+			DTS_UPDATE	= @P_DTS_UPDATE,
+			ID_UPDATE	= @P_ID_UPDATE
+		WHERE CD_COMPANY = @P_CD_COMPANY 
+		AND NO_BL = @P_NO_BL 
+		AND NO_TO = @P_NO_TO 
+		AND NO_INV = @P_NO_INV
+	END
+END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_INV_SELECT'))
+DROP PROCEDURE UP_TR_EXBL_INV_SELECT
+GO 
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_INV_SELECT
+ * 관련페이지: 수출 >> 선적등록 >> 송장번호조회
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_INV_SELECT '',''
+ *********************************************************************************************************/ 
+
+CREATE PROCEDURE UP_TR_EXBL_INV_SELECT 
+	@P_CD_COMPANY	NVARCHAR(7),    
+	@P_NO_TO		NVARCHAR(1000)
+AS
+BEGIN   
+	SELECT A.*, B.AM_EX
+	FROM
+	(
+		SELECT  DISTINCT A.CD_COMPANY, A.NO_TO,	  B.NO_INV,		A.CD_BIZAREA,     A.CD_SALEGRP,   A.NO_EMP,     
+				A.FG_LC,	  A.CD_PARTNER, A.FG_EXLICENSE,   A.NO_EXLICENSE, A.DT_LICENSE,   
+				A.CD_EXCH,    A.RT_LICENSE, A.RT_EXCH,	A.AM,      
+				A.AM_EXFOB,   A.AM_FOB,     A.AM_FREIGHT,     A.AM_INSUR,     A.CD_AGENT,  
+				A.CD_PRODUCT, A.CD_EXPORT,  A.FG_RETURN,      A.DT_DECLARE,   A.DC_DECLARE,    
+				A.CD_CUSTOMS, A.DC_CY,      A.NO_INSP,		  A.DT_INSP,      A.NO_QUAR,    
+				A.DT_QUAR,    A.TP_PACKING, A.CNT_PACKING,    A.REMARK1,      A.REMARK2,     
+				A.REMARK3,    A.YN_BL,    
+				(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_PARTNER) NM_PARTNER,    
+				(SELECT NM_KOR FROM MA_EMP WHERE CD_COMPANY = A.CD_COMPANY AND NO_EMP = A.NO_EMP) NM_KOR,    
+				(SELECT NM_SALEGRP FROM MA_SALEGRP WHERE CD_COMPANY = A.CD_COMPANY AND CD_SALEGRP = A.CD_SALEGRP) NM_SALEGRP,    
+				(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_EXPORT) NM_EXPORT,    
+				(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_PRODUCT) NM_PRODUCT,    
+				(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_AGENT) NM_AGENT,    
+				(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_CUSTOMS) NM_CUSTOMS,    
+				(SELECT NM_BIZAREA FROM MA_BIZAREA WHERE CD_COMPANY = A.CD_COMPANY AND CD_BIZAREA = A.CD_BIZAREA) NM_BIZAREA    
+		FROM  TR_EXTO A
+		LEFT OUTER JOIN TR_EXTOL B ON A.CD_COMPANY = B.CD_COMPANY AND A.NO_TO = B.NO_TO
+		LEFT OUTER JOIN TR_INVL INVL ON B.CD_COMPANY = INVL.CD_COMPANY AND B.NO_INV = INVL.NO_INV
+		WHERE A.CD_COMPANY = @P_CD_COMPANY
+		AND B.NO_TO IN (SELECT * FROM TF_GETSPLIT(@P_NO_TO))  
+	)A
+
+	INNER JOIN
+	(
+		SELECT A.CD_COMPANY, A.NO_TO, INVL.NO_INV, SUM(INVL.AM_EXSO) AM_EX
+		FROM TR_EXTO A
+		LEFT OUTER JOIN TR_EXTOL B ON A.CD_COMPANY = B.CD_COMPANY AND A.NO_TO = B.NO_TO
+		LEFT OUTER JOIN TR_INVL INVL ON B.CD_COMPANY = INVL.CD_COMPANY AND B.NO_INV = INVL.NO_INV
+		WHERE A.CD_COMPANY = @P_CD_COMPANY
+		AND B.NO_TO IN (SELECT * FROM TF_GETSPLIT(@P_NO_TO)) 
+		GROUP BY A.CD_COMPANY, A.NO_TO, INVL.NO_INV
+	)B ON A.CD_COMPANY = B.CD_COMPANY AND A.NO_TO = B.NO_TO AND A.NO_INV = B.NO_INV
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_DOCU'))
+DROP PROCEDURE UP_TR_EXBL_DOCU
+GO 
+/**********************************************************************************************************  
+**  System : 무역
+**  Sub System : 수출관리    
+**  Page  : 선적등록 전표처리 
+**  참  고 :       
+**  Return Values      
+**      
+**  작    성    자  : 이재윤 김헌섭      
+**  작    성    일  : 2008.01.03 
+**  수    정    자     :      
+**  수    정    내   용 :  
+ *********************************************************************************************************/     
+CREATE PROCEDURE UP_TR_EXBL_DOCU
+(      
+	@P_CD_COMPANY   NVARCHAR(7), --회사코드       
+	@P_NO_BL		NVARCHAR(20) --선적번호     
+)      
+AS      
+BEGIN    
+	DECLARE @CD_COMPANY		NVARCHAR(7)      
+	DECLARE @CD_MNG			NVARCHAR(20)      
+	DECLARE @CD_BIZAREA		NVARCHAR(7)      
+	DECLARE @NM_BIZAREA		NVARCHAR(15)    
+	DECLARE @CD_WDEPT		NVARCHAR(12)      
+	DECLARE @CD_PARTNER		NVARCHAR(7)      
+	DECLARE @NM_PARTNER		NVARCHAR(20)    
+	DECLARE @TP_TAX			NCHAR(2)      
+	DECLARE @NM_TAX			NCHAR(15)    
+	DECLARE @ID_WRITE		NVARCHAR(10)      
+	DECLARE @DT_ACCT		NCHAR(8)      
+	DECLARE @DT_START		NCHAR(8)      
+	DECLARE @DT_WRITE		NCHAR(8)      
+	DECLARE @AM_DR			NUMERIC(19,4)      
+	DECLARE @AM_CR			NUMERIC(19,4)     
+	DECLARE @AM_SUPPLY		NUMERIC(19,4)     
+	DECLARE @VAT_AM			NUMERIC(19,4) /* 부가세 유무 체크하기 위해 선언 */    
+	DECLARE @DT_TAX			NCHAR(8)      
+	DECLARE @CD_CC			NVARCHAR(12)     
+	DECLARE @NM_CC			NVARCHAR(20)     
+	DECLARE @CD_EMPLOY		NVARCHAR(10)      
+	DECLARE @CD_PJT			NVARCHAR(20)      
+	DECLARE @CD_EXCH		NVARCHAR(3)      
+	DECLARE @RT_EXCH		NUMERIC(11,4)      
+	DECLARE @CD_DEPT		NVARCHAR(12)  
+	DECLARE @NM_DEPT		NVARCHAR(50)
+	DECLARE @CD_ACCT		NVARCHAR(10)      
+	DECLARE @CD_PC			NVARCHAR(7)      
+	DECLARE @TP_DRCR		NVARCHAR(1)      
+	DECLARE @NM_EMP			NVARCHAR(50)      
+	DECLARE @NM_PJT			NVARCHAR(50)
+	DECLARE @AM_EXSO		NUMERIC(19,4)
+	DECLARE @TP_ACAREA		NCHAR(1)  
+	DECLARE @CD_RELATION	NCHAR(2)  --부가세 연동항목(31)매출    
+	DECLARE @NO_LC			NVARCHAR(20)  
+	DECLARE @NO_BL			NVARCHAR(20)  
+	DECLARE @NO_BIZAREA		NVARCHAR(20)  
+	DECLARE @P_NO_TO		NVARCHAR(20)   -- 2008년 7월 21일 수출부가세 추가
+	DECLARE @P_DT_LOADING	NVARCHAR(8)    -- 2008년 7월 21일 수출부가세 추가  
+	DECLARE @P_ERRORCODE	NCHAR(10)    
+	DECLARE @P_ERRORMSG		NVARCHAR(300) 
+
+	DECLARE EXBL_CURSOR CURSOR FOR      
+
+	/******************* */    
+	/* 차변 : 외화외상매출금 */    
+	/******************* */    
+		SELECT EXBL.CD_COMPANY,       
+		MB.CD_PC,    
+		(SELECT CD_DEPT FROM MA_EMP WHERE EXBL.CD_COMPANY = CD_COMPANY AND EXBL.NO_EMP = NO_EMP) AS CD_WDEPT,      
+		EXBL.NO_EMP AS ID_WRITE,        
+		EXBL.DT_BALLOT AS DT_ACCT,     
+		'1' TP_DRCR, -- 차대구분 1: 차변      
+		--TC.CD_ACIMUNARRIVAL AS CD_ACCT,
+		AISPOSTL.CD_ACCT,
+		SUM( QTIO.AM_CLS ) AM_DR,
+		0 AM_CR,      
+		0 AM_SUPPLY,    
+		'10' CD_RELATION,     
+		QTIO.FG_TAX AS TP_TAX,       
+		EXBL.CD_BIZAREA,    
+		SALEGRP.CD_CC,    
+		EMP.CD_DEPT,
+		(SELECT NM_DEPT FROM MA_DEPT WHERE EXBL.CD_COMPANY = CD_COMPANY AND EMP.CD_DEPT = CD_DEPT) AS NM_DEPT,
+		QTIO.NO_EMP AS CD_EMPLOY,       
+		EXBL.CD_PARTNER,       
+		EXBL.DT_BALLOT AS DT_START,    
+		EXBL.DT_BALLOT AS DT_WRITE,    
+		(SELECT NM_BIZAREA FROM MA_BIZAREA WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_BIZAREA = EXBL.CD_BIZAREA) NM_BIZAREA,    
+		(SELECT NM_SYSDEF FROM MA_CODEDTL WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_SYSDEF = QTIO.FG_TAX  AND CD_FIELD = 'FI_T000011') NM_TAX,    
+		(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_PARTNER = EXBL.CD_PARTNER) NM_PARTNER,  
+		INVL.NO_LC, 
+		EXBL.NO_BL, 
+		MB.NO_BIZAREA,
+		QTIO.CD_PJT,    
+		EXBL.CD_EXCH,      
+		EXBL.RT_EXCH,
+		(SELECT NM_CC FROM MA_CC WHERE EXBL.CD_COMPANY = CD_COMPANY AND SALEGRP.CD_CC = CD_CC)NM_CC,   
+		(SELECT NM_KOR FROM MA_EMP WHERE EXBL.CD_COMPANY = CD_COMPANY AND QTIO.NO_EMP = NO_EMP)NM_EMP,
+		(SELECT NM_PROJECT FROM SA_PROJECTH WHERE EXBL.CD_COMPANY = CD_COMPANY AND QTIO.CD_PJT = NO_PROJECT)NM_PJT,
+		SUM( INVL.AM_EXSO) AM_EXSO,
+		(CASE F.TP_DRCR WHEN '1' THEN (CASE F.YN_BAN WHEN 'Y' THEN '4' ELSE '0' END )ELSE '0' END) TP_ACAREA,
+		'' NO_TO,
+		'' DT_LOADING
+	FROM TR_EXBL EXBL
+	INNER JOIN TR_EXBLL EXBLL ON EXBL.CD_COMPANY = EXBLL.CD_COMPANY AND EXBL.NO_BL = EXBLL.NO_BL
+	INNER JOIN MA_BIZAREA MB ON  EXBL.CD_BIZAREA = MB.CD_BIZAREA AND EXBL.CD_COMPANY = MB.CD_COMPANY      
+	INNER JOIN TR_INVL INVL ON EXBLL.CD_COMPANY = INVL.CD_COMPANY AND EXBLL.NO_INV = INVL.NO_INV
+	INNER JOIN MM_QTIO QTIO ON EXBL.CD_COMPANY = QTIO.CD_COMPANY AND INVL.NO_QTIO = QTIO.NO_IO AND INVL.NO_LINE_QTIO = QTIO.NO_IOLINE
+	INNER JOIN MA_SALEGRP SALEGRP ON EXBL.CD_COMPANY = SALEGRP.CD_COMPANY AND QTIO.CD_GROUP = SALEGRP.CD_SALEGRP	
+	INNER JOIN MA_AISPOSTL AISPOSTL ON EXBL.CD_COMPANY = AISPOSTL.CD_COMPANY AND AISPOSTL.FG_TP = '100' AND AISPOSTL.CD_TP = QTIO.FG_TPIO AND AISPOSTL.FG_AIS = '102'
+	INNER JOIN MA_EMP EMP ON EMP.CD_COMPANY = EXBL.CD_COMPANY AND QTIO.NO_EMP = EMP.NO_EMP
+	INNER JOIN FI_ACCTCODE F ON F.CD_ACCT = AISPOSTL.CD_ACCT AND F.CD_COMPANY = AISPOSTL.CD_COMPANY
+	WHERE EXBL.CD_COMPANY = @P_CD_COMPANY
+	AND EXBL.NO_BL = @P_NO_BL
+	GROUP BY EXBL.CD_COMPANY, MB.CD_PC, EXBL.NO_EMP, EXBL.DT_BALLOT, QTIO.FG_TAX, EXBL.CD_BIZAREA, EXBL.CD_PARTNER,
+	INVL.NO_LC, EXBL.NO_BL, MB.NO_BIZAREA, QTIO.CD_GROUP, QTIO.NO_EMP, AISPOSTL.CD_ACCT, SALEGRP.CD_CC, QTIO.CD_PJT,
+	EXBL.CD_EXCH, EXBL.RT_EXCH, EMP.CD_DEPT, F.TP_DRCR, F.YN_BAN
+
+	UNION ALL      
+
+	 /******************* */    
+	 /* 부가세 : 수출부가세 */    
+	 /******************* */    
+	SELECT EXBL.CD_COMPANY,       
+		MB.CD_PC,    
+		(SELECT CD_DEPT FROM MA_EMP WHERE EXBL.CD_COMPANY = CD_COMPANY AND EXBL.NO_EMP = NO_EMP) AS CD_WDEPT,      
+		EXBL.NO_EMP AS ID_WRITE,        
+		EXBL.DT_BALLOT AS DT_ACCT,     
+		'2' TP_DRCR, -- 차대구분 1: 차변      
+		--TC.CD_ACIMUNARRIVAL AS CD_ACCT,
+		AISPOSTL.CD_ACCT,
+		0 AM_DR,      
+		0 AM_CR,      
+		SUM( QTIO.AM_CLS ) AM_SUPPLY,    
+		'31' CD_RELATION,     
+		QTIO.FG_TAX AS TP_TAX,       
+		EXBL.CD_BIZAREA,    
+		'' CD_CC,    
+		'' CD_DEPT,
+		'' NM_DEPT,      
+		'' CD_EMPLOY,       
+		EXBL.CD_PARTNER,       
+		EXBL.DT_BALLOT AS DT_START,    
+		EXBL.DT_BALLOT AS DT_WRITE,    
+		(SELECT NM_BIZAREA FROM MA_BIZAREA WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_BIZAREA = EXBL.CD_BIZAREA) NM_BIZAREA,    
+		(SELECT NM_SYSDEF FROM MA_CODEDTL WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_SYSDEF = QTIO.FG_TAX  AND CD_FIELD = 'FI_T000011') NM_TAX,    
+		(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_PARTNER = EXBL.CD_PARTNER) NM_PARTNER,  
+		INVL.NO_LC, 
+		EXBL.NO_BL, 
+		MB.NO_BIZAREA,
+		'' CD_PJT,    
+		EXBL.CD_EXCH,      
+		EXBL.RT_EXCH,
+		'' NM_CC,   
+		'' NM_EMP,
+		'' NM_PJT,
+		SUM( INVL.AM_EXSO) AM_EXSO,
+		'0' TP_ACAREA,
+		EXBLL.NO_TO AS NO_TO,
+		EXBL.DT_LOADING AS DT_LOADING
+	FROM TR_EXBL EXBL
+	INNER JOIN TR_EXBLL EXBLL ON EXBL.CD_COMPANY = EXBLL.CD_COMPANY AND EXBL.NO_BL = EXBLL.NO_BL
+	INNER JOIN MA_BIZAREA MB ON  EXBL.CD_BIZAREA = MB.CD_BIZAREA AND EXBL.CD_COMPANY = MB.CD_COMPANY      
+	INNER JOIN TR_INVL INVL ON EXBLL.CD_COMPANY = INVL.CD_COMPANY AND EXBLL.NO_INV = INVL.NO_INV
+	INNER JOIN MM_QTIO QTIO ON EXBL.CD_COMPANY = QTIO.CD_COMPANY AND INVL.NO_QTIO = QTIO.NO_IO AND INVL.NO_LINE_QTIO = QTIO.NO_IOLINE
+	INNER JOIN MA_SALEGRP SALEGRP ON EXBL.CD_COMPANY = SALEGRP.CD_COMPANY AND QTIO.CD_GROUP = SALEGRP.CD_SALEGRP	
+	INNER JOIN MA_AISPOSTL AISPOSTL ON EXBL.CD_COMPANY = AISPOSTL.CD_COMPANY AND AISPOSTL.FG_TP = '100' AND AISPOSTL.CD_TP = QTIO.FG_TPIO AND AISPOSTL.FG_AIS = '103'
+	INNER JOIN FI_ACCTCODE F ON F.CD_ACCT = AISPOSTL.CD_ACCT AND F.CD_COMPANY = AISPOSTL.CD_COMPANY
+	WHERE EXBL.CD_COMPANY = @P_CD_COMPANY
+	AND EXBL.NO_BL = @P_NO_BL
+	GROUP BY EXBL.CD_COMPANY, MB.CD_PC, EXBL.NO_EMP, EXBL.DT_BALLOT, QTIO.FG_TAX, EXBL.CD_BIZAREA, EXBL.CD_PARTNER,
+	INVL.NO_LC, EXBL.NO_BL, MB.NO_BIZAREA, QTIO.CD_GROUP, QTIO.NO_EMP, AISPOSTL.CD_ACCT, SALEGRP.CD_CC, QTIO.CD_PJT,
+	EXBL.CD_EXCH, EXBL.RT_EXCH, F.YN_BAN, EXBLL.NO_TO, EXBL.DT_LOADING
+	
+	UNION ALL  
+	  
+	/*********************************************************** */    
+	/* 대변 : */    
+	/*********************************************************** */    
+	SELECT EXBL.CD_COMPANY,       
+		MB.CD_PC,    
+		(SELECT CD_DEPT FROM MA_EMP WHERE EXBL.CD_COMPANY = CD_COMPANY AND EXBL.NO_EMP = NO_EMP) AS CD_WDEPT,      
+		EXBL.NO_EMP AS ID_WRITE,        
+		EXBL.DT_BALLOT AS DT_ACCT,     
+		'2' TP_DRCR, -- 차대구분 1: 차변      
+		--TC.CD_ACIMUNARRIVAL AS CD_ACCT,
+		AISPOSTL.CD_ACCT,
+		0 AM_DR,  
+		SUM( QTIO.AM_CLS ) AM_CR,      
+		SUM( QTIO.AM_CLS ) AM_SUPPLY,    
+		'10' CD_RELATION,     
+		QTIO.FG_TAX AS TP_TAX,       
+		EXBL.CD_BIZAREA,    
+		(SELECT CD_CC FROM MA_SALEGRP WHERE EXBL.CD_COMPANY = CD_COMPANY AND QTIO.CD_GROUP = CD_SALEGRP) AS CD_CC,    
+		--(SELECT CD_DEPT FROM MA_EMP WHERE EXBL.CD_COMPANY = CD_COMPANY AND QTIO.NO_EMP = NO_EMP) AS CD_DEPT,    
+		EMP.CD_DEPT,
+		(SELECT NM_DEPT FROM MA_DEPT WHERE   EXBL.CD_COMPANY = CD_COMPANY AND EMP.CD_DEPT = CD_DEPT) AS NM_DEPT,
+		QTIO.NO_EMP AS CD_EMPLOY,       
+		EXBL.CD_PARTNER,       
+		EXBL.DT_BALLOT AS DT_START,    
+		EXBL.DT_BALLOT AS DT_WRITE,    
+		(SELECT NM_BIZAREA FROM MA_BIZAREA WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_BIZAREA = EXBL.CD_BIZAREA) NM_BIZAREA,    
+		(SELECT NM_SYSDEF FROM MA_CODEDTL WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_SYSDEF = QTIO.FG_TAX  AND CD_FIELD = 'FI_T000011') NM_TAX,    
+		(SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = EXBL.CD_COMPANY AND CD_PARTNER = EXBL.CD_PARTNER) NM_PARTNER,  
+		INVL.NO_LC, 
+		EXBL.NO_BL, 
+		MB.NO_BIZAREA,
+		QTIO.CD_PJT,    
+		EXBL.CD_EXCH,      
+		EXBL.RT_EXCH,
+		(SELECT NM_CC FROM MA_CC WHERE EXBL.CD_COMPANY = CD_COMPANY AND SALEGRP.CD_CC = CD_CC)NM_CC,   
+		(SELECT NM_KOR FROM MA_EMP WHERE EXBL.CD_COMPANY = CD_COMPANY AND QTIO.NO_EMP = NO_EMP)NM_EMP,
+		(SELECT NM_PROJECT FROM SA_PROJECTH WHERE EXBL.CD_COMPANY = CD_COMPANY AND QTIO.CD_PJT = NO_PROJECT)NM_PJT,
+		SUM( INVL.AM_EXSO) AM_EXSO,
+		(CASE F.TP_DRCR WHEN '1' THEN (CASE F.YN_BAN WHEN 'Y' THEN '4' ELSE '0' END )ELSE '0' END) TP_ACAREA,
+		'' NO_TO,
+		'' DT_LOADING
+		FROM TR_EXBL EXBL
+		INNER JOIN TR_EXBLL EXBLL ON EXBL.CD_COMPANY = EXBLL.CD_COMPANY AND EXBL.NO_BL = EXBLL.NO_BL
+		INNER JOIN MA_BIZAREA MB ON  EXBL.CD_BIZAREA = MB.CD_BIZAREA AND EXBL.CD_COMPANY = MB.CD_COMPANY      
+		INNER JOIN TR_INVL INVL ON EXBLL.CD_COMPANY = INVL.CD_COMPANY AND EXBLL.NO_INV = INVL.NO_INV
+		INNER JOIN MM_QTIO QTIO ON EXBL.CD_COMPANY = QTIO.CD_COMPANY AND INVL.NO_QTIO = QTIO.NO_IO AND INVL.NO_LINE_QTIO = QTIO.NO_IOLINE
+		INNER JOIN MA_PITEM PITEM ON EXBL.CD_COMPANY = PITEM.CD_COMPANY AND QTIO.CD_PLANT = PITEM.CD_PLANT AND INVL.CD_ITEM = PITEM.CD_ITEM
+		INNER JOIN MA_SALEGRP SALEGRP ON EXBL.CD_COMPANY = SALEGRP.CD_COMPANY AND QTIO.CD_GROUP = SALEGRP.CD_SALEGRP	
+		INNER JOIN MA_AISPOSTL AISPOSTL ON EXBL.CD_COMPANY = AISPOSTL.CD_COMPANY AND AISPOSTL.FG_TP = '100' AND AISPOSTL.CD_TP = QTIO.FG_TPIO 
+		INNER JOIN MA_EMP EMP ON EXBL.CD_COMPANY = EMP.CD_COMPANY AND QTIO.NO_EMP = EMP.NO_EMP
+		INNER JOIN FI_ACCTCODE F ON F.CD_ACCT = AISPOSTL.CD_ACCT AND F.CD_COMPANY = AISPOSTL.CD_COMPANY
+		AND AISPOSTL.FG_AIS = (CASE PITEM.CLS_ITEM WHEN '001' THEN '110'
+								WHEN '002' THEN '110'
+								WHEN '003' THEN '118'
+								WHEN '004' THEN '114'
+								WHEN '005' THEN '106'
+								WHEN '006' THEN '106'
+								WHEN '007' THEN '122'
+								WHEN '008' THEN '120'
+								ELSE '118' END)
+	WHERE EXBL.CD_COMPANY = @P_CD_COMPANY
+	AND EXBL.NO_BL = @P_NO_BL
+	GROUP BY EXBL.CD_COMPANY, MB.CD_PC, EXBL.NO_EMP, EXBL.DT_BALLOT, QTIO.FG_TAX, EXBL.CD_BIZAREA, EXBL.CD_PARTNER,
+	INVL.NO_LC, EXBL.NO_BL, MB.NO_BIZAREA, QTIO.CD_GROUP, QTIO.NO_EMP, AISPOSTL.CD_ACCT, SALEGRP.CD_CC, QTIO.CD_PJT,
+	EXBL.CD_EXCH, EXBL.RT_EXCH, EMP.CD_DEPT, F.TP_DRCR, F.YN_BAN
+	
+	-------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
+
+	-- 여기서 부터 전표처리 하기 위한 부분  ---      
+	DECLARE @P_NO_DOCU NVARCHAR(20) -- 전표번호      
+	DECLARE @P_NO_TAX NVARCHAR(20) -- 부가세번호      
+	DECLARE @P_DT_PROCESS NVARCHAR(8)      
+	    
+	-- 매출일자 알아오기      
+	SELECT @P_DT_PROCESS = DT_BALLOT      
+	FROM TR_EXBL      
+	WHERE CD_COMPANY = @P_CD_COMPANY AND NO_BL = @P_NO_BL     
+	    
+	-- 전표번호 채번      
+	EXEC UP_FI_DOCU_CREATE_SEQ @P_CD_COMPANY, 'FI01', @P_DT_PROCESS, @P_NO_DOCU OUTPUT      
+	       
+	-- NO_DOLINE 땜시      
+	DECLARE @P_NO_DOLINE NUMERIC(4,0)      
+	SET @P_NO_DOLINE = 0      
+	    
+	OPEN EXBL_CURSOR      
+	    
+	FETCH NEXT FROM EXBL_CURSOR INTO @CD_COMPANY, @CD_PC, @CD_WDEPT, @ID_WRITE, @DT_ACCT, @TP_DRCR, @CD_ACCT, @AM_DR,  @AM_CR,  @AM_SUPPLY, @CD_RELATION,     
+		@TP_TAX,  @CD_BIZAREA,	@CD_CC,		@CD_DEPT,  @NM_DEPT, @CD_EMPLOY,  @CD_PARTNER,   @DT_START, @DT_WRITE, @NM_BIZAREA, @NM_TAX, @NM_PARTNER,  @NO_LC, @NO_BL, @NO_BIZAREA,
+		@CD_PJT,  @CD_EXCH,		@RT_EXCH,	@NM_CC,		@NM_EMP,	@NM_PJT, @AM_EXSO, @TP_ACAREA, @P_NO_TO, @P_DT_LOADING
+	WHILE @@FETCH_STATUS = 0      
+	BEGIN      
+		SET @P_NO_DOLINE = @P_NO_DOLINE + 1      
+	 -- SET @AM_DR_CR = CONVERT(VARCHAR(40), @AM_CR+@AM_DR)      
+	 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
+	  
+	DECLARE @P_COND NVARCHAR(10)  
+	DECLARE @P_COND_BIZAREA NVARCHAR(10)  
+	DECLARE @P_NM_EXCH NVARCHAR(20)
+	
+	SET @P_NM_EXCH = (SELECT NM_SYSDEF FROM MA_CODEDTL WHERE CD_COMPANY = @P_CD_COMPANY AND CD_FIELD = 'MA_B000005' AND CD_SYSDEF = @CD_EXCH)
+	  
+	SELECT @P_COND = CD_MNG2 FROM FI_ACCTCODE WHERE CD_ACCT = @CD_ACCT AND CD_COMPANY = @CD_COMPANY  
+	  
+	--IF(@CD_RELATION = '31')  /* 부가세 전표 처리할 경우 CD_RELATION이 31 인 것은 부가세임으로 선적번호를 CD_MNG(관리번호)로 넘긴다 */  
+	--SET @CD_MNG = @P_NO_BL
+	--SET @P_NO_TAX = @P_NO_BL 
+	
+	IF(@CD_RELATION = '31')
+	BEGIN
+		SET @CD_MNG = @P_NO_TO
+		SET @P_NO_TAX = @P_NO_TO
+	END
+	
+	ELSE
+	BEGIN
+		SET @CD_MNG = @P_NO_BL
+		SET @P_NO_TAX = @P_NO_BL 
+	END
+
+	--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	-- 데이터 체크로직
+
+	IF(@CD_PC = '' OR @CD_PC = NULL)  
+	BEGIN
+		RAISERROR 30033 '해당 회계단위가 설정되지 않았습니다.'
+			RETURN -1    
+	END  
+	
+	--IF(@CD_CC = '' OR @CD_CC = NULL)  
+	--BEGIN  
+	--	RAISERROR 30033 '관련 영업그룹에 대한 COST CENTER가 미설정 상태입니다.'
+	--			RETURN -1
+	--END  
+	
+	IF(@CD_ACCT = '' OR @CD_ACCT = NULL)  
+	BEGIN  
+		RAISERROR 30033 '관련 품목에 대한 회계계정코드 연결이 미설정된 건이 존재합니다.'
+			RETURN -1
+	END
+	--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	EXEC UP_FI_AUTODOCU_1     
+	 @P_NO_DOCU,		-- 전표번호  
+	  @P_NO_DOLINE,		-- 라인번호  
+	 @CD_PC,			-- 회계단위  
+	 @CD_COMPANY,		-- 회사코드  
+	 @CD_WDEPT,			-- 작성부서  
+	 @ID_WRITE,         -- 작성사원  
+	 @P_DT_PROCESS,    
+	 0,                 -- 회계번호  
+	 '3',                         -- 전표구분  
+	 '11',                       -- 전표유형  
+	 '1',                         -- 전표상태  
+	 NULL,                     -- 승인사원  
+	 @TP_DRCR,           -- 차대구분  
+	 @CD_ACCT,          -- 계정코드  
+	 NULL,                    -- 적요명  
+	 @AM_DR,              -- 차변금액  
+	 @AM_CR,              -- 대변금액  
+	 @TP_ACAREA,                          --  @P_TP_ACAREA    -- '4' 일 경우 반제원인전표이므로 FI_BANH에 Insert된다    
+	 @CD_RELATION,   -- 연동항목  
+	 NULL,                    --  @P_CD_BUDGET    예산코드  
+	 NULL,                    --  @P_CD_FUND   자금코드  
+	 NULL,                    --  @P_NO_BDOCU   원인전표번호   
+	 NULL,                    --  @P_NO_BDOLINE   원인전표라인  
+	 '0',                        --  @P_TP_ETCACCT    타대구분  
+	 @CD_BIZAREA,    
+	 @NM_BIZAREA,      
+	 @CD_CC,    
+	 @NM_CC,    
+	 @CD_PJT,  --CD_PJT    
+	 @NM_PJT,  --NM_PJT    
+	 @CD_DEPT,  --CD_DEPT    
+	 @NM_DEPT,  --NM_DEPT    
+	 @CD_EMPLOY,  --CD_EMPLOY    
+	 @NM_EMP,  --NM_EMPLOY    
+	 @CD_PARTNER,    
+	 @NM_PARTNER,    
+	 NULL,  --CD_DEPOSIT    
+	 NULL,  --NM_DEPOSIT    
+	 NULL,  --CD_CARD    
+	 NULL,  --NM_CARD    
+	 NULL,  --CD_BANK    
+	 NULL,  --NM_BANK    
+	 NULL,  --NO_ITEM    
+	 NULL,  --NM_ITEM    
+	 @TP_TAX,    
+	 @NM_TAX,      
+	 NULL,  --CD_TRADE    
+	 NULL,  --NM_TRADE    
+	 @CD_EXCH, --환종코드   
+	 @P_NM_EXCH,    --환종명
+	 NULL,  -- CD_UMNG1    
+	 NULL,  -- CD_UMNG2    
+	 NULL,  -- CD_UMNG3    
+	 NULL,  -- CD_UMNG4    
+	 NULL,  -- CD_UMNG5    
+	 @NO_BIZAREA,  --  NO_RES    
+	 @AM_SUPPLY,  --  AM_SUPPLY    
+	 @CD_MNG ,   -- 관리번호 ( 선적번호 경우 넘기는 값 )  
+	 @DT_START,  -- 발생일자    
+	 NULL,   --DT_END   -- 만기일자  
+	 @RT_EXCH,         --P_RT_EXCH   환율  
+	 @AM_EXSO,         --AM_EXDO   외화금액  
+	 '170',     -- 선적번호의 모듈번호는 170번에 해당  
+	 @P_NO_BL,   --  @P_NO_MDOCU   모듈관리번호  
+	 NULL,    --  @P_CD_EPNOTE   
+	 NULL,   --  @P_ID_INSERT   
+	 NULL,   --CD_BGACCT    
+	 NULL,   --TP_EPNOTE    
+	 NULL,   --NM_PUMM    
+	 @P_DT_PROCESS,    
+	 0,        --AM_ACTSUM    
+	 0,        --AM_JSUM    
+	 'N',      --YN_GWARE    
+	 NULL,  --CD_BIZPLAN    
+	 NULL,  --CD_ETC    
+	 @P_ERRORCODE,    
+	 @P_ERRORMSG  
+  
+	--추가:김정근 20071010 fi_tax에 추가로직    
+	IF @CD_RELATION = '31'     
+	BEGIN    
+		EXEC UP_FI_AUTODOCU_BL_TAX @CD_COMPANY, @CD_PC, @P_NO_DOCU, @P_NO_DOLINE, @AM_SUPPLY, @P_NO_TO, @P_DT_LOADING
+	END    
+	         
+	-------------------------------------------------------------------------------------------------------------------------------------------------------------------------      
+	         
+	       
+	FETCH NEXT FROM EXBL_CURSOR INTO @CD_COMPANY, @CD_PC, @CD_WDEPT, @ID_WRITE, @DT_ACCT, @TP_DRCR, @CD_ACCT, @AM_DR,  @AM_CR, @AM_SUPPLY, @CD_RELATION,     
+	@TP_TAX,  @CD_BIZAREA, @CD_CC, @CD_DEPT,  @NM_DEPT, @CD_EMPLOY,  @CD_PARTNER,   @DT_START, @DT_WRITE, @NM_BIZAREA, @NM_TAX, @NM_PARTNER, @NO_LC, @NO_BL, @NO_BIZAREA,
+	@CD_PJT,  @CD_EXCH,		@RT_EXCH,	@NM_CC,		@NM_EMP,	@NM_PJT, @AM_EXSO ,@TP_ACAREA, @P_NO_TO, @P_DT_LOADING
+	END      
+	      
+	CLOSE EXBL_CURSOR      
+	DEALLOCATE EXBL_CURSOR     
+	      
+	-- 전표처리가 제대로 되었으면      
+	UPDATE TR_EXBL SET YN_SLIP = 'Y' WHERE CD_COMPANY = @P_CD_COMPANY AND NO_BL = @P_NO_BL      
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_COSTBF_SELECT'))
+DROP PROCEDURE UP_TR_EXBL_COSTBF_SELECT
+GO 
+
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_COSTBF_SELECT
+ * 관련페이지: 
+ * 설      명: 판매비용등록 버튼 클릭시 넘길 인자값을 가져온다.
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_COSTBF_SELECT '',''
+ *********************************************************************************************************/
+ 
+CREATE PROCEDURE UP_TR_EXBL_COSTBF_SELECT  
+	@P_CD_COMPANY	NVARCHAR(7),  
+	@P_NO_BL		NVARCHAR(20)  
+AS      
+BEGIN
+	SELECT EXBL.DT_BALLOT, 
+		EXBL.CD_BIZAREA,
+		(SELECT NM_BIZAREA FROM MA_BIZAREA WHERE EXBL.CD_COMPANY = CD_COMPANY AND EXBL.CD_BIZAREA = CD_BIZAREA) AS NM_BIZAREA,
+		EXBL.NO_EMP,
+		EMP.NM_KOR AS NM_EMP,
+		EMP.CD_DEPT,
+		(SELECT NM_DEPT FROM MA_DEPT WHERE EXBL.CD_COMPANY = CD_COMPANY AND EMP.CD_DEPT = CD_DEPT) AS NM_DEPT,
+		SAL.CD_CC,
+		(SELECT NM_CC FROM MA_CC WHERE EXBL.CD_COMPANY = CD_COMPANY AND SAL.CD_CC = CD_CC) AS NM_CC
+	FROM TR_EXBL EXBL
+	LEFT OUTER JOIN MA_EMP EMP ON EXBL.CD_COMPANY = EMP.CD_COMPANY AND EXBL.NO_EMP = EMP.NO_EMP
+	LEFT OUTER JOIN MA_SALEGRP SAL ON EXBL.CD_COMPANY = SAL.CD_COMPANY AND EXBL.CD_SALEGRP = SAL.CD_SALEGRP
+	WHERE EXBL.CD_COMPANY = @P_CD_COMPANY
+	AND EXBL.NO_BL = @P_NO_BL
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_QTIO_SELECT'))
+DROP PROCEDURE UP_TR_EXBL_QTIO_SELECT
+GO 
+
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_QTIO_SELECT
+ * 관련페이지: 
+ * 설      명: 
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_QTIO_SELECT '0327','IVC080403'
+ *********************************************************************************************************/
+ 
+CREATE PROCEDURE UP_TR_EXBL_QTIO_SELECT
+	@P_CD_COMPANY	NVARCHAR(7),  
+	@P_NO_BL		NVARCHAR(20)  
+AS      
+BEGIN
+	SELECT DISTINCT EXBLL.NO_INV,
+		CAST(FLOOR(INVL.AM_EXSO * EXBL.RT_EXCH) AS NUMERIC) AS AM_EXSO,
+		INVL.NO_QTIO, 
+		INVL.NO_LINE_QTIO,
+		INVL.QT_INVENT,
+		INVL.UM_INVENT,
+		INVL.QT_SO
+	FROM TR_EXBL EXBL
+	LEFT OUTER JOIN TR_EXBLL EXBLL ON EXBL.CD_COMPANY = EXBLL.CD_COMPANY AND EXBL.NO_BL = EXBLL.NO_BL
+	LEFT OUTER JOIN TR_EXTOL EXTOL ON EXBL.CD_COMPANY = EXTOL.CD_COMPANY AND EXBLL.NO_TO = EXTOL.NO_TO
+	INNER JOIN TR_EXTO EXTO ON EXBL.CD_COMPANY = EXTO.CD_COMPANY AND EXBLL.NO_TO = EXTO.NO_TO
+	LEFT OUTER JOIN TR_INVL INVL ON EXBL.CD_COMPANY = INVL.CD_COMPANY AND EXBLL.NO_INV = INVL.NO_INV 
+	WHERE EXBL.CD_COMPANY = @P_CD_COMPANY
+	AND EXBLL.NO_BL = @P_NO_BL
+
+	SELECT BL.NO_BL,
+		CAST(FLOOR((BL.AM_EX*BL.RT_EXCH))AS NUMERIC) - CAST(SUM(FLOOR(IL.AM_EXSO*BL.RT_EXCH)) AS NUMERIC)  AS AM_CLS
+	FROM TR_INVL IL
+	JOIN TR_EXBL BL ON BL.NO_BL = IL.NO_BL AND BL.CD_COMPANY = IL.CD_COMPANY
+	WHERE BL.CD_COMPANY = @P_CD_COMPANY
+	AND BL.NO_BL = @P_NO_BL
+	GROUP BY BL.AM_EX,BL.RT_EXCH,BL.NO_BL
+END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_QTIO_UPDATE'))
+DROP PROCEDURE UP_TR_EXBL_QTIO_UPDATE
+GO 
+
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_QTIO_UPDATE
+ * 관련페이지: 
+ * 설      명: 
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_QTIO_UPDATE '',''
+ *********************************************************************************************************/
+ 
+CREATE PROCEDURE UP_TR_EXBL_QTIO_UPDATE
+	@P_CD_COMPANY	NVARCHAR(7),  
+	@P_NO_QTIO		NVARCHAR(20),
+	@P_NO_LINE_QTIO NUMERIC(3,0),
+	@P_AM_CLS		NUMERIC(17,4),
+	@P_QT_INVENT	NUMERIC(17,4),
+	@P_UM_INVENT	NUMERIC(17,4),
+	@P_QT_SO		NUMERIC(17,4)
+AS      
+BEGIN
+	UPDATE MM_QTIO
+	SET
+		QT_CLS		= @P_QT_INVENT,
+		AM_CLS		= @P_AM_CLS,
+		VAT			= 0,
+		VAT_CLS		= 0,
+		UM_EX_PSO	= @P_UM_INVENT,
+		QT_CLS_MM	= @P_QT_SO
+	WHERE CD_COMPANY = @P_CD_COMPANY
+	AND NO_IO = @P_NO_QTIO
+	AND NO_IOLINE = @P_NO_LINE_QTIO
+	
+	IF @@ROWCOUNT = 0 
+	BEGIN
+		RAISERROR 100000 '관련수불내역이 업데이트 되지 않았습니다'
+	END
+END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_TR_EXBL_QTIO_DELETE_UPDATE'))
+DROP PROCEDURE UP_TR_EXBL_QTIO_DELETE_UPDATE
+GO 
+
+/**********************************************************************************************************  
+ * 프로시저명: UP_TR_EXBL_QTIO_DELETE_UPDATE
+ * 관련페이지: 
+ * 설      명: 
+ * 작  성  자: 
+ * EXEC UP_TR_EXBL_QTIO_DELETE_UPDATE '',''
+ *********************************************************************************************************/
+ 
+CREATE PROCEDURE UP_TR_EXBL_QTIO_DELETE_UPDATE
+	@P_CD_COMPANY	NVARCHAR(7),  
+	@P_NO_BL		NVARCHAR(20)
+AS      
+BEGIN
+	UPDATE MM_QTIO 
+	SET QT_CLS = 0,
+		AM_CLS = 0,
+		QT_CLS_MM = 0
+	FROM 
+	(
+		SELECT B.NO_BL,MM_QTIO.NO_IO, MM_QTIO.NO_IOLINE, B.CD_BIZAREA
+		FROM  MM_QTIO 
+		LEFT OUTER JOIN TR_INVL I ON MM_QTIO.NO_IO = I.NO_QTIO AND MM_QTIO.NO_IOLINE = I.NO_LINE_QTIO AND MM_QTIO.CD_COMPANY = I.CD_COMPANY AND MM_QTIO.CD_PLANT = I.CD_PLANT
+		LEFT OUTER JOIN TR_EXBL B ON B.CD_COMPANY = I.CD_COMPANY AND B.NO_BL = I.NO_BL 
+		WHERE B.NO_BL = @P_NO_BL
+	)A 
+	WHERE MM_QTIO.CD_COMPANY = @P_CD_COMPANY
+	AND MM_QTIO.NO_IO = A.NO_IO 
+	AND MM_QTIO.NO_IOLINE = A.NO_IOLINE
+	AND MM_QTIO.CD_BIZAREA = A.CD_BIZAREA
+	
+	IF @@ROWCOUNT = 0 
+	BEGIN
+		RAISERROR 100000 '관련수불내역이 초기화되지 못했습니다'
+	END
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'UP_FI_AUTODOCU_BL_TAX'))
+DROP PROCEDURE UP_FI_AUTODOCU_BL_TAX
+GO 
+
+CREATE PROCEDURE UP_FI_AUTODOCU_BL_TAX          
+	@P_CD_COMPANY   NVARCHAR(7),             
+	@P_CD_PC		NVARCHAR(7),        
+	@P_NO_DOCU		NVARCHAR(20),        
+	@P_NO_DOLINE	NUMERIC(5,0),         
+	@P_AM_SUPPLY	NUMERIC(19,4),       
+	@P_NO_TO		NVARCHAR(20),	  -- 수출신고번호  -- 추가  수출 이외의 경우 '' 입력
+	@P_DT_SHIPPING	NVARCHAR(8)       -- 선적일자	   -- 추가  수출 이외의 경우 '' 입력
+AS            
+BEGIN       
+	DECLARE @V_NO_TAX NVARCHAR(20)    
+	DECLARE @V_ERRORMSG NVARCHAR(1000)    
+
+	SELECT @V_NO_TAX = CD_MNG    
+	FROM FI_DOCU    
+	WHERE         
+	NO_DOCU = @P_NO_DOCU AND -- 전표번호            
+	NO_DOLINE = @P_NO_DOLINE AND -- 라인번호            
+	CD_PC = @P_CD_PC AND  -- 회계단위            
+	CD_COMPANY = @P_CD_COMPANY  -- 회사코드      
+    
+	-- 삽입하려고하는 CD_MNG가 이미 존재하는 NO_TAX인지 확인    
+	IF EXISTS (SELECT NO_TAX FROM FI_TAX WHERE  CD_COMPANY = @P_CD_COMPANY AND NO_TAX = @V_NO_TAX)    
+		BEGIN    
+		SET @V_ERRORMSG = @V_NO_TAX + '는 FI_TAX에 이미 존재하는 NO_TAX 입니다.'    
+		RAISERROR 100000 @V_ERRORMSG    
+		RETURN    
+	END    
+    
+	INSERT INTO FI_TAX ( NO_TAX,	CD_COMPANY,		NO_DOCU,		NO_DOLINE,		CD_PC,        
+						ST_DOCU,	CD_BIZAREA,		DT_START,		CD_PARTNER,		AM_TAXSTD,        
+						AM_ADDTAX,	TP_TAX,			AM_CASH,		AM_CHECK,		AM_BILL,        
+						AM_UNCLT,	RT_SBS,			RT_EXCH,		AM_EX,			AM_EXDO,        
+						AM_DO,    	AM_EXMI,    	AM_MI,    		ID_UPDATE,		CD_EXCH,  	
+						NO_TO,		DT_SHIPPING,	TP_EXPORT ) 
+	SELECT         
+		A.CD_MNG,			-- NO_TAX : 부가세번호
+		A.CD_COMPANY,		-- CD_COMPANY : 회사코드    
+		A.NO_DOCU,			-- NO_DOCU : 전표번호
+		A.NO_DOLINE,		-- NO_DOLINE : 라인번호  
+		A.CD_PC,			-- CD_PC : 회계단위
+		'1',				-- ST_DOCU : 전표 상태
+		A.CD_BIZAREA,		-- CD_BIZAREA : 신고사업장  
+		A.DT_ACCT,			-- DT_START : 발생일자
+		A.CD_PARTNER,		-- CD_PARTNER : 거래처코드
+		@P_AM_SUPPLY,		-- AM_TAXSTD : 과세표준(원화)
+		A.AM_CR + A.AM_DR,  -- AM_ADDTAX : 부가가치세
+		A.TP_TAX,			-- TP_TAX : 세무구분      
+		0,					-- AM_CASH : 현금
+		0,					-- AM_CHECK : 수표
+		0,					-- AM_BILL : 어음
+		0,					-- AM_UNCLT : 미수금         
+		0,					-- RT_SBS : 공제율      
+		A.RT_EXCH,			-- RT_EXCH : 환율(수출신고등록)     
+		A.AM_EXDO,			-- AM_EX : 외화      
+		0,					-- AM_EXDO : 제출외화      
+		0,					-- AM_DO : 제출원화      
+		0,					-- AM_EXMI : 미도래외화      
+		0,					-- AM_MI : 미도래원화
+		(SELECT TOP 1 NO_COMPANY FROM FI_PARTNO WHERE CD_COMPANY = A.CD_COMPANY AND CD_PARTNER = A.CD_PARTNER) NO_COMPANY, -- 사업자번호는 하나인데 거래처가 두개 있는것들이 있어서 TOP 1 을 해줘야 한다.  
+		--- 2008/07/14 추가부분
+		A.CD_EXCH,            -- CD_EXCH : 환종
+		@P_NO_TO,				-- 전표에서 가지고 올수 없는 자료 - 신고번호
+		@P_DT_SHIPPING,		-- 전표에서 가지고 올수 없는 자료 - 선적일자
+		(CASE WHEN A.TP_TAX = '15' THEN '1' ELSE '' END)  TP_EXPORT  --수출구분
+	FROM FI_DOCU A  
+	WHERE A.NO_DOCU = @P_NO_DOCU AND -- 전표번호            
+	A.NO_DOLINE = @P_NO_DOLINE AND -- 라인번호            
+	A.CD_PC = @P_CD_PC AND  -- 회계단위            
+	A.CD_COMPANY = @P_CD_COMPANY  -- 회사코드          
+END
+GO

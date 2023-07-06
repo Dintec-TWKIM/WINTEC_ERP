@@ -1,0 +1,367 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SA_SO_S]    Script Date: 2015-10-01 오후 2:10:09 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+/*******************************************************************************                        
+ --제  목 : 수주  조회              
+ --작성일 : 2008.12.08              
+ --작성자 : 정남진                  
+ --화면명 : UP_SA_SO_SELECT        
+                
+ --EXEC UP_SA_SO_SELECT                
+*******************************************************************************/              
+/*******************************************************************************/        
+ --* 사용화면 : 나중에 쿼리를 분리하거나 수정내역을 반영해줘야 하기때문에 사용한 화면을 저장해둔다.       
+    
+ --* 수주등록 화면명    : FG_TRACK  : 관리자      : 본 쿼리 사용여부    
+         
+ --* 1.수주등록         : M   : NJin   관리 : 사용    
+ --* 2.수주등록용역        : YV  : NJin   관리 : 사용    
+ --* 3.수주등록(거래처)       : P   : NJin   관리 : 사용    
+ --* 4.일괄수주등록        : ME  : NJin   관리 : 실재 사용안함    
+ --* 5.일괄수주등록(부가세포함) : MEV  : NJin   관리 : 실재 사용안함    
+ --* 6.일괄수주등록(부가세포함)02 : MEV02  : NJin   관리 : 실재 사용안함    
+ --* 7.일괄수주등록(부가세포함)EC : MEVEC  : NJin   관리 : 실재 사용안함    
+ --* 8.수주이력등록        : H   : NJin   관리 : 미개발    
+ --* 9.수주웹등록     : W   : 장기주 관리 : 실재 사용안함    
+/*******************************************************************************/        
+ALTER PROCEDURE [NEOE].[SP_CZ_SA_SO_S]            
+(            
+    @P_CD_COMPANY   NVARCHAR(7),
+	@P_LANGUAGE		NVARCHAR(5) = 'KR',            
+    @P_NO_SO        NVARCHAR(20)            
+)            
+AS            
+         
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+/*     
+ --* 헤더조회  컬럼설명    
+ --* TP_SO  --수주유형        
+ --* NM_SO  --수주유형명        
+ --* TP_PRICE  --단가유형        
+ --* TP_VAT  --VAT구분        
+ --* RT_VAT  --부가세율        
+ --* FG_VAT  --부가세포함여부        
+ --* FG_TAXP  --계산서처리        
+ --* FG_BILL  --결재방법        
+ --* NO_CONTRACT --계약번호        
+ */        
+ 
+ DECLARE
+		@V_YM			NVARCHAR(6),
+		@V_CD_PLANT		NVARCHAR(7),
+		@V_FSIZE_AM     NUMERIC(3,0),
+		@V_UPDOWN_AM	NVARCHAR(3),
+		@V_FORMAT_AM	NVARCHAR(50),
+		@V_DT_SO		NVARCHAR(8),
+		@V_YN_PJT       NCHAR(1),   --프로젝트형 사용여부
+        @V_YN_UNIT		NCHAR(1)    --UNIT 사용여부
+        
+SET     @V_YN_PJT   = 'N'
+SET     @V_YN_UNIT  = 'N'
+		
+EXEC UP_SF_GETUNIT_AM @P_CD_COMPANY, 'SA', 'I', @V_FSIZE_AM OUTPUT, @V_UPDOWN_AM OUTPUT, @V_FORMAT_AM OUTPUT
+IF @@ERROR <> 0 RETURN		
+		
+SELECT	@V_YM		= SUBSTRING(DT_SO, 1, 6)
+FROM	SA_SOH 
+WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO 
+
+SELECT	@V_DT_SO = DT_SO
+FROM	SA_SOH 
+WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO 
+
+SELECT	@V_CD_PLANT	= MIN(CD_PLANT)
+FROM	SA_SOL
+WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_SO = @P_NO_SO 
+	
+SELECT	@V_YM		= MAX(YM_STANDARD)
+FROM	MM_AMINVL
+WHERE	CD_COMPANY	= @P_CD_COMPANY AND CD_PLANT = @V_CD_PLANT AND YM_STANDARD <= @V_YM 
+	
+SET     @V_YM = ISNULL(@V_YM, '000000')
+
+SELECT  @V_YN_PJT   = YN_PJT,
+        @V_YN_UNIT  = YN_UNIT
+FROM    MA_ENV
+WHERE   CD_COMPANY  = @P_CD_COMPANY
+
+SELECT  A.NO_SO, A.NO_HST, A.DT_SO, A.CD_PARTNER, A.CD_SALEGRP, A.NO_EMP, A.TP_SO,         
+        MP.LN_PARTNER, MS.NM_SALEGRP, ME.NM_KOR, ST.NM_SO, A.CD_EXCH, A.RT_EXCH,          
+        A.TP_PRICE, A.NO_PROJECT, SH.NM_PROJECT, A.TP_VAT, A.RT_VAT, A.FG_VAT,          
+        A.FG_TAXP, A.DC_RMK, A.FG_BILL, A.FG_TRANSPORT, A.NO_CONTRACT, A.FG_TRACK, A.NO_PO_PARTNER,   
+        MP.NO_POST2,  
+        MP.DC_ADS2_H,  
+        MP.DC_ADS2_D,  
+        MP.NO_TEL2,  
+        MP.CD_EMP_PARTNER,  
+        MP.NO_HPEMP_PARTNER, 
+        /* 해당 납품처정보들은 수주등록의 헤더를 초기화 해줄때 사용한다. */
+        --A.CD_PARTNER AS GI_PARTNER, MP.LN_PARTNER AS GN_PARTNER,
+        '' AS GI_PARTNER, '' AS GN_PARTNER,
+        -- 견적관련 내용
+        A.NO_EST,ISNULL(A.NO_EST_HST, 0) NO_EST_HST, 
+        A.CD_EXPORT, (SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = @P_CD_COMPANY AND CD_PARTNER = A.CD_EXPORT) NM_EXPORT,
+        A.CD_PRODUCT, (SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = @P_CD_COMPANY AND CD_PARTNER = A.CD_PRODUCT) NM_PRODUCT,
+		A.COND_TRANS, A.COND_PAY, ISNULL(A.COND_DAYS, 0) COND_DAYS,
+		A.TP_PACKING, A.TP_TRANS, A.TP_TRANSPORT, 
+		A.NM_INSPECT, A.PORT_LOADING, A.PORT_ARRIVER, A.CD_ORIGIN, A.DESTINATION, A.DT_EXPIRY,
+		A.CD_NOTIFY, (SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = @P_CD_COMPANY AND CD_PARTNER = A.CD_NOTIFY) NM_NOTIFY,
+		A.CD_CONSIGNEE, (SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = @P_CD_COMPANY AND CD_PARTNER = A.CD_CONSIGNEE) NM_CONSIGNEE,
+		A.CD_TRANSPORT, (SELECT LN_PARTNER FROM MA_PARTNER WHERE CD_COMPANY = @P_CD_COMPANY AND CD_PARTNER = A.CD_TRANSPORT) LN_TRANSPORT,
+		A.DC_RMK_TEXT, A.RMA_REASON, A.DC_RMK1, A.COND_PRICE,
+		A.DT_USERDEF1, A.DT_USERDEF2, A.TXT_USERDEF1, A.TXT_USERDEF2, A.TXT_USERDEF3, A.CD_USERDEF1, A.CD_USERDEF2, A.CD_USERDEF3,
+		ISNULL(A.NUM_USERDEF1, 0) NUM_USERDEF1, ISNULL(A.NUM_USERDEF2, 0) NUM_USERDEF2, ISNULL(A.NUM_USERDEF3, 0) NUM_USERDEF3,
+		ISNULL(A.NUM_USERDEF4, 0) NUM_USERDEF4, ISNULL(A.NUM_USERDEF5, 0) NUM_USERDEF5,
+		MP.NO_TEL, MP.NO_FAX,
+		SS.DT_PROCESS, SS.DT_RCP_RSV, SS.FG_AR_EXC, SS.AM_IV, SS.AM_IV_EX, SS.AM_IV_VAT,
+		SS.NM_PTR,	SS.EX_EMIL, SS.EX_HP, 
+		A.CD_BANK_SO, BP.LN_PARTNER AS NM_BANK_SO,
+		A.DC_RMK_TEXT2,
+		A.NO_INV,
+		A.TXT_USERDEF4,
+		SS.DC_RMK DC_RMK_IVH,
+		A.CD_CHANCE,
+		A.NO_IMO,
+		MH.NO_HULL,
+		MH.NM_VESSEL		
+  FROM SA_SOH A          
+  LEFT JOIN MA_PARTNER MP ON A.CD_COMPANY = MP.CD_COMPANY AND A.CD_PARTNER = MP.CD_PARTNER        
+  LEFT JOIN MA_SALEGRP MS ON A.CD_COMPANY = MS.CD_COMPANY AND A.CD_SALEGRP = MS.CD_SALEGRP        
+  LEFT JOIN MA_EMP ME ON A.CD_COMPANY = ME.CD_COMPANY AND A.NO_EMP = ME.NO_EMP        
+  LEFT JOIN SA_TPSO ST ON A.CD_COMPANY = ST.CD_COMPANY AND A.TP_SO = ST.TP_SO        
+  LEFT JOIN SA_PROJECTH SH ON A.CD_COMPANY = SH.CD_COMPANY AND A.NO_PROJECT = SH.NO_PROJECT
+  LEFT JOIN SA_SOH_SUB SS ON A.CD_COMPANY = SS.CD_COMPANY AND A.NO_SO = SS.NO_SO          
+  LEFT JOIN MA_PARTNER BP ON A.CD_COMPANY = BP.CD_COMPANY AND A.CD_BANK_SO = BP.CD_PARTNER        
+  LEFT JOIN CZ_MA_HULL MH ON MH.NO_IMO = A.NO_IMO
+ WHERE A.CD_COMPANY = @P_CD_COMPANY            
+   AND A.NO_SO = @P_NO_SO                        
+            
+/*     
+ --* 헤더조회  컬럼설명    
+ --* TP_ITEM,  --품목타입        
+ --* UNIT_SO,  --단위        
+ --* UNIT_SO_FACT --수주단위수량(수주수량 * 수주단위수량 = 재고수량)           
+ --* DT_DUEDATE, --납기요구일        
+ --* DT_REQGI, --출고예정일        
+ --* UNIT_IM,  --관리단위        
+ --* QT_IM,  --관리수량        
+ --* LT_GI,  --출고LT(출고예정일 = 납기요구일 - 출고LT)          
+ --* AM_ITEM  --품목군별단가등록(P_SA_GRPITEM_UM_HDS)의 금액        
+ */        
+/*  
+ --* END USER 배송정보 테이블 추가 : SA_SOL_DLV   
+ --* 이 테이블은 SA_SOL 과 1:1 관계이나 업무상 데이터가 들어가지 않는 경우 있다는거~  
+ --* 따라서 LEFT JOIN 해주어야 한다.  
+ --* 배송정보 SA_SOL_DLV.FG_TRACK 기능추가 =>  SO : 수주등록, M : 출고요청등록, R : 출고반품의뢰등록   
+ --* 업무상 다른화면에서 같은 번호를 넣는경우 발생에 따라 FG_TRACK 를 PK로 잡아 주었다.  
+ --* 따라서 조인을 걸때 FG_TRACK 를 꼭 해주지 않으면 카테시안 곱이 발생할수 있다.  
+ */  
+SELECT  A.SEQ_SO, 
+        A.STA_SO AS STA_SO1, 
+        A.TP_ITEM, A.CD_PLANT,         
+        A.CD_ITEM, 
+        B.NM_ITEM, 
+        B.STND_ITEM, 
+        B.UNIT_SO, 
+        B.MAT_ITEM, 
+        B.GRP_MFG,         
+        (CASE WHEN ISNULL(B.UNIT_SO_FACT, 0) = 0 THEN 1 ELSE B.UNIT_SO_FACT END) AS UNIT_SO_FACT,         
+        A.DT_DUEDATE, 
+        A.DT_REQGI, 
+        A.QT_SO, 
+        A.UM_SO, 
+        A.AM_SO,         
+        A.AM_WONAMT, 
+        A.AM_VAT, 
+        B.UNIT_IM, 
+        A.QT_IM, 
+        A.CD_SL,         
+        ISNULL(B.LT_GI, 0) AS LT_GI, 
+        MS.NM_SL, 
+        A.GI_PARTNER, 
+        MP.LN_PARTNER,         
+        A.DC1, 
+        A.DC2, 
+        A.NO_PROJECT, 
+        SH.NM_PROJECT, 
+        A.SEQ_PROJECT, 
+        A.CD_ITEM_PARTNER, 
+        A.NM_ITEM_PARTNER,         
+        A.UMVAT_SO, 
+        A.AMVAT_SO, 
+        B.GRP_ITEM, 
+        MI.NM_ITEMGRP, 
+        B.DT_VALID,         
+        ISNULL(MG.AM_ITEM, 0) AS AM_ITEM,
+        (SELECT (CASE @P_LANGUAGE WHEN 'KR' THEN NM_SYSDEF
+		 						  WHEN 'US' THEN NM_SYSDEF_E
+		 						  WHEN 'JP' THEN NM_SYSDEF_JP
+		 						  WHEN 'CH' THEN NM_SYSDEF_CH END)
+		 FROM MA_CODEDTL
+		 WHERE CD_COMPANY = B.CD_COMPANY
+		 AND CD_FIELD = 'MA_B000031'
+		 AND CD_SYSDEF = B.CLS_M) AS NM_SYSDEF,
+		A.CD_SHOP, 
+        A.CD_SPITEM, 
+        A.CD_OPT,
+        D.NM_CUST_DLV, 
+        D.CD_ZIP, 
+        D.ADDR1, 
+        D.ADDR2, 
+        D.NO_TEL_D1, 
+        D.NO_TEL_D2, 
+        D.TP_DLV, 
+        D.DC_REQ, 
+        D.FG_TRACK,
+        ISNULL(A.RT_DSCNT, 0) AS RT_DSCNT,
+        ISNULL(A.UM_BASE, 0) AS UM_BASE, 
+        D.TP_DLV_DUE, 
+        ISNULL(B.FG_MODEL, 'N') AS FG_MODEL, 
+        A.FG_USE, 
+        A.CD_CC, 
+        C.NM_CC, 
+        A.TP_VAT, 
+        A.RT_VAT, 
+        ISNULL(A.UMVAT_SO, 0) AS UMVAT_SO, 
+        ISNULL(A.AMVAT_SO, 0) AS AMVAT_SO, 
+        NM_KOR AS NM_MANAGER1, 
+        A.NO_IO_MGMT, 
+        A.NO_IOLINE_MGMT, 
+        A.NO_POLINE_PARTNER,
+        -- 2010.07.20 : 장은경 - 중량, 중량단위 추가
+        ISNULL(A.UM_OPT, 0) AS UM_OPT, 
+        ISNULL(B.WEIGHT, 0.0) AS WEIGHT,
+        B.UNIT_WEIGHT,
+        -- 2010.07.22 : 장은경 - 예상이익 산출
+        ISNULL(MM.UM_INV, 0.0) AS UM_INV,
+        NEOE.FN_SF_GETUNIT_AM('SA', '', @V_FSIZE_AM, @V_UPDOWN_AM, @V_FORMAT_AM, (A.AM_WONAMT - ISNULL(MM.UM_INV, 0.0) * A.QT_SO)) AS AM_PROFIT,
+        -- 2010.07.27 : 장은경 - 라인 거래처 po번호 추가
+        A.NO_PO_PARTNER,
+        B.YN_ATP,
+        B.CUR_ATP_DAY,
+        A.CD_WH,
+        WH.NM_WH,
+		A.NO_SO_ORIGINAL,
+		A.SEQ_SO_ORIGINAL,
+		A.NUM_USERDEF1,
+		A.NUM_USERDEF2,
+        (SELECT (CASE @P_LANGUAGE WHEN 'KR' THEN NM_SYSDEF
+		 						  WHEN 'US' THEN NM_SYSDEF_E
+		 						  WHEN 'JP' THEN NM_SYSDEF_JP
+		 						  WHEN 'CH' THEN NM_SYSDEF_CH END)
+		 FROM MA_CODEDTL
+		 WHERE CD_COMPANY = B.CD_COMPANY
+		 AND CD_FIELD = 'MA_B000066'
+		 AND CD_SYSDEF = B.GRP_MFG) AS NM_GRP_MFG,
+		X.QT_INV AS SL_QT_INV,
+		B.FG_SERNO, --002:LOT, 003:SERIAL
+		H.CD_EXCH,   --환종추가 20110804 SJH
+		B.QT_WIDTH * 1000 AS QT_WIDTH, 
+		B.QT_LENGTH,
+		B.QT_WIDTH * B.QT_LENGTH AS AREA,
+		B.QT_WIDTH * B.QT_LENGTH * A.QT_SO AS TOTAL_AREA,
+		B.NM_MAKER,
+        0.0 AS QT_USEINV,   --가용재고(한국화장품에서 사용)
+		A.NUM_USERDEF3, A.NUM_USERDEF4, A.NUM_USERDEF5, A.NUM_USERDEF6,
+		ISNULL(B.NUM_USERDEF3, 0) AS PITEM_NUM_USERDEF3,
+		(CASE WHEN ISNULL(B.UNIT_GI_FACT, 0) = 0 THEN 1 ELSE B.UNIT_GI_FACT END) AS UNIT_GI_FACT,
+		A.QT_SO * ISNULL(B.NUM_USERDEF3, 0) AS AM_PACKING,
+		A.QT_SO / (CASE WHEN ISNULL(B.UNIT_GI_FACT, 0) = 0 THEN 1 ELSE B.UNIT_GI_FACT END) AS QT_PACKING,
+		B.NUM_USERDEF4 AS PITEM_NUM_USERDEF4, B.NUM_USERDEF5 AS PITEM_NUM_USERDEF5, B.NUM_USERDEF6 AS PITEM_NUM_USERDEF6,    --2011.12.21 SJH(PIMS:D20111205101)
+		B.NUM_USERDEF7 AS PITEM_NUM_USERDEF7,    --2012.04.25 SJH(PIMS:D20120417017)
+		B.EN_ITEM,
+		A.CD_MNGD1, F1.NM_MNGD AS NM_MNGD1, A.CD_MNGD2, F2.NM_MNGD AS NM_MNGD2, A.CD_MNGD3, F3.NM_MNGD AS NM_MNGD3, A.CD_MNGD4,
+		A.TXT_USERDEF1, A.TXT_USERDEF2, B.UNIT_GI, B.STND_DETAIL_ITEM, A.YN_OPTION,
+		ISNULL(B.NUM_USERDEF1 * A.QT_SO,0) AS AM_STD_SALE,
+        CASE WHEN ISNULL(B.NUM_USERDEF1 * A.QT_SO,0) = 0 THEN 0 
+             ELSE ROUND(((ISNULL(B.NUM_USERDEF1 * A.QT_SO,0) - ISNULL(A.AM_WONAMT,0)) / ISNULL(B.NUM_USERDEF1 * A.QT_SO,0)) * 100,2) END RT_STD_SALE,
+        B.NUM_USERDEF1 AS PITEM_NUM_USERDEF1, B.NUM_USERDEF2 AS PITEM_NUM_USERDEF2,
+        SL.CD_ITEM AS CD_UNIT,
+        UNIT.NM_ITEM AS NM_UNIT,
+        UNIT.STND_ITEM AS STND_UNIT,
+        D.NO_ORDER,
+        D.NM_CUST,
+        D.NO_TEL1,
+        D.NO_TEL2,
+        D.TXT_USERDEF1 AS DLV_TXT_USERDEF1,
+        A.TP_IV,
+        A.CD_ITEM_REF,
+        P.NM_ITEM AS NM_ITEM_REF,
+        P.STND_ITEM AS STND_ITEM_REF,	
+        A.YN_PICKING,
+        D.CD_USERDEF1 AS DLV_CD_USERDEF1,
+        B.CD_USERDEF1 AS PITEM_CD_USERDEF1,
+        B.CD_USERDEF2 AS PITEM_CD_USERDEF2,
+        B.CD_USERDEF3 AS PITEM_CD_USERDEF3,
+        B.URL_ITEM,
+        A.FG_USE2,
+        D.NO_LINK,
+        D.NO_LINE_LINK,
+        0.0 AS QT_EXP,    -- 출고예정수량(차앤박)
+		0.0 AS QT_AVA,    -- 출고가능수량(차앤박)
+		'' AS NO_LOT,    -- 로트번호(차앤박)
+		A.NO_RELATION, A.SEQ_RELATION,
+		B.CLS_ITEM,
+		B.GRP_ITEM, IG.NM_ITEMGRP GRP_ITEMNM,
+		B.CLS_L, B.CLS_S, 
+		B.NUM_STND_ITEM_1, B.NUM_STND_ITEM_2, B.NUM_STND_ITEM_3, B.NUM_STND_ITEM_4,B.NUM_STND_ITEM_5,
+		A.CD_USERDEF1, A.ID_MEMO, A.CD_WBS, A.NO_SHARE, A.NO_ISSUE,
+		A.CD_USERDEF2
+  FROM  SA_SOL A
+  INNER JOIN  SA_SOH H ON A.CD_COMPANY = H.CD_COMPANY AND A.NO_SO = H.NO_SO
+  LEFT OUTER JOIN SA_SOL_DLV D ON A.CD_COMPANY = D.CD_COMPANY AND A.NO_SO = D.NO_SO AND A.SEQ_SO = D.SEQ_SO AND D.FG_TRACK = 'SO'
+  LEFT OUTER JOIN MA_PITEM  B  ON A.CD_COMPANY = B.CD_COMPANY AND A.CD_PLANT = B.CD_PLANT AND A.CD_ITEM = B.CD_ITEM
+  LEFT OUTER JOIN MA_EMP ME ON A.CD_COMPANY = ME.CD_COMPANY AND B.NO_MANAGER1 = ME.NO_EMP
+  LEFT OUTER JOIN MA_SL MS ON A.CD_COMPANY = MS.CD_COMPANY AND A.CD_PLANT = MS.CD_PLANT AND A.CD_SL = MS.CD_SL
+  LEFT OUTER JOIN MA_PARTNER  MP ON A.CD_COMPANY = MP.CD_COMPANY AND A.GI_PARTNER = MP.CD_PARTNER
+  LEFT OUTER JOIN MA_GRPITEM_UM_HDS MG ON A.CD_COMPANY = MG.CD_COMPANY AND A.CD_PLANT = MG.CD_PLANT AND B.GRP_ITEM = MG.GRP_ITEM AND H.TP_PRICE = MG.FG_UM        
+  LEFT OUTER JOIN MA_ITEMGRP MI ON A.CD_COMPANY = MI.CD_COMPANY AND B.GRP_ITEM = MI.CD_ITEMGRP
+  LEFT OUTER JOIN MA_CC C ON C.CD_COMPANY = A.CD_COMPANY AND C.CD_CC = A.CD_CC
+  LEFT OUTER JOIN (SELECT * FROM MM_AMINVL WHERE CD_COMPANY = @P_CD_COMPANY AND CD_PLANT = @V_CD_PLANT AND YM_STANDARD = @V_YM) MM
+  ON A.CD_COMPANY = MM.CD_COMPANY AND A.CD_PLANT = MM.CD_PLANT AND A.CD_ITEM = MM.CD_ITEM AND
+  (@V_YN_PJT  = 'N' OR (@V_YN_PJT  = 'Y' AND MM.CD_PJT = A.NO_PROJECT)) AND  
+  (@V_YN_UNIT = 'N' OR (@V_YN_UNIT = 'Y' AND MM.SEQ_PROJECT = A.SEQ_PROJECT))
+  LEFT OUTER JOIN SA_PROJECTH SH ON A.CD_COMPANY = SH.CD_COMPANY AND A.NO_PROJECT = SH.NO_PROJECT
+  LEFT OUTER JOIN MA_WH WH ON A.CD_COMPANY = WH.CD_COMPANY AND A.CD_WH = WH.CD_WH
+  LEFT OUTER JOIN FI_MNGD F1 ON F1.CD_MNG = 'A21' AND A.CD_MNGD1 = F1.CD_MNGD AND A.CD_COMPANY = F1.CD_COMPANY
+  LEFT OUTER JOIN FI_MNGD F2 ON F2.CD_MNG = 'A22' AND A.CD_MNGD2 = F2.CD_MNGD AND A.CD_COMPANY = F2.CD_COMPANY
+  LEFT OUTER JOIN FI_MNGD F3 ON F3.CD_MNG = 'A25' AND A.CD_MNGD3 = F3.CD_MNGD AND A.CD_COMPANY = F3.CD_COMPANY
+  LEFT OUTER JOIN
+    ( 
+        SELECT  Y.CD_PLANT, Y.CD_SL, Y.CD_ITEM, 
+                SUM(Y.QT_INV) QT_INV
+        FROM    (  
+                    SELECT  CD_COMPANY, CD_PLANT, CD_SL, CD_ITEM, QT_GOOD_INV QT_INV       
+                    FROM    MM_OPENQTL        
+                    WHERE   CD_COMPANY = @P_CD_COMPANY 
+                    AND     YM_STANDARD = LEFT(@V_DT_SO,4) + '00'
+
+                    UNION ALL
+
+                    SELECT  CD_COMPANY, L.CD_PLANT, L.CD_SL, L.CD_ITEM,       
+                            L.QT_GOOD_GR - L.QT_GOOD_GI + L.QT_REJECT_GR - L.QT_REJECT_GI + L.QT_TRANS_GR - L.QT_TRANS_GI + L.QT_INSP_GR - L.QT_INSP_GI  QT_INV      
+                    FROM    MM_OHSLINVD  L   
+                    WHERE   L.CD_COMPANY = @P_CD_COMPANY
+                    AND     L.DT_IO BETWEEN LEFT(@V_DT_SO,4) + '0101' AND @V_DT_SO
+                ) Y
+                LEFT OUTER JOIN MA_PITEM MI ON Y.CD_COMPANY = MI.CD_COMPANY AND Y.CD_PLANT = MI.CD_PLANT AND Y.CD_ITEM = MI.CD_ITEM
+        WHERE   MI.CLS_ITEM IN ('001', '002', '003', '004', '005', '009')
+        GROUP BY Y.CD_PLANT, Y.CD_SL, Y.CD_ITEM
+    ) X ON A.CD_PLANT = X.CD_PLANT AND A.CD_ITEM = X.CD_ITEM AND A.CD_SL = X.CD_SL
+  LEFT OUTER JOIN SA_PROJECTL SL ON A.CD_COMPANY = SL.CD_COMPANY AND A.NO_PROJECT = SL.NO_PROJECT AND A.SEQ_PROJECT = SL.SEQ_PROJECT
+  LEFT OUTER JOIN MA_PITEM UNIT ON SL.CD_COMPANY = UNIT.CD_COMPANY AND SL.CD_PLANT = UNIT.CD_PLANT AND SL.CD_ITEM = UNIT.CD_ITEM
+  LEFT OUTER JOIN MA_PITEM P ON A.CD_COMPANY = P.CD_COMPANY AND A.CD_PLANT = P.CD_PLANT AND A.CD_ITEM_REF = P.CD_ITEM
+  LEFT OUTER JOIN MA_ITEMGRP IG ON B.CD_COMPANY = IG.CD_COMPANY AND B.GRP_ITEM = IG.CD_ITEMGRP
+ WHERE  A.CD_COMPANY = @P_CD_COMPANY
+ AND    A.NO_SO = @P_NO_SO
+ ORDER BY A.SEQ_SO
+
+GO

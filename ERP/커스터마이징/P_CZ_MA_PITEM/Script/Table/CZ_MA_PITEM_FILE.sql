@@ -1,0 +1,43 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_MA_PITEM_FILE]    Script Date: 2022-09-13 오후 4:08:17 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_MA_PITEM_FILE](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[CD_PLANT] [nvarchar](7) NOT NULL,
+	[CD_ITEM] [nvarchar](20) NOT NULL,
+	[IMAGE1] [nvarchar](200) NULL,
+	[IMAGE2] [nvarchar](200) NULL,
+	[IMAGE3] [nvarchar](200) NULL,
+	[IMAGE4] [nvarchar](200) NULL,
+	[IMAGE5] [nvarchar](200) NULL,
+	[IMAGE6] [nvarchar](200) NULL,
+	[IMAGE7] [nvarchar](200) NULL,
+	[DC_IMAGE1] [nvarchar](100) NULL,
+	[DC_IMAGE2] [nvarchar](100) NULL,
+	[DC_IMAGE3] [nvarchar](100) NULL,
+	[DC_IMAGE4] [nvarchar](100) NULL,
+	[DC_IMAGE5] [nvarchar](100) NULL,
+	[DC_IMAGE6] [nvarchar](100) NULL,
+	[DC_IMAGE7] [nvarchar](100) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+	[YN_MAIN] [nvarchar](1) NULL,
+ CONSTRAINT [PK_CZ_MA_PITEM_FILE] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[CD_PLANT] ASC,
+	[CD_ITEM] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

@@ -1,0 +1,61 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_GIRH_PACK]    Script Date: 2015-06-04 오전 8:36:38 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_GIRH_PACK](
+	[NO_GIR] [nvarchar](20) NOT NULL,
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[DT_GIR] [nvarchar](8) NULL,
+	[NO_EMP] [nvarchar](10) NULL,
+	[TP_BUSI] [nvarchar](3) NULL,
+	[CD_PLANT] [nvarchar](7) NULL,
+	[CD_PARTNER] [nvarchar](20) NULL,
+	[GI_PARTNER] [nvarchar](20) NULL,
+	[STA_GIR] [nvarchar](3) NULL,
+	[YN_RETURN] [nchar](1) NULL,
+	[DC_RMK] [nvarchar](100) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](15) NULL,
+	[TP_GI] [nvarchar](6) NULL,
+	[FG_UM] [nvarchar](3) NULL,
+	[DC_RMK1] [nvarchar](100) NULL,
+	[DC_RMK2] [nvarchar](100) NULL,
+	[CD_CAR] [nvarchar](7) NULL,
+	[MEMO_CD] [nvarchar](40) NULL,
+	[CHECK_PEN] [nvarchar](40) NULL,
+	[TXT_USERDEF1] [nvarchar](100) NULL,
+	[TXT_USERDEF2] [nvarchar](100) NULL,
+	[TXT_USERDEF3] [nvarchar](100) NULL,
+	[TXT_USERDEF4] [nvarchar](100) NULL,
+	[CD_USERDEF1] [nvarchar](4) NULL,
+	[CD_USERDEF2] [nvarchar](4) NULL,
+	[CD_USERDEF3] [nvarchar](4) NULL,
+	[CD_USERDEF4] [nvarchar](4) NULL,
+	[NUM_USERDEF1] [numeric](17, 4) NULL,
+	[NUM_USERDEF2] [numeric](17, 4) NULL,
+ CONSTRAINT [PK_CZ_SA_GIRH_PACK] PRIMARY KEY CLUSTERED 
+(
+	[NO_GIR] ASC,
+	[CD_COMPANY] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [NEOE].[CZ_SA_GIRH_PACK] ADD  CONSTRAINT [DF_CZ_SA_GIRH_PACK_DT_GIR]  DEFAULT ('00000000') FOR [DT_GIR]
+GO
+
+ALTER TABLE [NEOE].[CZ_SA_GIRH_PACK] ADD  CONSTRAINT [DF_CZ_SA_GIRH_PACK_NUM_USERDEF1]  DEFAULT ((0)) FOR [NUM_USERDEF1]
+GO
+
+ALTER TABLE [NEOE].[CZ_SA_GIRH_PACK] ADD  CONSTRAINT [DF_CZ_SA_GIRH_PACK_NUM_USERDEF2]  DEFAULT ((0)) FOR [NUM_USERDEF2]
+GO
+

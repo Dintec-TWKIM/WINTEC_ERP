@@ -1,0 +1,116 @@
+USE [NEOE]
+GO
+/****** Object:  StoredProcedure [NEOE].[UP_CZ_PR_OPOUT_WORK_MNG_H_SELECT]    Script Date: 2022-12-09 오후 1:25:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER PROCEDURE [NEOE].[UP_CZ_PR_OPOUT_WORK_MNG_H_SELECT]
+(
+	@P_CD_COMPANY       NVARCHAR(7), 
+	@P_CD_PLANT         NVARCHAR(7), 
+	@P_CD_ITEM          NVARCHAR(50), 
+	@P_CD_PARTNER       NVARCHAR(20), 
+	@P_DT_PO_FROM		NVARCHAR(8), 
+	@P_DT_PO_TO         NVARCHAR(8), 
+	@P_ST_WO            NVARCHAR(10), 
+	@P_NO_PO            NVARCHAR(20), 
+	@P_NO_EMP			NVARCHAR(20)	= NULL,
+	@P_CHK_DT_PO		NVARCHAR(1)		= 'Y',
+	@P_CHK_DT_REL		NVARCHAR(1)		= 'N',
+	@P_DT_REL     		NVARCHAR(8)		= NULL,
+	@P_DT_DUE       	NVARCHAR(8)		= NULL,
+	@P_NO_WO			NVARCHAR(20)	= NULL,
+    @P_FG_LANG			NVARCHAR(4) = NULL	--언어
+)
+AS
+-- MultiLang Call
+EXEC UP_MA_LOCAL_LANGUAGE @P_FG_LANG
+
+
+DECLARE @YN_MFG_AUTH	NCHAR(1)
+
+SELECT	@YN_MFG_AUTH = YN_MFG_AUTH
+FROM	MA_ENV
+WHERE	CD_COMPANY = @P_CD_COMPANY
+
+
+IF (@YN_MFG_AUTH IS NULL) SET @YN_MFG_AUTH = 'N'
+
+
+SELECT	'N' CHK,
+		H.CD_PLANT,
+		L.NO_WO,
+		H.NO_PO,
+		H.CD_PARTNER,
+		H.NO_EMP,
+		H.DT_PO,
+		H.CD_EXCH,
+		H.RT_EXCH,
+		H.FG_TAX,
+		H.VAT_RATE,
+		H.AM_EX,
+		H.AM,
+		H.AM_VAT,
+		H.DC_RMK, 
+		L.CD_ITEM,
+		P.NM_ITEM,
+		P.STND_ITEM,
+		P.UNIT_IM,
+		L.NO_LINE, 
+		A.LN_PARTNER,
+		T.NM_PLANT,
+		W.DC_RMK AS DC_RMK_WO,
+		P.EN_ITEM,
+		P.STND_DETAIL_ITEM,
+		P.MAT_ITEM,
+		P.NM_MAKER,
+		P.BARCODE,
+		P.NO_MODEL,
+		W.TXT_USERDEF1 AS TXT_USERDEF1_WO,
+		CASE WHEN MAX(V.NO_IV) IS NOT NULL THEN 'Y' ELSE 'N' END AS YN_OPOUT_IV,
+		L.NO_PR,
+		P.NO_DESIGN
+FROM	PR_OPOUT_POH H
+INNER JOIN PR_OPOUT_POL L ON L.CD_COMPANY = @P_CD_COMPANY AND L.CD_PLANT = @P_CD_PLANT AND L.NO_PO = H.NO_PO
+INNER JOIN PR_WO_ROUT R ON R.CD_COMPANY = @P_CD_COMPANY AND R.CD_PLANT = @P_CD_PLANT AND R.NO_WO = L.NO_WO AND R.CD_OP = L.CD_OP
+INNER JOIN PR_WO W ON W.CD_COMPANY = @P_CD_COMPANY AND W.CD_PLANT = @P_CD_PLANT AND W.NO_WO = L.NO_WO
+LEFT OUTER JOIN DZSN_MA_PITEM P ON P.CD_COMPANY = @P_CD_COMPANY AND P.CD_PLANT = @P_CD_PLANT AND P.CD_ITEM = L.CD_ITEM
+LEFT OUTER JOIN DZSN_MA_PARTNER A ON A.CD_COMPANY = @P_CD_COMPANY AND A.CD_PARTNER = H.CD_PARTNER
+LEFT OUTER JOIN CZ_PR_OPOUT_PR O ON L.CD_COMPANY = O.CD_COMPANY AND L.NO_WO = O.NO_WO AND L.CD_OP = O.CD_OP
+INNER JOIN PR_WORK WR ON WR.CD_COMPANY = H.CD_COMPANY AND WR.CD_PLANT = H.CD_PLANT AND WR.NO_WO = L.NO_WO 
+					 AND WR.CD_OP = R.CD_OP AND (WR.YN_SUBCON = 'Y' OR O.QT_PR > 0) AND WR.NO_OPOUT_PO = L.NO_PO AND WR.NO_OPOUT_PO_LINE = L.NO_LINE
+INNER JOIN DZSN_MA_PLANT T ON H.CD_COMPANY = T.CD_COMPANY AND H.CD_PLANT = T.CD_PLANT
+LEFT OUTER JOIN PR_OPOUT_IVL V ON L.CD_COMPANY = V.CD_COMPANY AND L.NO_PO = V.NO_PO
+WHERE	H.CD_COMPANY = @P_CD_COMPANY
+AND		H.CD_PLANT = @P_CD_PLANT
+AND    (L.CD_ITEM = @P_CD_ITEM OR @P_CD_ITEM = '' OR @P_CD_ITEM IS NULL)
+AND    (H.CD_PARTNER = @P_CD_PARTNER OR @P_CD_PARTNER = '' OR @P_CD_PARTNER IS NULL)
+AND   ((@P_CHK_DT_PO = 'Y' AND H.DT_PO >= @P_DT_PO_FROM) OR @P_CHK_DT_PO = 'N')
+AND	  ((@P_CHK_DT_PO = 'Y' AND H.DT_PO <= @P_DT_PO_TO)   OR @P_CHK_DT_PO = 'N')
+AND	  ((@P_CHK_DT_REL = 'Y' AND W.DT_REL >= @P_DT_REL)   OR @P_CHK_DT_REL = 'N')
+AND	  ((@P_CHK_DT_REL = 'Y' AND W.DT_DUE <= @P_DT_DUE)   OR @P_CHK_DT_REL = 'N')
+AND    (W.ST_WO IN (SELECT CD_STR FROM GETTABLEFROMSPLIT(@P_ST_WO)) OR @P_ST_WO = '' OR @P_ST_WO IS NULL)
+AND	   (R.YN_SUBCON = 'Y' OR O.QT_PR > 0)
+AND    (L.NO_WO = @P_NO_WO OR @P_NO_WO = '' OR @P_NO_WO IS NULL)
+AND   ((@YN_MFG_AUTH <> 'Y' OR  ISNULL(@P_NO_EMP,'') =  '')
+OR	   (@YN_MFG_AUTH =  'Y' AND ISNULL(@P_NO_EMP,'') <> '' AND EXISTS (SELECT 1
+                                                                       FROM   MA_MFG_AUTH AUTH
+                                                                       WHERE  AUTH.CD_COMPANY = W.CD_COMPANY
+                                                                       AND    AUTH.CD_AUTH    = W.TP_ROUT
+                                                                       AND    AUTH.FG_AUTH    = 'PR_TPWO'
+                                                                       AND    AUTH.NO_EMP     = @P_NO_EMP)))
+AND   ((@YN_MFG_AUTH <> 'Y' OR  ISNULL(@P_NO_EMP,'') =  '')
+OR	   (@YN_MFG_AUTH =  'Y' AND ISNULL(@P_NO_EMP,'') <> '' AND EXISTS (SELECT 1
+                                                                       FROM	  MA_MFG_AUTH AUTH
+                                                                       WHERE  AUTH.CD_COMPANY = L.CD_COMPANY
+                                                                       AND    AUTH.CD_AUTH    = L.CD_WC
+                                                                       AND    AUTH.FG_AUTH    = 'MA_WC'
+                                                                       AND    AUTH.NO_EMP     = @P_NO_EMP)))
+                                                                       
+GROUP BY H.CD_PLANT, L.NO_WO, H.NO_PO, H.CD_PARTNER, H.NO_EMP, H.DT_PO, H.CD_EXCH, H.RT_EXCH, H.FG_TAX, H.VAT_RATE, H.AM_EX, H.AM, H.AM_VAT,
+		 H.DC_RMK, L.CD_ITEM, P.NM_ITEM, P.STND_ITEM, P.UNIT_IM, L.NO_LINE,  A.LN_PARTNER, T.NM_PLANT, W.DC_RMK,
+		 P.EN_ITEM, P.STND_DETAIL_ITEM, P.MAT_ITEM, P.NM_MAKER, P.BARCODE, P.NO_MODEL, W.TXT_USERDEF1, L.DC_RMK, P.NO_DESIGN, L.NO_PR
+ORDER BY H.CD_PLANT ASC, H.NO_PO ASC

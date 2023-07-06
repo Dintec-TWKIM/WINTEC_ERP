@@ -1,0 +1,54 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_PR_ASSEMBLING_SA_SOL_SUB_S]    Script Date: 2017-01-05 오후 5:48:55 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [NEOE].[SP_CZ_PR_ASSEMBLING_SA_SOL_SUB_S]          
+(
+	@P_CD_COMPANY		NVARCHAR(7),
+    @P_NO_SO            NVARCHAR(20),
+    @P_NO_ID            NVARCHAR(10),
+    @P_DT_START         NVARCHAR(8),
+    @P_DT_END           NVARCHAR(8),
+    @P_YN_GIR           NVARCHAR(1),
+    @P_YN_GI            NVARCHAR(1),
+    @P_YN_CLOSE         NVARCHAR(1)
+)  
+AS
+   
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+SELECT SL.NO_SO,
+       SL.DT_DUEDATE,
+       SL.SEQ_SO,
+       SL.CD_ITEM,
+       MI.NM_ITEM,
+       SL.QT_SO,
+       SL1.QT_SALE
+FROM SA_SOL SL
+JOIN MA_PITEM MI ON MI.CD_COMPANY = SL.CD_COMPANY AND MI.CD_PLANT = SL.CD_PLANT AND MI.CD_ITEM = SL.CD_ITEM
+LEFT JOIN (SELECT SL.CD_COMPANY, SL.CD_PLANT, SL.NO_SO, SL.SEQ_SO,
+                  COUNT(1) AS QT_SALE
+           FROM CZ_PR_ASSEMBLING_SA_SOL SL
+           GROUP BY SL.CD_COMPANY, SL.CD_PLANT, SL.NO_SO, SL.SEQ_SO) SL1
+ON SL1.CD_COMPANY = SL.CD_COMPANY AND SL1.CD_PLANT = SL.CD_PLANT AND SL1.NO_SO = SL.NO_SO AND SL1.SEQ_SO = SL.SEQ_SO
+WHERE SL.CD_COMPANY = @P_CD_COMPANY
+AND SL.DT_DUEDATE BETWEEN @P_DT_START AND @P_DT_END
+AND (ISNULL(@P_NO_SO, '') = '' OR SL.NO_SO = @P_NO_SO)
+AND (ISNULL(@P_YN_GIR, 'N') = 'N' OR ISNULL(SL.QT_SO, 0) > ISNULL(SL.QT_GIR, 0))
+AND (ISNULL(@P_YN_GI, 'N') = 'N' OR ISNULL(SL.QT_SO, 0) > ISNULL(SL.QT_GI, 0))
+AND (ISNULL(@P_YN_CLOSE, 'N') = 'N' OR SL.STA_SO <> 'C')
+AND (ISNULL(@P_NO_ID, '') = '' OR EXISTS (SELECT 1 
+                                          FROM CZ_PR_ASSEMBLING_SA_SOL SL1
+                                          WHERE SL1.CD_COMPANY = SL.CD_COMPANY
+                                          AND SL1.CD_PLANT = SL.CD_PLANT
+                                          AND SL1.NO_SO = SL.NO_SO
+                                          AND SL1.SEQ_SO = SL.SEQ_SO
+                                          AND SL1.NO_ID = @P_NO_ID))
+
+GO

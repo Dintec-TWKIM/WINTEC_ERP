@@ -1,0 +1,77 @@
+﻿<table style="width:100%; border:2px solid black; margin-bottom: 20px; font-size: 9pt; font-family: 굴림; border-collapse:collapse; border-spacing:0;">
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <colgroup width="20%" align="center"></colgroup>
+    <tbody>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Claim No.</th>
+            <td style="border:solid 1px black; text-align:center">@@NO_CLAIM</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Issue Date</th>
+            <td style="border:solid 1px black; text-align:center">@@DT_INPUT</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Sales Order No.</th>
+            <td style="border:solid 1px black; text-align:center">@@NO_SO</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Contract No.</th>
+            <td style="border:solid 1px black; text-align:center">@@NO_CONTRACT</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Buyer</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_PARTNER</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Vessel Name</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_VESSEL</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Supplier</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_SUPPLIER</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Reason of Claim</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_CLAIM</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Item Type</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_ITEM</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Locus of Responsibility </th>
+            <td style="border:solid 1px black; text-align:center">@@NM_CAUSE</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Customer's Request</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_REQUEST</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Scrap/Return</th>
+            <td style="border:solid 1px black; text-align:center">@@NM_RETURN</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Package Size</th>
+            <td style="border:solid 1px black; text-align:center">@@DC_PACK_SIZE</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Package Weight</th>
+            <td style="border:solid 1px black; text-align:center">@@QT_PACK_WEIGHT</td>
+        </tr>
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Claim Reason</th>
+            <td style="padding: 10px; border: solid 1px black; text-align:left" colspan="3"
+                valign="top">
+                @@NM_REASON
+            </td>
+        </tr>
+        <tr style="height:130px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Closing Details</th>
+            <td style="padding: 10px; border: solid 1px black; text-align:left" colspan="3"
+                valign="top">
+                @@DC_CLOSING
+            </td>
+        </tr>
+        @@DC_SUPPLIER_REWARD
+        <tr style="height:30px">
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Date of Closing</th>
+            <td style="border:solid 1px black; text-align:center">@@DT_CLOSING</td>
+            <th style="border:solid 1px black; text-align:center; background-color:Silver">Cost for Closing</th>
+            <td style="border:solid 1px black; text-align:right; padding-right:10px">@@AM_TOTAL_CLS</td>
+        </tr>
+    </tbody>
+</table>
+
+@@TXT_CLAIM_ITEM_LIST
+
+@@TXT_INVENTORY_INPUT_LIST
+
+<div style="text-align:center">4. Closing - Claim has been solved as above.</div>

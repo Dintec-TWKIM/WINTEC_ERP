@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P_TR_EXINV", "P_TR_EXINV.csproj", "{6CD7F1FB-D219-4342-AE4C-2CF0CBB710BC}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = P_TR_EXINV.csproj
+		SccProjectName0 = \u0022$/ERPU/ERP-U-2009/Trade/40_수출/P_TR_EXINV\u0022,\u0020VCYOAAAA
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6CD7F1FB-D219-4342-AE4C-2CF0CBB710BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD7F1FB-D219-4342-AE4C-2CF0CBB710BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD7F1FB-D219-4342-AE4C-2CF0CBB710BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD7F1FB-D219-4342-AE4C-2CF0CBB710BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

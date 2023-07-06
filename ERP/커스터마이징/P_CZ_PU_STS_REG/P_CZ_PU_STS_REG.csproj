@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\ERPU\Browser\pur\P_PU_STS_REG.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B55BF5AD-CA0A-49F1-BDCD-5849391F7842}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>P_CZ_PU_STS_REG</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>cz</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dintec, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Erpu.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Duzon.BizOn.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90fc3e4f0d866603, processorArchitecture=MSIL" />
+    <Reference Include="P_MA_SL_AUTH_SUB">
+      <HintPath>..\..\..\..\AppLib\master\P_MA_SL_AUTH_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_D2_PLANG_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_D2_PLANG_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_GIREQ_BOM_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_GIREQ_BOM_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_GIREQ_SUB3">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_GIREQ_SUB3.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_GIREQ_SUB5">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_GIREQ_SUB5.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_LOT_SUB_I">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_LOT_SUB_I.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_PO_SO_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_PO_SO_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_PRWO_RELEASE_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_PRWO_RELEASE_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_SERL_SUB_I">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_SERL_SUB_I.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_SGIREQ_SUB3">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_SGIREQ_SUB3.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_STS_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_STS_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_WGIREQ02_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_WGIREQ02_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_WGI_GR_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_WGI_GR_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="P_PU_Z_DONGWOON_STS_GIR_SUB">
+      <HintPath>..\..\..\..\AppLib\pur\P_PU_Z_DONGWOON_STS_GIR_SUB.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="PageBase" />
+    <Reference Include="System.Data" />
+    <Reference Include="coParameter" />
+    <Reference Include="DzHelpFormLib" />
+    <Reference Include="Duzon.Common.ConstLib" />
+    <Reference Include="INeoWeb" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="Dass.FlexGrid" />
+    <Reference Include="C1.Win.C1FlexGrid.2" />
+    <Reference Include="DzControlLib" />
+    <Reference Include="Duzon.Erpiu.Windows.OneControls" />
+    <Reference Include="Duzon.ERPU" />
+    <Reference Include="Duzon.ERPU.MF" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="Duzon.Windows.Print" />
+    <Reference Include="Duzon.ERPU.PU" />
+    <Reference Include="CommonFunction" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="P_CZ_PU_STS_REG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="P_CZ_PU_STS_REG.Designer.cs">
+      <DependentUpon>P_CZ_PU_STS_REG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="P_CZ_PU_STS_REG_BIZ.cs" />
+    <Compile Include="Settings1.cs" />
+    <Compile Include="관련도움창\P_CZ_PU_STS_REG_SUB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_PU_STS_REG_SUB.Designer.cs">
+      <DependentUpon>P_CZ_PU_STS_REG_SUB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="관련도움창\P_CZ_PU_STS_REG_SUB_BIZ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="P_CZ_PU_STS_REG.resx">
+      <DependentUpon>P_CZ_PU_STS_REG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="관련도움창\P_CZ_PU_STS_REG_SUB.resx">
+      <DependentUpon>P_CZ_PU_STS_REG_SUB.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="관련도움창\Script\SP_CZ_PU_STS_REG_SUBH_S.sql" />
+    <Content Include="관련도움창\Script\SP_CZ_PU_STS_REG_SUBL_S.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\AppLib</PostBuildEvent>
+  </PropertyGroup>
+</Project>

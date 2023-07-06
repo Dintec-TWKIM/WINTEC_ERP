@@ -1,0 +1,40 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_AUTO_MAIL_SA_ORDER_LOG]    Script Date: 2022-03-24 ¿ÀÈÄ 1:37:18 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_AUTO_MAIL_SA_ORDER_LOG](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[CD_PARTNER] [nvarchar](20) NOT NULL,
+	[NO_IMO] [nvarchar](10) NOT NULL,
+	[DT_SEND] [nvarchar](8) NOT NULL,
+	[IDX] [int] NOT NULL,
+	[NO_SO] [nvarchar](20) NULL,
+	[NM_VESSEL] [nvarchar](50) NULL,
+	[NO_PO_PARTNER] [nvarchar](50) NULL,
+	[DT_SO] [nvarchar](8) NULL,
+	[DT_DUEDATE] [nvarchar](8) NULL,
+	[ST_SO] [nvarchar](10) NULL,
+	[DC_ITEM] [nvarchar](300) NULL,
+	[DT_EXPECT] [nvarchar](8) NULL,
+	[CD_RMK] [nvarchar](4) NULL,
+	[DC_RMK1] [nvarchar](max) NULL,
+	[ID_INSERT] [nvarchar](10) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_SA_AUTO_MAIL_SA_ORDER_LOG] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[CD_PARTNER] ASC,
+	[NO_IMO] ASC,
+	[DT_SEND] ASC,
+	[IDX] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+

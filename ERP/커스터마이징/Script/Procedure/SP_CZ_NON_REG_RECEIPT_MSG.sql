@@ -1,0 +1,218 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+                                                        
+ALTER PROCEDURE [NEOE].[SP_CZ_NON_REG_RECEIPT_MSG]                                                      
+(                                                      
+	@P_CD_COMPANY	NVARCHAR(7)		
+)                                                      
+AS
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+DECLARE @V_DT_CAL_5             NVARCHAR(8)
+DECLARE @V_DT_CAL_10            NVARCHAR(8)
+
+DECLARE @V_NO_GIR		        NVARCHAR(20)
+DECLARE @V_NO_SO		        NVARCHAR(200)
+DECLARE @V_QT_WEIGHT	        NVARCHAR(200)
+DECLARE @V_NM_MAIN_CATEGORY 	NVARCHAR(200)
+DECLARE @V_NM_SUB_CATEGORY  	NVARCHAR(200)
+DECLARE @V_LN_PARTNER	        NVARCHAR(50)
+DECLARE @V_NO_EMP	            NVARCHAR(200)
+DECLARE @V_DT_IO	            NVARCHAR(8)
+DECLARE @V_DT_COMPLETE	        NVARCHAR(8)
+DECLARE @V_NM_VESSEL	        NVARCHAR(50)
+
+DECLARE @V_CONTENTS		NVARCHAR(MAX)
+
+DECLARE @sCOIDs		    NVARCHAR(4000)
+DECLARE @sUserIDs	    NVARCHAR(4000)
+DECLARE @sUserNMs	    NVARCHAR(1000)
+DECLARE @sGrpIDs	    NVARCHAR(4000)
+
+DECLARE @sMsgID		    NVARCHAR(30)
+
+SELECT ROW_NUMBER() OVER (ORDER BY DT_CAL DESC) AS IDX,
+       DT_CAL
+INTO #MA_CALENDAR
+FROM MA_CALENDAR
+WHERE CD_COMPANY = @P_CD_COMPANY
+AND FG1_HOLIDAY = 'W'
+AND DT_CAL < CONVERT(CHAR(8), GETDATE(), 112)
+
+SELECT @V_DT_CAL_5 = DT_CAL
+FROM #MA_CALENDAR
+WHERE IDX = 5
+
+SELECT @V_DT_CAL_10 = DT_CAL
+FROM #MA_CALENDAR
+WHERE IDX = 10
+
+;WITH A AS
+(
+    SELECT GH.CD_COMPANY,
+           GH.NO_GIR,
+           GL.NO_SO,
+           (CASE WHEN GH.NO_EMP = 'SYSADMIN' THEN VE.CD_FLAG1 ELSE GH.NO_EMP END) AS NO_EMP_LOG,
+           SH.NO_EMP,
+           GL.DT_IO,
+           PH.QT_WEIGHT
+    FROM SA_GIRH GH
+    JOIN (SELECT GL.CD_COMPANY, GL.NO_GIR, GL.NO_SO,
+                 MAX(OL.DT_IO) AS DT_IO
+          FROM SA_GIRL GL
+          JOIN MM_QTIO OL ON OL.CD_COMPANY = GL.CD_COMPANY AND OL.NO_ISURCV = GL.NO_GIR AND OL.NO_ISURCVLINE = GL.SEQ_GIR
+          GROUP BY GL.CD_COMPANY, GL.NO_GIR, GL.NO_SO) GL
+    ON GL.CD_COMPANY = GH.CD_COMPANY AND GL.NO_GIR = GH.NO_GIR
+    JOIN (SELECT PH.CD_COMPANY, PH.NO_GIR,
+                 STRING_AGG(CONVERT(NVARCHAR, PH.NO_PACK) + '->' + FORMAT(PH.QT_GROSS_WEIGHT, 'g15') + 'KG', ',') AS QT_WEIGHT
+          FROM CZ_SA_PACKH PH
+          WHERE PH.QT_GROSS_WEIGHT > 100
+          GROUP BY PH.CD_COMPANY, PH.NO_GIR) PH 
+    ON PH.CD_COMPANY = GH.CD_COMPANY AND PH.NO_GIR = GH.NO_GIR
+    LEFT JOIN SA_SOH SH ON SH.CD_COMPANY = GL.CD_COMPANY AND SH.NO_SO = GL.NO_SO
+    LEFT JOIN V_CZ_SA_QTN_LOG_EMP VE ON VE.CD_COMPANY = SH.CD_COMPANY AND VE.NO_FILE = SH.NO_SO
+    WHERE GH.CD_COMPANY = @P_CD_COMPANY
+    AND GH.STA_GIR = 'C'
+    AND NOT EXISTS (SELECT 1
+    				FROM MA_FILEINFO FI
+    				WHERE FI.CD_COMPANY = GH.CD_COMPANY
+    				AND FI.CD_MODULE = 'SA'
+    				AND FI.ID_MENU = 'P_CZ_SA_GIM_REG'
+    				AND FI.CD_FILE = GH.NO_GIR + '_' + GH.CD_COMPANY)
+    AND (GL.DT_IO = @V_DT_CAL_5 OR GL.DT_IO = @V_DT_CAL_10)
+),
+B AS
+(
+    SELECT A.CD_COMPANY, A.NO_GIR,
+           STRING_AGG(A.NO_SO, ',') AS NO_SO,
+           MAX(A.QT_WEIGHT) AS QT_WEIGHT,
+           MAX(A.DT_IO) AS DT_IO 
+    FROM A
+    GROUP BY A.CD_COMPANY, A.NO_GIR
+),
+C AS
+(
+    SELECT A.CD_COMPANY, A.NO_GIR,
+           STRING_AGG(A.NO_EMP_LOG, '|') AS NO_EMP_LOG 
+    FROM (SELECT DISTINCT A.CD_COMPANY, A.NO_GIR, A.NO_EMP_LOG 
+          FROM A) A
+    GROUP BY A.CD_COMPANY, A.NO_GIR
+),
+D AS
+(
+    SELECT A.CD_COMPANY, A.NO_GIR,
+           STRING_AGG(A.NO_EMP, '|') AS NO_EMP 
+    FROM (SELECT DISTINCT A.CD_COMPANY, A.NO_GIR, A.NO_EMP 
+          FROM A) A
+    GROUP BY A.CD_COMPANY, A.NO_GIR
+)
+SELECT B.NO_GIR,
+       B.NO_SO,
+       B.QT_WEIGHT,
+       MC.NM_SYSDEF AS NM_MAIN_CATEGORY,
+       MC1.NM_SYSDEF AS NM_SUB_CATEGORY,
+       MD.LN_PARTNER,
+       (ISNULL(C.NO_EMP_LOG, '') + '|' + ISNULL(D.NO_EMP, '')) AS NO_EMP,
+       B.DT_IO,
+       WD.DT_COMPLETE,
+       MH.NM_VESSEL
+INTO #TEMP
+FROM B
+LEFT JOIN CZ_SA_GIRH_WORK_DETAIL WD ON WD.CD_COMPANY = B.CD_COMPANY AND WD.NO_GIR = B.NO_GIR
+LEFT JOIN CZ_MA_DELIVERY MD ON MD.CD_COMPANY = WD.CD_COMPANY AND MD.CD_PARTNER = WD.CD_DELIVERY_TO
+LEFT JOIN CZ_MA_HULL MH ON MH.NO_IMO = WD.NO_IMO
+LEFT JOIN MA_CODEDTL MC ON MC.CD_COMPANY = WD.CD_COMPANY AND MC.CD_FIELD = 'CZ_SA00006' AND MC.CD_SYSDEF = WD.CD_MAIN_CATEGORY
+LEFT JOIN MA_CODEDTL MC1 ON MC1.CD_COMPANY = WD.CD_COMPANY AND MC1.CD_FIELD = MC.CD_FLAG1 AND MC1.CD_SYSDEF = WD.CD_SUB_CATEGORY
+LEFT JOIN C ON C.CD_COMPANY = B.CD_COMPANY AND C.NO_GIR = B.NO_GIR
+LEFT JOIN D ON D.CD_COMPANY = B.CD_COMPANY AND D.NO_GIR = B.NO_GIR
+
+DECLARE SRC_CURSOR CURSOR FOR
+SELECT * 
+FROM #TEMP
+
+OPEN SRC_CURSOR
+FETCH NEXT FROM SRC_CURSOR INTO @V_NO_GIR, @V_NO_SO, @V_QT_WEIGHT, @V_NM_MAIN_CATEGORY, @V_NM_SUB_CATEGORY, @V_LN_PARTNER, @V_NO_EMP, @V_DT_IO, @V_DT_COMPLETE, @V_NM_VESSEL
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	SET @V_CONTENTS = '*** 중량물 인수증 미등록 ' + 
+                      (CASE WHEN @V_DT_IO = @V_DT_CAL_5 THEN '1' ELSE '2' END) + '차 알림' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) +
+                      '중량물 (>100kg) 출고 5일, 10일(Working Day) 경과 후,' + CHAR(13) + CHAR(10) +
+                      '인수증 미등록 상태일 경우 자동 발송됩니다. ' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) +
+                      '협조전 번호 : ' + ISNULL(@V_NO_GIR, '') + CHAR(13) + CHAR(10) +
+                      '수주 번호 : ' + ISNULL(@V_NO_SO, '') + CHAR(13) + CHAR(10) +
+                      '포장정보 (박스->무게) : ' + ISNULL(@V_QT_WEIGHT, '') + CHAR(13) + CHAR(10) +
+                      '의뢰구분(메인) : ' + ISNULL(@V_NM_MAIN_CATEGORY, '') + CHAR(13) + CHAR(10) +
+                      '의뢰구분(서브) : ' + ISNULL(@V_NM_SUB_CATEGORY, '') + CHAR(13) + CHAR(10) +
+                      '선명 : ' + ISNULL(@V_NM_VESSEL, '') + CHAR(13) + CHAR(10) +
+                      '납품처 : ' + ISNULL(@V_LN_PARTNER, '') + CHAR(13) + CHAR(10) +
+                      '종결일자 : ' + (CASE WHEN ISNULL(@V_DT_IO, '') = '' THEN '' ELSE CONVERT(CHAR(10), CONVERT(DATETIME, @V_DT_IO), 111) END) + CHAR(13) + CHAR(10) +
+                      '출고예정일 : ' + (CASE WHEN ISNULL(@V_DT_COMPLETE, '') = '' THEN '' ELSE CONVERT(CHAR(10), CONVERT(DATETIME, @V_DT_COMPLETE), 111) END) + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) +
+                      '정상적으로 납품되었는지 확인 및 인수증 미등록 사유 회신바랍니다. (회신대상: 이정철JM)' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) +
+					  '※ 본 쪽지는 발신전용 입니다.'
+
+    SELECT @sCOIDs = STRING_AGG('1', ','),
+		   @sUserIDs = STRING_AGG(user_id, ','),
+		   @sUserNMs = STRING_AGG(user_nm_kr, ','),
+		   @sGrpIDs = STRING_AGG('2330', ',')
+	FROM NeoBizboxS2.BX.TCMG_USER
+	WHERE EXISTS (SELECT 1 
+				  FROM string_split(@V_NO_EMP, '|') A
+				  WHERE A.value = logon_cd)
+
+	EXEC NeoBizboxS2.BX.PMS_MSG_C @nGrpID = 2330,	
+								  @nCOID = 1,	
+								  @nUserID = 242, -- ERP(관리자)
+								  @sBiz_yn = '0',
+								  @sRev_yn = '0',
+								  @sContent	= @V_CONTENTS,
+								  @sTarget_url = '',
+								  @sCOIDs = @sCOIDs,	
+								  @sUserIDs = @sUserIDs,
+								  @sDeptIDs	= '',
+								  @sUserNMs	= @sUserNMs,
+								  @sDeptNMs	= '',
+								  @nEffect = 1073741824,
+								  @nHeight = 180,
+								  @nOffSet = 0,
+								  @nTextclr = 0,
+								  @sFaceNM = '맑은 고딕',
+								  @nAttachMID = 0,
+								  @nAttachDID = 0,
+								  @sFileNMs = '',
+								  @sFileSZs = '',
+								  @sMsgID = @sMsgID,
+								  @sInsertINF = 'Y',
+								  @sGrpIDs = @sGrpIDs
+	
+	INSERT INTO CZ_SA_AUTO_MSG_LOG
+	(
+		CD_COMPANY,
+		TP_MSG,
+		DC_EMP,
+		DC_CONTENTS,
+		DTS_INSERT
+	)
+	VALUES
+	(
+		@P_CD_COMPANY,
+		'SP_CZ_NON_REG_RECEIPT_MSG',
+		@V_NO_EMP,
+		@V_CONTENTS,
+		NEOE.SF_SYSDATE(GETDATE())
+	)
+
+    FETCH NEXT FROM SRC_CURSOR INTO @V_NO_GIR, @V_NO_SO, @V_QT_WEIGHT, @V_NM_MAIN_CATEGORY, @V_NM_SUB_CATEGORY, @V_LN_PARTNER, @V_NO_EMP, @V_DT_IO, @V_DT_COMPLETE, @V_NM_VESSEL
+END
+
+CLOSE SRC_CURSOR
+DEALLOCATE SRC_CURSOR
+
+DROP TABLE #MA_CALENDAR
+DROP TABLE #TEMP
+
+GO

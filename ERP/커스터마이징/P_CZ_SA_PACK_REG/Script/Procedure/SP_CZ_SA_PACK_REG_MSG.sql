@@ -1,0 +1,170 @@
+USE [NEOE]
+GO
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SA_PACK_REG_MSG]    Script Date: 2020-11-12 오후 5:31:07 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ALTER PROCEDURE [NEOE].[SP_CZ_SA_PACK_REG_MSG]
+(
+	@P_CD_COMPANY			NVARCHAR(7), 
+	@P_NO_GIR				NVARCHAR(20)
+) 
+AS
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+CREATE TABLE #TEMP
+(
+    NO_GIR              NVARCHAR(20),
+    NO_EMP              NVARCHAR(10),
+    NM_MAIN_CATEGORY    NVARCHAR(200),
+    NM_SUB_CATEGORY     NVARCHAR(200),
+    NM_DELIVERY         NVARCHAR(50),
+    NM_ARRIVER_COUNTRY  NVARCHAR(200),
+    NO_PACK             NVARCHAR(100),
+    DC_SIZE             NVARCHAR(500),
+    QT_GROSS_WEIGHT     NUMERIC(17, 4),
+    QT_VW               NUMERIC(17, 4),
+    AM_EX               NVARCHAR(200)
+)
+
+;WITH A AS
+(
+    SELECT GH.NO_GIR,
+           (CASE WHEN GH.NO_EMP = 'SYSADMIN' THEN WH.ID_LOG ELSE GH.NO_EMP END) AS NO_EMP,
+           MC.NM_SYSDEF AS NM_MAIN_CATEGORY,
+           MC1.NM_SYSDEF AS NM_SUB_CATEGORY,
+           MD.LN_PARTNER AS NM_DELIVERY,
+           MC3.NM_SYSDEF AS NM_ARRIVER_COUNTRY,
+           CONVERT(NVARCHAR, PH.NO_PACK) AS NO_PACK,
+           ((CASE PH.CD_TYPE WHEN '002' THEN '(P)' WHEN '003' THEN '(W)' ELSE '' END) + FORMAT(PH.QT_WIDTH, 'g15') + ' X ' + FORMAT(PH.QT_LENGTH, 'g15') + ' X ' + FORMAT(PH.QT_HEIGHT, 'g15') + ' (mm)') AS DC_SIZE,
+           PH.QT_GROSS_WEIGHT,
+           (CASE WHEN (WD.CD_DELIVERY_TO = '01107' OR WD.CD_DELIVERY_TO = 'DLV230200274') THEN (PH.QT_WIDTH * PH.QT_HEIGHT * PH.QT_LENGTH) / 5000000 
+                                                                                          ELSE (PH.QT_WIDTH * PH.QT_HEIGHT * PH.QT_LENGTH) / 6000000 END) AS QT_VW,
+           (CASE WHEN ISNULL(GC.AM_EX, 0) > 0 THEN MC2.NM_SYSDEF + ' ' + FORMAT(ISNULL(GC.AM_EX, 0), '#,##0.##') ELSE '' END) AS AM_EX
+    FROM SA_GIRH GH
+    JOIN CZ_SA_GIRH_WORK_DETAIL WD ON WD.CD_COMPANY = GH.CD_COMPANY AND WD.NO_GIR = GH.NO_GIR
+    JOIN CZ_SA_PACKH PH ON PH.CD_COMPANY = WD.CD_COMPANY AND PH.NO_GIR = WD.NO_GIR
+    LEFT JOIN CZ_MA_DELIVERY MD ON MD.CD_COMPANY = WD.CD_COMPANY AND MD.CD_PARTNER = WD.CD_DELIVERY_TO
+    LEFT JOIN (SELECT GC.CD_COMPANY, GC.NO_GIR,
+                      SUM(GC.AM_EX_CHARGE) AS AM_EX
+               FROM CZ_SA_GIRH_CHARGE GC
+               WHERE CD_ITEM = 'SD0001'
+               GROUP BY GC.CD_COMPANY, GC.NO_GIR) GC
+    ON GC.CD_COMPANY = WD.CD_COMPANY AND GC.NO_GIR = WD.NO_GIR
+    LEFT JOIN (SELECT GL.CD_COMPANY, GL.NO_GIR,
+                      MAX(NO_INV) AS NO_INV,
+                      MAX(GL.CD_EXCH) AS CD_EXCH,
+                      MAX(GL.NO_SO) AS NO_SO
+               FROM SA_GIRL GL
+               GROUP BY GL.CD_COMPANY, GL.NO_GIR) GL
+    ON GL.CD_COMPANY = WD.CD_COMPANY AND GL.NO_GIR = WD.NO_GIR
+    LEFT JOIN CZ_TR_INVH TH ON TH.CD_COMPANY = GL.CD_COMPANY AND TH.NO_INV = GL.NO_INV
+    LEFT JOIN SA_SOH SH ON SH.CD_COMPANY = GL.CD_COMPANY AND SH.NO_SO = GL.NO_SO
+    LEFT JOIN MA_CODEDTL MC ON MC.CD_COMPANY = WD.CD_COMPANY AND MC.CD_FIELD = 'CZ_SA00006' AND MC.CD_SYSDEF = WD.CD_MAIN_CATEGORY
+    LEFT JOIN MA_CODEDTL MC1 ON MC1.CD_COMPANY = WD.CD_COMPANY AND MC1.CD_FIELD = MC.CD_FLAG1 AND MC1.CD_SYSDEF = WD.CD_SUB_CATEGORY
+    LEFT JOIN MA_CODEDTL MC2 ON MC2.CD_COMPANY = GL.CD_COMPANY AND MC2.CD_FIELD = 'MA_B000005' AND MC2.CD_SYSDEF = GL.CD_EXCH
+    LEFT JOIN MA_CODEDTL MC3 ON MC3.CD_COMPANY = TH.CD_COMPANY AND MC3.CD_FIELD = 'MA_B000020' AND MC3.CD_SYSDEF = TH.ARRIVER_COUNTRY
+    LEFT JOIN CZ_MA_WORKFLOWH WH ON WH.CD_COMPANY = SH.CD_COMPANY AND WH.TP_STEP = '08' AND WH.NO_KEY = SH.NO_SO 
+    WHERE GH.CD_COMPANY = @P_CD_COMPANY
+    AND GH.NO_GIR = @P_NO_GIR
+    AND WD.CD_MAIN_CATEGORY = '003'
+    AND WD.CD_SUB_CATEGORY IN ('001', '002', '003')
+)
+INSERT INTO #TEMP
+SELECT *
+FROM A
+WHERE (A.QT_VW > A.QT_GROSS_WEIGHT)
+
+
+IF NOT EXISTS (SELECT 1 FROM #TEMP)
+BEGIN
+    RETURN
+END
+
+DECLARE @V_CONTENTS			   NVARCHAR(MAX)
+DECLARE @V_NO_GIR              NVARCHAR(20)
+DECLARE @V_NO_EMP              NVARCHAR(10)
+DECLARE @V_NM_MAIN_CATEGORY    NVARCHAR(200)
+DECLARE @V_NM_SUB_CATEGORY     NVARCHAR(200)
+DECLARE @V_NM_DELIVERY         NVARCHAR(50)
+DECLARE @V_NM_ARRIVER_COUNTRY  NVARCHAR(200)
+DECLARE @V_AM_EX               NVARCHAR(200)
+
+DECLARE @sCOIDs		    NVARCHAR(4000)
+DECLARE @sUserIDs	    NVARCHAR(4000)
+DECLARE @sUserNMs	    NVARCHAR(1000)
+DECLARE @sGrpIDs	    NVARCHAR(4000)
+
+DECLARE @sMsgID		    NVARCHAR(30)
+
+SELECT @V_NO_GIR = NO_GIR,
+       @V_NO_EMP = NO_EMP, 
+       @V_NM_MAIN_CATEGORY = NM_MAIN_CATEGORY, 
+       @V_NM_SUB_CATEGORY= NM_SUB_CATEGORY, 
+       @V_NM_DELIVERY = NM_DELIVERY, 
+       @V_NM_ARRIVER_COUNTRY = NM_ARRIVER_COUNTRY,
+       @V_AM_EX= AM_EX 
+FROM #TEMP
+GROUP BY NO_GIR, NO_EMP, NM_MAIN_CATEGORY, NM_SUB_CATEGORY, NM_DELIVERY, NM_ARRIVER_COUNTRY, AM_EX
+
+SET @V_CONTENTS = ''
+
+SELECT @V_CONTENTS = STRING_AGG('포장번호 : ' + NO_PACK + CHAR(13) + CHAR(10) +
+	                            'Size : ' + DC_SIZE + CHAR(13) + CHAR(10) +
+	                            'Gross Weight : ' + FORMAT(QT_GROSS_WEIGHT, '#,##0.##KG') + CHAR(13) + CHAR(10) +
+	                            'Volume Weight : ' + FORMAT(QT_VW, '#,##0.##KG'), CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10))  WITHIN GROUP (ORDER BY NO_PACK ASC)
+FROM #TEMP
+
+SET @V_CONTENTS = '*** Volume Weight 초과 알림' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) +
+                  '협조전번호 : ' + @V_NO_GIR + CHAR(13) + CHAR(10) +
+                  'Main Category : ' + @V_NM_MAIN_CATEGORY + CHAR(13) + CHAR(10) +
+                  'Sub Category : ' + @V_NM_SUB_CATEGORY + CHAR(13) + CHAR(10) +
+                  '납품처 : ' + @V_NM_DELIVERY + CHAR(13) + CHAR(10) +
+                  '국가 : ' + @V_NM_ARRIVER_COUNTRY + CHAR(13) + CHAR(10) +
+                  '청구예정금액 : ' + @V_AM_EX + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) +
+				  @V_CONTENTS + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) +
+				  '** 비용청구시 해당 무게 참고 하시기 바랍니다.' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) +
+				  '※ 본 쪽지는 발신전용 입니다.'
+
+SELECT @sCOIDs = STRING_AGG('1', ','),
+	   @sUserIDs = STRING_AGG(user_id, ','),
+	   @sUserNMs = STRING_AGG(user_nm_kr, ','),
+	   @sGrpIDs = STRING_AGG('2330', ',')
+FROM NeoBizboxS2.BX.TCMG_USER
+WHERE EXISTS (SELECT 1 
+			  FROM string_split(@V_NO_EMP, '|') A
+			  WHERE A.value = logon_cd)
+
+EXEC NeoBizboxS2.BX.PMS_MSG_C @nGrpID = 2330,	
+							  @nCOID = 1,	
+							  @nUserID = 242, -- ERP(관리자)
+							  @sBiz_yn = '0',
+							  @sRev_yn = '0',
+							  @sContent	= @V_CONTENTS,
+							  @sTarget_url = '',
+							  @sCOIDs = @sCOIDs,	
+							  @sUserIDs = @sUserIDs,
+							  @sDeptIDs	= '',
+							  @sUserNMs	= @sUserNMs,
+							  @sDeptNMs	= '',
+							  @nEffect = 1073741824,
+							  @nHeight = 180,
+							  @nOffSet = 0,
+							  @nTextclr = 0,
+							  @sFaceNM = '맑은 고딕',
+							  @nAttachMID = 0,
+							  @nAttachDID = 0,
+							  @sFileNMs = '',
+							  @sFileSZs = '',
+							  @sMsgID = @sMsgID,
+							  @sInsertINF = 'Y',
+							  @sGrpIDs = @sGrpIDs
+
+DROP TABLE #TEMP
+
+GO

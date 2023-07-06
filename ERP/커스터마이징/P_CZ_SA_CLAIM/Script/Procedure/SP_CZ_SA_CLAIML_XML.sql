@@ -1,0 +1,127 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[SP_CZ_SA_CLAIML_XML]    Script Date: 2015-04-14 오전 8:32:34 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER PROCEDURE [NEOE].[SP_CZ_SA_CLAIML_XML] 
+(
+	@P_CD_COMPANY	NVARCHAR(7),
+    @P_XML			XML, 
+	@P_ID_USER		NVARCHAR(10), 
+    @DOC			INT = NULL
+) 
+AS 
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+EXEC SP_XML_PREPAREDOCUMENT @DOC OUTPUT, @P_XML 
+
+-- ================================================== DELETE
+DELETE A 
+  FROM CZ_SA_CLAIML A 
+       JOIN OPENXML (@DOC, '/XML/D', 2) 
+               WITH (NO_CLAIM	NVARCHAR(8),
+					 NO_SO		NVARCHAR(20),
+					 SEQ_SO		NUMERIC(5, 0)) B 
+         ON A.CD_COMPANY = @P_CD_COMPANY 
+	     AND A.NO_CLAIM = B.NO_CLAIM
+	     AND A.NO_SO = B.NO_SO
+	     AND A.SEQ_SO = B.SEQ_SO
+-- ================================================== INSERT
+INSERT INTO CZ_SA_CLAIML 
+(
+	CD_COMPANY, 
+	NO_CLAIM, 
+	NO_SO,
+	SEQ_SO,
+	CD_ITEM,
+	QT_SO,
+	QT_CLAIM,
+	CD_SUPPLIER,
+	NO_DSP,
+	NM_SUBJECT,
+	CD_ITEM_PARTNER,
+	NM_ITEM_PARTNER,
+	AM_CLAIM,
+	UM_SO,
+	AM_SO,
+	UM_PO,
+	AM_PO,
+	UM_STOCK,
+	AM_STOCK,
+	LT,
+	ID_INSERT, 
+	DTS_INSERT
+)
+SELECT @P_CD_COMPANY, 
+       NO_CLAIM,
+	   NO_SO,
+	   SEQ_SO, 
+       CD_ITEM,
+	   QT_SO,
+	   QT_CLAIM,
+	   CD_SUPPLIER,
+	   NO_DSP,
+	   NM_SUBJECT,
+	   CD_ITEM_PARTNER,
+	   NM_ITEM_PARTNER,
+	   AM_CLAIM,
+	   UM_SO,
+	   AM_SO,
+	   UM_PO,
+	   AM_PO,
+	   UM_STOCK,
+	   AM_STOCK,
+	   LT,
+       @P_ID_USER, 
+       NEOE.SF_SYSDATE(GETDATE()) 
+  FROM OPENXML (@DOC, '/XML/I', 2) 
+          WITH (NO_CLAIM			NVARCHAR(8), 
+				NO_SO				NVARCHAR(20), 
+				SEQ_SO				NUMERIC(5, 0),
+				CD_ITEM				NVARCHAR(20),
+				QT_SO				NUMERIC(17, 4),
+				QT_CLAIM			NUMERIC(17, 4),
+				CD_SUPPLIER			NVARCHAR(20),
+				NO_DSP				NUMERIC(7, 2),
+				NM_SUBJECT			NVARCHAR(1000),
+				CD_ITEM_PARTNER		NVARCHAR(30),
+				NM_ITEM_PARTNER		NVARCHAR(1000),
+				AM_CLAIM			NUMERIC(17, 4),
+				UM_SO			    NUMERIC(15, 4),
+				AM_SO				NUMERIC(17, 4),
+				UM_PO			    NUMERIC(15, 4),
+				AM_PO				NUMERIC(17, 4),
+				UM_STOCK			NUMERIC(15, 4),
+				AM_STOCK			NUMERIC(17, 4),
+				LT					INT) 
+-- ================================================== UPDATE    
+UPDATE A 
+   SET A.QT_CLAIM = B.QT_CLAIM, 
+	   A.AM_CLAIM = B.AM_CLAIM,
+	   A.CD_SUPPLIER = B.CD_SUPPLIER,
+	   A.ID_UPDATE = @P_ID_USER, 
+	   A.DTS_UPDATE = NEOE.SF_SYSDATE(GETDATE())
+  FROM CZ_SA_CLAIML A 
+  JOIN OPENXML (@DOC, '/XML/U', 2) 
+          WITH (NO_CLAIM			NVARCHAR(8), 
+				NO_SO				NVARCHAR(20), 
+				SEQ_SO				NUMERIC(5, 0),
+				QT_CLAIM			NUMERIC(17, 4),
+				AM_CLAIM			NUMERIC(17, 4),
+				CD_SUPPLIER			NVARCHAR(20)) B 
+  ON A.CD_COMPANY = @P_CD_COMPANY 
+  AND A.NO_CLAIM = B.NO_CLAIM
+  AND A.NO_SO = B.NO_SO
+  AND A.SEQ_SO = B.SEQ_SO 
+
+EXEC SP_XML_REMOVEDOCUMENT @DOC 
+  
+GO
+

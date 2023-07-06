@@ -1,0 +1,7 @@
+USE [NEOE]
+GO
+
+/****** Object:  Synonym [NEOE].[CZ_TEAG_APPDOC_LINE]    Script Date: 2021-03-10 오후 1:39:31 ******/
+CREATE SYNONYM [NEOE].[CZ_TEAG_APPDOC_LINE] FOR [MSSQL2019].[NeoBizboxS2].[BX].[TEAG_APPDOC_LINE]
+GO
+

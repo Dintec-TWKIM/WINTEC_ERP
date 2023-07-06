@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JeilMecha", "JeilMecha\JeilMecha.csproj", "{6478EB60-6412-4879-A0BF-E1F0AA85EEDC}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "JeilWeb(1)", "JeilWeb", "{0911255C-B420-4057-8DFC-D2B01B0CB936}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_63189"
+		Debug.AspNetCompiler.PhysicalPath = "JeilWeb\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63189\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_63189"
+		Release.AspNetCompiler.PhysicalPath = "JeilWeb\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63189\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "63189"
+		SlnRelativePath = "JeilWeb\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{620660BD-B12A-41E9-9089-37EA10793E2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutParsing", "..\..\커스터마이징\JeilParsing\OutParsing.csproj", "{1DEB56AB-5900-4D8C-9D81-1C72D33752FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6478EB60-6412-4879-A0BF-E1F0AA85EEDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6478EB60-6412-4879-A0BF-E1F0AA85EEDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6478EB60-6412-4879-A0BF-E1F0AA85EEDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6478EB60-6412-4879-A0BF-E1F0AA85EEDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0911255C-B420-4057-8DFC-D2B01B0CB936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0911255C-B420-4057-8DFC-D2B01B0CB936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0911255C-B420-4057-8DFC-D2B01B0CB936}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{0911255C-B420-4057-8DFC-D2B01B0CB936}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{620660BD-B12A-41E9-9089-37EA10793E2E}.Debug|Any CPU.ActiveCfg = Debug
+		{620660BD-B12A-41E9-9089-37EA10793E2E}.Release|Any CPU.ActiveCfg = Release
+		{1DEB56AB-5900-4D8C-9D81-1C72D33752FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DEB56AB-5900-4D8C-9D81-1C72D33752FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DEB56AB-5900-4D8C-9D81-1C72D33752FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DEB56AB-5900-4D8C-9D81-1C72D33752FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40C7070C-DCF9-4C20-AD4E-BD7D852147FD}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dintec.visualstudio.com/
+		SccProjectUniqueName0 = ..\\..\\커스터마이징\\JeilParsing\\OutParsing.csproj
+		SccProjectName0 = ../../커스터마이징/JeilParsing
+		SccLocalPath0 = ..\\..\\커스터마이징\\JeilParsing
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = JeilMecha\\JeilMecha.csproj
+		SccProjectName2 = JeilMecha
+		SccLocalPath2 = JeilMecha
+		SccWebProject3 = true
+		SccProjectUniqueName3 = JeilWeb
+		SccProjectName3 = JeilWeb
+		SccLocalPath3 = JeilWeb
+		SccProjectEnlistmentChoice3 = 2
+		SccProjectUniqueName4 = Setup\\Setup.vdproj
+		SccProjectName4 = Setup
+		SccLocalPath4 = Setup
+	EndGlobalSection
+EndGlobal

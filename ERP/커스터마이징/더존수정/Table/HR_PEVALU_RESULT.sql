@@ -1,0 +1,38 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[HR_PEVALU_RESULT]    Script Date: 2015-11-11 오후 8:24:06 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[HR_PEVALU_RESULT](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[CD_EVALU] [nvarchar](8) NOT NULL,
+	[CD_EVNUMBER] [nvarchar](3) NOT NULL,
+	[NO_EMP] [nvarchar](10) NOT NULL,
+	[CD_NDEPT] [nvarchar](12) NULL,
+	[CD_DUTY_NRANK] [nvarchar](3) NULL,
+	[CD_DUTY_NSTEP] [nvarchar](3) NULL,
+	[CD_DUTY_NRESP] [nvarchar](3) NULL,
+	[PT_SCORE] [numeric](8, 5) NULL,
+	[PT_ADJUST] [numeric](8, 5) NULL,
+	[PT_FINAL] [numeric](8, 5) NULL,
+	[GRD_FINAL] [nvarchar](3) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+	[ID_UPDATE] [nvarchar](30) NULL,
+	[DTS_UPDATE] [nvarchar](14) NULL,
+ CONSTRAINT [PK_PEVALU_RESULT] PRIMARY KEY CLUSTERED 
+(
+	[CD_COMPANY] ASC,
+	[CD_EVALU] ASC,
+	[CD_EVNUMBER] ASC,
+	[NO_EMP] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+

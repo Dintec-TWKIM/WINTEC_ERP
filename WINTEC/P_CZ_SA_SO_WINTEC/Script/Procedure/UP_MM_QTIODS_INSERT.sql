@@ -1,0 +1,485 @@
+USE [NEOE]
+GO
+
+/****** Object:  StoredProcedure [NEOE].[UP_MM_QTIODS_INSERT]    Script Date: 2019-11-04 오전 10:38:37 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+/*******************************************  
+*********************************************/ 
+ALTER PROCEDURE [NEOE].[UP_MM_QTIODS_INSERT] 
+(
+	@P_CD_COMPANY		NVARCHAR(7),
+	@P_NO_SERIAL		VARCHAR(50),
+	@P_NO_IO			NVARCHAR(20),
+	@P_NO_IOLINE		NUMERIC(5),
+	@P_CD_ITEM			NVARCHAR(50),
+	@P_CD_QTIOTP		NVARCHAR(7),
+	@P_FG_IO			NCHAR(3),
+	@P_CD_MNG1 			NVARCHAR(100),
+	@P_CD_MNG2 			NVARCHAR(100),
+	@P_CD_MNG3 			NVARCHAR(100),
+	@P_CD_MNG4 			NVARCHAR(100),
+	@P_CD_MNG5 			NVARCHAR(100),
+	@P_CD_MNG6 			NVARCHAR(100),
+	@P_CD_MNG7 			NVARCHAR(100),
+	@P_CD_MNG8 			NVARCHAR(100),
+	@P_CD_MNG9 			NVARCHAR(100),
+	@P_CD_MNG10			NVARCHAR(100),
+	@P_CD_MNG11			NVARCHAR(100),
+	@P_CD_MNG12			NVARCHAR(100),
+	@P_CD_MNG13			NVARCHAR(100),
+	@P_CD_MNG14			NVARCHAR(100),
+	@P_CD_MNG15			NVARCHAR(100),
+	@P_CD_MNG16			NVARCHAR(100),
+	@P_CD_MNG17			NVARCHAR(100),
+	@P_CD_MNG18			NVARCHAR(100),
+	@P_CD_MNG19			NVARCHAR(100),
+	@P_CD_MNG20			NVARCHAR(100),
+	@P_CD_PLANT         NVARCHAR(7) = NULL,
+	@P_ID_INSERT        NVARCHAR(15) = NULL,
+	@P_NO_REV			NVARCHAR(50) = NULL,
+	@P_NO_REVLINE		NUMERIC(5,0) = NULL,
+	@P_NO_SO			NVARCHAR(20) = NULL, -- D20170615038 (수주등록 자동프로시스(출하)일때 필요.
+	@P_FG_PS			NCHAR(1)    = NULL -- D20170615038 (수주등록 자동프로시스(출하)일때 필요.
+	
+)
+AS
+  DECLARE
+	@V_ERRNO    		INT,
+    @V_ERRMSG   		VARCHAR(255),
+    @V_DT_IO			NVARCHAR(8),
+    @V_CD_SL			NVARCHAR(7),
+    @V_DTS_UPDATE		VARCHAR(14),
+    @V_YN_REG			NVARCHAR(1),
+    @V_CD_EXC			NVARCHAR(3),
+    @V_FG_PS			NCHAR(1),
+    @V_YN_RETURN		NCHAR(1),
+	@V_SERVER_KEY		NVARCHAR(25),
+	@V_CD_SL_SC			NVARCHAR(7),
+	@V_NO_IO_MGMT		NVARCHAR(20),
+	@V_NO_IOLINE_MGMT   NUMERIC(5,0),
+	@V_CNT              INT,
+	@V_CD_EXC_SN		NVARCHAR(3),
+	@V_NO_IO			NVARCHAR(20)
+	
+--김광석 사원의 요청으로 FG_IO가 아래의 값들인것만 중복 시리얼 체크를 해주기로 함
+--001	구매입고
+--002	생산입고
+--003	예외입고
+--005	외주입고
+--007	계정대체입고
+
+-- 시리얼 입고 도움창에서 확인시 공백 제거하는 부분을 주석 처리한 뒤 프로시저로 변경
+SET @P_NO_SERIAL = LTRIM(RTRIM(@P_NO_SERIAL))
+
+SET  @V_NO_IO = @P_NO_IO
+--수주등록에서 자동프로세스(출하)일때 저장하기 위함     
+IF((@P_NO_IO IS NULL OR @P_NO_IO = '') AND @P_NO_SO IS NOT NULL AND @P_FG_IO IN ('010', '041'))  
+   
+BEGIN      
+	SELECT TOP 1 @V_NO_IO = NO_IO      
+	FROM MM_QTIO      
+	WHERE CD_COMPANY = @P_CD_COMPANY      
+	AND  NO_PSO_MGMT = @P_NO_SO      
+
+	IF (@P_FG_PS = '1')    
+	SET @V_NO_IO_MGMT = @V_NO_IO    
+END                
+      
+SET @V_YN_REG = 'N'
+
+SELECT  @V_CD_EXC = CD_EXC FROM MA_EXC WHERE CD_COMPANY = @P_CD_COMPANY AND EXC_TITLE = '시리얼_중복체크사용'
+SET @V_CD_EXC = ISNULL(@V_CD_EXC, 'N')
+
+SELECT	@V_CD_EXC_SN = ISNULL(CD_EXC,'000')
+FROM	MA_EXC  
+WHERE	CD_COMPANY = @P_CD_COMPANY
+AND		CD_MODULE = 'PU'  
+AND		EXC_TITLE = '시리얼수불-재고수량통제사용유무'
+SET @V_CD_EXC_SN = CASE WHEN ISNULL(@V_CD_EXC_SN,'') = '' THEN '000' ELSE @V_CD_EXC_SN END 
+
+SELECT	@V_FG_PS = L.FG_PS, @V_YN_RETURN = H.YN_RETURN, @P_CD_PLANT = L.CD_PLANT, 
+		@V_CD_SL = CASE WHEN L.FG_IO = '022' THEN L.CD_SL_REF ELSE L.CD_SL END
+FROM	MM_QTIO L INNER JOIN MM_QTIOH H
+ON		L.CD_COMPANY = H.CD_COMPANY AND L.NO_IO = H.NO_IO
+WHERE	L.CD_COMPANY = @P_CD_COMPANY AND L.NO_IO = @P_NO_IO AND L.NO_IOLINE = @P_NO_IOLINE
+
+SELECT @V_SERVER_KEY = MAX(SERVER_KEY) FROM CM_SERVER_CONFIG  WHERE YN_UPGRADE = 'Y'    
+
+-- 2013.03.08  시스템 통제추가로 중복체크 사용유무 추가
+
+-- @V_YN_REG : 수불구분에 따른 MM_QTIODS 등록여부 체크
+--IF ( @P_FG_IO IN ('002', '005') OR @V_CD_EXC = 'Y' )
+--IF ( @P_FG_IO IN ('002', '005') OR (@V_CD_EXC = 'Y' AND (@V_FG_PS = '1' AND @V_YN_RETURN = 'N') OR (@V_FG_PS = '2' AND @V_YN_RETURN = 'Y')) )
+IF( @V_SERVER_KEY = 'MYUNG' AND @P_FG_IO = '007')
+BEGIN
+	SELECT	@V_YN_REG	= 'Y' 
+	FROM	MM_QTIODS
+	WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_IO = @P_NO_IO AND NO_IOLINE = @P_NO_IOLINE AND NO_SERIAL = @P_NO_SERIAL	
+END
+ELSE IF ( @P_FG_IO IN ('002', '005') OR (@V_CD_EXC = 'Y' AND (@V_FG_PS = '1' AND @V_YN_RETURN = 'N')  ) )
+BEGIN
+	IF(@V_SERVER_KEY LIKE 'PIOLINK%')
+	BEGIN
+		SELECT	@V_YN_REG = 'Y' 
+		FROM	MM_QTIODS A 
+		LEFT OUTER JOIN MM_SERIAL_INV B ON B.CD_COMPANY = A.CD_COMPANY AND B.CD_ITEM = A.CD_ITEM AND B.NO_SERIAL = A.NO_SERIAL AND B.CD_PLANT = @P_CD_PLANT
+		WHERE	A.CD_COMPANY = @P_CD_COMPANY AND A.CD_ITEM = @P_CD_ITEM AND A.NO_SERIAL = @P_NO_SERIAL AND B.FG_EXIST = 'Y'
+	END
+	ELSE
+	BEGIN
+		IF(@P_FG_IO = '004')
+		BEGIN
+			SELECT	@V_YN_REG	= 'Y' 
+			FROM	MM_QTIODS
+			WHERE	CD_COMPANY	= @P_CD_COMPANY AND CD_ITEM = @P_CD_ITEM AND NO_SERIAL = @P_NO_SERIAL
+			AND     ( (CD_PLANT IS NOT NULL AND CD_PLANT <> '' AND CD_PLANT = @P_CD_PLANT) OR (CD_PLANT IS NULL OR CD_PLANT = '') OR ISNULL(@P_CD_PLANT, '') = '' )		
+		END
+		ELSE
+		BEGIN
+			SELECT	@V_YN_REG	= 'Y' 
+			FROM	MM_QTIODS
+			WHERE	CD_COMPANY	= @P_CD_COMPANY AND CD_ITEM = @P_CD_ITEM AND NO_SERIAL = @P_NO_SERIAL 
+		END
+	END
+END
+ELSE
+BEGIN
+	SELECT	@V_YN_REG	= 'Y' 
+	FROM	MM_QTIODS
+	WHERE	CD_COMPANY	= @P_CD_COMPANY AND NO_IO = @P_NO_IO AND NO_IOLINE = @P_NO_IOLINE AND NO_SERIAL = @P_NO_SERIAL	
+END
+
+IF @V_YN_REG = 'Y'
+BEGIN
+	SET @V_ERRNO  = 100000
+	
+	IF @P_FG_IO IN ('002', '005')
+		SET @V_ERRMSG = '품목코드: ' + @P_CD_ITEM + ' - 시리얼번호: ' + @P_NO_SERIAL + ' 가 중복되었습니다. ' 
+	ELSE
+		SET @V_ERRMSG = '품목코드: ' + @P_CD_ITEM + ' - 시리얼번호: ' + @P_NO_SERIAL + ' - 수불번호 : ' + @P_NO_IO + ' - 항번 : ' + CONVERT(VARCHAR, @P_NO_IOLINE) + ' 가 중복되었습니다. ' 
+			
+	GOTO ERROR  	
+END
+
+/*시리얼현재고 테이블 로직 추가 시작 - 2017/05/23 김현정 */
+SELECT  @V_CD_SL_SC =  CASE WHEN ISNULL(CD_SL_ISU,'') = '' THEN CD_SL_RCV ELSE CD_SL_ISU END
+FROM	MM_SERIAL_INV 
+WHERE	CD_COMPANY = @P_CD_COMPANY AND NO_SERIAL = @P_NO_SERIAL AND CD_PLANT = @P_CD_PLANT AND CD_ITEM = @P_CD_ITEM
+ 
+IF (NOT (@V_FG_PS = '1' AND @V_YN_RETURN = 'N')) /*시리얼 수불입력시점의 원천수불 데이터를 가져옴*/
+BEGIN
+	IF (@V_FG_PS = '2' AND @V_YN_RETURN = 'Y')
+	BEGIN
+		SELECT  @V_NO_IO_MGMT = DS.NO_IO, @V_NO_IOLINE_MGMT = DS.NO_IOLINE, @V_CNT = COUNT(1) OVER(PARTITION BY DS.CD_ITEM, L.CD_PLANT, DS.NO_SERIAL)
+		FROM	MM_QTIODS DS INNER JOIN MM_QTIO L ON DS.NO_IO = L.NO_IO AND DS.NO_IOLINE = L.NO_IOLINE AND DS.CD_COMPANY = L.CD_COMPANY
+		INNER JOIN MM_QTIOH H ON L.NO_IO = H.NO_IO AND L.CD_COMPANY = H.CD_COMPANY
+		WHERE	DS.CD_COMPANY	= @P_CD_COMPANY AND DS.CD_ITEM = @P_CD_ITEM AND DS.NO_SERIAL = @P_NO_SERIAL AND L.CD_PLANT = @P_CD_PLANT AND ISNULL(DS.YN_USE,'N') = 'N'
+		AND     (L.FG_PS = '2' AND H.YN_RETURN = 'N') 
+	END
+	ELSE --정상출고
+	BEGIN
+		SELECT  @V_NO_IO_MGMT = DS.NO_IO, @V_NO_IOLINE_MGMT = DS.NO_IOLINE, @V_CNT = COUNT(1) OVER(PARTITION BY DS.CD_ITEM, L.CD_PLANT, DS.NO_SERIAL)
+		FROM	MM_QTIODS DS INNER JOIN MM_QTIO L ON DS.NO_IO = L.NO_IO AND DS.NO_IOLINE = L.NO_IOLINE AND DS.CD_COMPANY = L.CD_COMPANY
+		INNER JOIN MM_QTIOH H ON L.NO_IO = H.NO_IO AND L.CD_COMPANY = H.CD_COMPANY
+		WHERE	DS.CD_COMPANY	= @P_CD_COMPANY AND DS.CD_ITEM = @P_CD_ITEM AND DS.NO_SERIAL = @P_NO_SERIAL AND L.CD_PLANT = @P_CD_PLANT AND ISNULL(DS.YN_USE,'N') = 'N'
+		AND     ((L.FG_PS = '1' AND H.YN_RETURN = 'N')  OR (L.FG_PS = '2' AND H.YN_RETURN = 'Y') OR L.FG_IO = '022')
+	END 
+	
+	IF (@V_CD_EXC = 'Y' AND @V_CD_EXC_SN = '100')
+	BEGIN
+		IF (ISNULL(@V_CNT,0) = 0 AND ((@V_FG_PS = '2' AND @V_YN_RETURN = 'N') OR (@V_FG_PS = '1' AND @V_YN_RETURN = 'Y')))
+		BEGIN 
+			SET @V_ERRMSG = '품목코드: ' + @P_CD_ITEM + ' - 시리얼번호: ' + @P_NO_SERIAL + '가 적용 가능한 재고가 없습니다'
+			GOTO ERROR
+		END 
+		IF (ISNULL(@V_CNT,0) > 1)
+		BEGIN 
+			SET @V_ERRMSG = '품목코드: ' + @P_CD_ITEM + ' - 시리얼번호: ' + @P_NO_SERIAL + + '가 중복된 재고가 존재합니다'
+			GOTO ERROR
+		END 
+	END
+	
+	UPDATE MM_QTIODS SET YN_USE = 'Y' WHERE CD_COMPANY = @P_CD_COMPANY AND NO_IO = @V_NO_IO_MGMT AND NO_IOLINE = @V_NO_IOLINE_MGMT AND NO_SERIAL = @P_NO_SERIAL
+	IF @@ERROR <> 0 
+	BEGIN 
+		SET @V_ERRMSG = '품목코드: ' + @P_CD_ITEM + ' - 시리얼번호: ' + @P_NO_SERIAL + + '의 MM_QTIODS UPDATE중 에러가 발생했습니다.'
+		GOTO ERROR
+	END 
+END
+
+/*시리얼현재고 테이블 로직 추가 끝 - 2017/05/23 김현정 */
+
+INSERT INTO MM_QTIODS 
+(
+	CD_COMPANY, NO_IO, NO_IOLINE, NO_SERIAL, CD_ITEM, CD_QTIOTP, FG_IO,
+	CD_MNG1,CD_MNG2,CD_MNG3,CD_MNG4,CD_MNG5,
+	CD_MNG6,CD_MNG7,CD_MNG8,CD_MNG9,CD_MNG10,
+	CD_MNG11,CD_MNG12,CD_MNG13,CD_MNG14,CD_MNG15,
+	CD_MNG16,CD_MNG17,CD_MNG18,CD_MNG19,CD_MNG20,
+	NO_REV,NO_REVLINE,CD_PLANT, CD_SL_SC, NO_IO_MGMT, NO_IOLINE_MGMT, YN_USE
+) 
+VALUES 
+( 
+	@P_CD_COMPANY, @V_NO_IO, @P_NO_IOLINE, @P_NO_SERIAL, @P_CD_ITEM, @P_CD_QTIOTP, @P_FG_IO,
+	@P_CD_MNG1,@P_CD_MNG2,@P_CD_MNG3,@P_CD_MNG4,@P_CD_MNG5,
+	@P_CD_MNG6,@P_CD_MNG7,@P_CD_MNG8,@P_CD_MNG9,@P_CD_MNG10,
+	@P_CD_MNG11,@P_CD_MNG12,@P_CD_MNG13,@P_CD_MNG14,@P_CD_MNG15,
+	@P_CD_MNG16,@P_CD_MNG17,@P_CD_MNG18,@P_CD_MNG19,@P_CD_MNG20,
+	@P_NO_REV,@P_NO_REVLINE,@P_CD_PLANT, @V_CD_SL_SC, @V_NO_IO_MGMT, @V_NO_IOLINE_MGMT, 'N'
+)
+IF @@ERROR <> 0 RETURN
+
+IF @P_FG_IO NOT IN ('022', '001', '003', '007') RETURN
+
+-- 아래는 창고이동일 경우만 적용됨
+-- 창고이동일 경우 출고, 입고가 동시에 일어나므로
+-- 입고 UPDATE 처리를 또 해준다.	    
+
+SET @V_YN_REG = 'N'
+
+SELECT	@V_YN_REG = 'Y' 
+FROM	MM_SERIAL_INV 
+WHERE	CD_COMPANY = @P_CD_COMPANY AND NO_SERIAL = @P_NO_SERIAL AND CD_PLANT = @P_CD_PLANT AND CD_ITEM = @P_CD_ITEM 
+
+SET @V_DTS_UPDATE = NEOE.SF_SYSDATE(GETDATE())
+
+SELECT	@V_DT_IO = DT_IO, @V_CD_SL = CD_SL
+FROM	MM_QTIO
+WHERE	NO_IO = @P_NO_IO AND NO_IOLINE = CASE WHEN @P_FG_IO = '022' THEN @P_NO_IOLINE + 1 ELSE @P_NO_IOLINE END
+AND		CD_COMPANY = @P_CD_COMPANY AND CD_PLANT = @P_CD_PLANT AND FG_PS = '1'
+
+IF ISNULL(@V_DT_IO, '') = ''
+BEGIN
+	SET @V_DT_IO = SUBSTRING(@V_DTS_UPDATE, 0, 9);
+END
+
+IF @V_YN_REG <> 'Y' AND @P_FG_IO <> '022'
+BEGIN
+	INSERT INTO MM_SERIAL_INV 
+	(
+		CD_COMPANY,		NO_SERIAL,		CD_PLANT,		CD_ITEM,		NO_IO_RCV,		NO_IOLINE_RCV,	
+		DT_RCV,			CD_SL_RCV,		
+		FG_EXIST,		
+		CD_MNG1,		CD_MNG2,		CD_MNG3,		CD_MNG4,		CD_MNG5,	
+		CD_MNG6,		CD_MNG7,		CD_MNG8,		CD_MNG9,		CD_MNG10,		CD_MNG11,	
+		CD_MNG12,		CD_MNG13,		CD_MNG14,		CD_MNG15,		CD_MNG16,		CD_MNG17,	
+		CD_MNG18,		CD_MNG19,		CD_MNG20,		DTS_INSERT,		ID_INSERT,      CD_SL_SC
+	)
+	VALUES
+	(
+		@P_CD_COMPANY,	@P_NO_SERIAL,	@P_CD_PLANT,	@P_CD_ITEM,		@P_NO_IO,	@P_NO_IOLINE,
+		@V_DT_IO,		@V_CD_SL,		
+		'Y',
+		@P_CD_MNG1,		@P_CD_MNG2,		@P_CD_MNG3,		@P_CD_MNG4,		@P_CD_MNG5,	
+		@P_CD_MNG6,		@P_CD_MNG7,		@P_CD_MNG8,		@P_CD_MNG9,		@P_CD_MNG10,		@P_CD_MNG11,	
+		@P_CD_MNG12,	@P_CD_MNG13,	@P_CD_MNG14,	@P_CD_MNG15,	@P_CD_MNG16,		@P_CD_MNG17,	
+		@P_CD_MNG18,	@P_CD_MNG19,	@P_CD_MNG20,	@V_DTS_UPDATE,	@P_ID_INSERT,       @V_CD_SL
+	)
+END
+
+IF @V_YN_REG = 'Y'
+BEGIN        	         	                                          	
+	UPDATE	MM_SERIAL_INV
+	SET		NO_IO_RCV		= @P_NO_IO ,		--최종입고번호	
+			NO_IOLINE_RCV	= CASE WHEN @P_FG_IO = '022' THEN @P_NO_IOLINE + 1 ELSE @P_NO_IOLINE END,	--최종입고항번	
+			DT_RCV			= @V_DT_IO,			--최종입고일자	
+			CD_SL_RCV		= @V_CD_SL,			--최종입고창고코드	
+			FG_EXIST		= CASE WHEN @P_FG_IO = '022' THEN 'Y' ELSE FG_EXIST END,		--자사보유유무(Y/N)			
+			CD_MNG1			= @P_CD_MNG1, CD_MNG2 = @P_CD_MNG2, CD_MNG3 = @P_CD_MNG3, CD_MNG4 = @P_CD_MNG4, CD_MNG5 = @P_CD_MNG5,
+			CD_MNG6			= @P_CD_MNG6, CD_MNG7 = @P_CD_MNG7, CD_MNG8 = @P_CD_MNG8, CD_MNG9 = @P_CD_MNG9, CD_MNG10 = @P_CD_MNG10,
+			CD_MNG11		= @P_CD_MNG11, CD_MNG12 = @P_CD_MNG12, CD_MNG13 = @P_CD_MNG13, CD_MNG14 = @P_CD_MNG14, CD_MNG15 = @P_CD_MNG15,
+			CD_MNG16		= @P_CD_MNG16, CD_MNG17 = @P_CD_MNG17, CD_MNG18 = @P_CD_MNG18, CD_MNG19 = @P_CD_MNG19, CD_MNG20 = @P_CD_MNG20,
+			DTS_UPDATE		= @V_DTS_UPDATE, 
+			ID_UPDATE		= @P_ID_INSERT,
+			CD_SL_SC        = CASE WHEN @P_FG_IO = '022' THEN CD_SL_ISU ELSE @V_CD_SL END  
+	WHERE	CD_COMPANY		= @P_CD_COMPANY AND NO_SERIAL = @P_NO_SERIAL AND CD_PLANT = @P_CD_PLANT AND CD_ITEM = @P_CD_ITEM
+END       
+ 
+-- 안종호연구원 기존소스	                      
+--IF(@P_FG_IO IN ('001','002','003','005','007','008'))
+--BEGIN
+--	IF( NOT EXISTS( SELECT 'Y' FROM MM_QTIODS WHERE CD_COMPANY = @P_CD_COMPANY AND CD_ITEM = @P_CD_ITEM AND NO_SERIAL = @P_NO_SERIAL))
+--	BEGIN
+--			INSERT INTO MM_QTIODS 
+--			(
+--				CD_COMPANY, NO_IO, NO_IOLINE, NO_SERIAL, CD_ITEM, CD_QTIOTP, FG_IO,
+--				CD_MNG1,
+--				CD_MNG2,
+--				CD_MNG3,
+--				CD_MNG4,
+--				CD_MNG5,
+--				CD_MNG6,
+--				CD_MNG7,
+--				CD_MNG8,
+--				CD_MNG9,
+--				CD_MNG10,
+--				CD_MNG11,
+--				CD_MNG12,
+--				CD_MNG13,
+--				CD_MNG14,
+--				CD_MNG15,
+--				CD_MNG16,
+--				CD_MNG17,
+--				CD_MNG18,
+--				CD_MNG19,
+--				CD_MNG20
+--			) 
+--			VALUES ( 
+--				@P_CD_COMPANY, @P_NO_IO, @P_NO_IOLINE, @P_NO_SERIAL, @P_CD_ITEM, @P_CD_QTIOTP, @P_FG_IO,
+--				@P_CD_MNG1,
+--				@P_CD_MNG2,
+--				@P_CD_MNG3,
+--				@P_CD_MNG4,
+--				@P_CD_MNG5,
+--				@P_CD_MNG6,
+--				@P_CD_MNG7,
+--				@P_CD_MNG8,
+--				@P_CD_MNG9,
+--				@P_CD_MNG10,
+--				@P_CD_MNG11,
+--				@P_CD_MNG12,
+--				@P_CD_MNG13,
+--				@P_CD_MNG14,
+--				@P_CD_MNG15,
+--				@P_CD_MNG16,
+--				@P_CD_MNG17,
+--				@P_CD_MNG18,
+--				@P_CD_MNG19,
+--				@P_CD_MNG20
+--			)
+			
+--		IF (@@ERROR <> 0 )
+--		BEGIN  
+--			  SELECT @V_ERRNO  = 100000,  
+--						   @V_ERRMSG = 'CM_M100010'  
+--			  GOTO ERROR  
+--		END
+					
+--	END
+--	ELSE 
+--		BEGIN
+
+--			 SELECT @V_ERRNO  = 100000,  
+--							   @V_ERRMSG = '품목코드: ' + @P_CD_ITEM + ' - 시리얼번호: ' + @P_NO_SERIAL + ' 가 중복되었습니다. '   -- 중복된 자료가 존재합니다.
+--				  GOTO ERROR  
+--			/*RAISERROR 100000  'KR##중복된 시리얼이 존재합니다.##US## SERIAL OVERLAP ##';*/
+--		END
+--END
+--ELSE -------시리얼 중복체크하지 않는로직
+-- BEGIN
+
+--	INSERT INTO MM_QTIODS 
+--	(
+--		CD_COMPANY, NO_IO, NO_IOLINE, NO_SERIAL, CD_ITEM, CD_QTIOTP, FG_IO,
+--		CD_MNG1,
+--		CD_MNG2,
+--		CD_MNG3,
+--		CD_MNG4,
+--		CD_MNG5,
+--		CD_MNG6,
+--		CD_MNG7,
+--		CD_MNG8,
+--		CD_MNG9,
+--		CD_MNG10,
+--		CD_MNG11,
+--		CD_MNG12,
+--		CD_MNG13,
+--		CD_MNG14,
+--		CD_MNG15,
+--		CD_MNG16,
+--		CD_MNG17,
+--		CD_MNG18,
+--		CD_MNG19,
+--		CD_MNG20
+--	) 
+--	VALUES ( 
+--		@P_CD_COMPANY, @P_NO_IO, @P_NO_IOLINE, @P_NO_SERIAL, @P_CD_ITEM, @P_CD_QTIOTP, @P_FG_IO,
+--		@P_CD_MNG1,
+--		@P_CD_MNG2,
+--		@P_CD_MNG3,
+--		@P_CD_MNG4,
+--		@P_CD_MNG5,
+--		@P_CD_MNG6,
+--		@P_CD_MNG7,
+--		@P_CD_MNG8,
+--		@P_CD_MNG9,
+--		@P_CD_MNG10,
+--		@P_CD_MNG11,
+--		@P_CD_MNG12,
+--		@P_CD_MNG13,
+--		@P_CD_MNG14,
+--		@P_CD_MNG15,
+--		@P_CD_MNG16,
+--		@P_CD_MNG17,
+--		@P_CD_MNG18,
+--		@P_CD_MNG19,
+--		@P_CD_MNG20
+--	)
+--	IF (@@ERROR <> 0 )
+--	BEGIN  
+--	      SELECT @V_ERRNO  = 100000,  
+--	             @V_ERRMSG = 'CM_M100010'  
+--	      GOTO ERROR  
+--	END  	
+	
+--	    -- 창고이동일 경우 출고, 입고가 동시에 일어나므로
+--	    -- 입고 UPDATE 처리를 또 해준다.	    
+                   	    
+--        IF @P_FG_IO = '022' AND        
+--           EXISTS ( SELECT 1 FROM MM_SERIAL_INV 
+--                     WHERE CD_COMPANY =		@P_CD_COMPANY		--회사코드	
+--					   AND NO_SERIAL  =		@P_NO_SERIAL		--시리얼		
+--					   AND CD_PLANT	  =		@P_CD_PLANT		--공장코드	
+--					   AND CD_ITEM	  =		@P_CD_ITEM		--품목코드
+--			   	  )
+--        BEGIN                            
+               
+--                SELECT @V_DT_IO = DT_IO,
+--                       @V_CD_SL = CD_SL
+--                  FROM MM_QTIO
+--                 WHERE NO_IO = @P_NO_IO
+--                   AND NO_IOLINE = @P_NO_IOLINE + 1
+--                   AND CD_COMPANY = @P_CD_COMPANY
+--                   AND CD_PLANT = @P_CD_PLANT
+--                   AND FG_PS = '1'
+                   
+--                  SET @V_DTS_UPDATE = REPLACE(REPLACE(REPLACE(CONVERT(VARCHAR(20), GETDATE(), 120), '-',''), ' ', ''),':','') 
+                   
+--				UPDATE MM_SERIAL_INV
+--				 SET
+--					CD_COMPANY =		@P_CD_COMPANY,		--회사코드	
+--					NO_SERIAL =			@P_NO_SERIAL,		--시리얼		
+--					CD_PLANT =			@P_CD_PLANT,		--공장코드	
+--					CD_ITEM	 =			@P_CD_ITEM,			--품목코드	
+--					NO_IO_RCV =			@P_NO_IO ,		--최종입고번호	
+--					NO_IOLINE_RCV =		@P_NO_IOLINE + 1,	--최종입고항번	
+--					DT_RCV =			@V_DT_IO,			--최종입고일자	
+--					CD_SL_RCV =			@V_CD_SL,		--최종입고창고코드	
+--					FG_EXIST =			'Y',		--자사보유유무(Y/N)		
+--					DTS_UPDATE  =		@P_ID_INSERT, --수정일
+--					ID_UPDATE	=		@V_DTS_UPDATE  --수정자
+--				WHERE CD_COMPANY =		@P_CD_COMPANY		--회사코드	
+--				  AND NO_SERIAL	 =		@P_NO_SERIAL		--시리얼		
+--				  AND CD_PLANT	 =		@P_CD_PLANT		--공장코드	
+--				  AND CD_ITEM	 =		@P_CD_ITEM			--품목코드	
+
+--                  IF ( @@ERROR <> 0 )
+--	              BEGIN
+--	                      SELECT @V_ERRNO  = 30032,
+--	                             @V_ERRMSG = ' CAN NOT UPDATE MM_SERIAL_INV '
+--	                      GOTO ERROR
+--	              END 
+--        END	        	
+--END
+
+
+RETURN
+ERROR:  
+    RAISERROR (@V_ERRMSG , 18 ,1)
+GO
+

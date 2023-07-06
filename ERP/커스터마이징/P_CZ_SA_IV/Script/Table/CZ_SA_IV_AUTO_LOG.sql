@@ -1,0 +1,35 @@
+USE [NEOE]
+GO
+
+/****** Object:  Table [NEOE].[CZ_SA_IV_AUTO_LOG]    Script Date: 2022-11-17 오후 2:52:34 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NEOE].[CZ_SA_IV_AUTO_LOG](
+	[CD_COMPANY] [nvarchar](7) NOT NULL,
+	[NO_IO] [nvarchar](20) NOT NULL,
+	[NO_HST] [int] NOT NULL,
+	[DT_IO] [nvarchar](8) NULL,
+	[DT_LOADING] [nvarchar](8) NULL,
+	[YN_COLOR] [nvarchar](1) NULL,
+	[TP_INV] [nvarchar](3) NULL,
+	[FROM_EMAIL] [nvarchar](max) NULL,
+	[TO_EMAIL] [nvarchar](max) NULL,
+	[CC] [nvarchar](max) NULL,
+	[WEB_EMAIL] [nvarchar](max) NULL,
+	[YN_RESULT] [nvarchar](1) NULL,
+	[ID_INSERT] [nvarchar](15) NULL,
+	[DTS_INSERT] [nvarchar](14) NULL,
+ CONSTRAINT [PK_CZ_SA_IV_AUTO_LOG] PRIMARY KEY CLUSTERED 
+(
+	[NO_HST] ASC,
+	[CD_COMPANY] ASC,
+	[NO_IO] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+

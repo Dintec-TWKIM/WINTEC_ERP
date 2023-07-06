@@ -1,0 +1,140 @@
+<!--XML Schema for Report Designer-->
+<Schema>
+    <User_Table_0>
+        <NO_DOCU>FI2007082800017</NO_DOCU>
+        <NO_DOLINE>1</NO_DOLINE>
+        <CD_PC>1000</CD_PC>
+        <CD_COMPANY>1000</CD_COMPANY>
+        <CD_WDEPT>0500-01000</CD_WDEPT>
+        <ID_WRITE>2006022</ID_WRITE>
+        <DT_ACCT>20070903</DT_ACCT>
+        <NO_ACCT>5</NO_ACCT>
+        <TP_DOCU>3</TP_DOCU>
+        <CD_DOCU>13</CD_DOCU>
+        <ST_DOCU>2</ST_DOCU>
+        <ID_ACCEPT />
+        <TP_DRCR>1</TP_DRCR>
+        <CD_ACCT>57210</CD_ACCT>
+        <NM_NOTE>신인적자원관리트렌드 도서구입비</NM_NOTE>
+        <AM_DR>150000.0000</AM_DR>
+        <AM_CR>0.0000</AM_CR>
+        <TP_ACAREA>0</TP_ACAREA>
+        <CD_RELATION>10</CD_RELATION>
+        <CD_BUDGET>1000</CD_BUDGET>
+        <CD_FUND />
+        <TP_TAX />
+        <NO_BDOCU />
+        <NO_BDOLINE>0</NO_BDOLINE>
+        <TP_ETCACCT>0</TP_ETCACCT>
+        <CD_BIZAREA />
+        <CD_CC />
+        <CD_PJT />
+        <CD_DEPT />
+        <CD_EMPLOY />
+        <CD_PARTNER>102174</CD_PARTNER>
+        <CD_DEPOSIT />
+        <CD_CARD />
+        <CD_BANK />
+        <NO_ITEM />
+        <CD_UMNG1 />
+        <CD_UMNG2>1000</CD_UMNG2>
+        <CD_UMNG3>1500</CD_UMNG3>
+        <CD_UMNG4 />
+        <CD_UMNG5 />
+        <CD_MNG />
+        <CD_TRADE />
+        <DT_START />
+        <DT_END />
+        <CD_EXCH />
+        <RT_EXCH>0.0000</RT_EXCH>
+        <AM_EXDO>0.0000</AM_EXDO>
+        <CD_MNG1>A22</CD_MNG1>
+        <CD_MNGD1>1000</CD_MNGD1>
+        <NM_MNGD1>[일반지출]</NM_MNGD1>
+        <CD_MNG2>A23</CD_MNG2>
+        <CD_MNGD2>1500</CD_MNGD2>
+        <NM_MNGD2>[기관운영]일반수용비</NM_MNGD2>
+        <CD_MNG3>A06</CD_MNG3>
+        <CD_MNGD3>102174</CD_MNGD3>
+        <NM_MNGD3>경총정보센타</NM_MNGD3>
+        <CD_MNG4>C15</CD_MNG4>
+        <CD_MNGD4 />
+        <NM_MNGD4>우리은행(구,한빛)/423-04-106991/경총정보센터-윤태영</NM_MNGD4>
+        <CD_MNG5>C17</CD_MNG5>
+        <CD_MNGD5 />
+        <NM_MNGD5>경총정보센터-윤태영</NM_MNGD5>
+        <CD_MNG6>A08</CD_MNG6>
+        <CD_MNGD6 />
+        <NM_MNGD6 />
+        <CD_MNG7>   </CD_MNG7>
+        <CD_MNGD7 />
+        <NM_MNGD7 />
+        <CD_MNG8>   </CD_MNG8>
+        <CD_MNGD8 />
+        <NM_MNGD8 />
+        <NO_MODULE />
+        <NO_MDOCU />
+        <CD_EPNOTE>060502</CD_EPNOTE>
+        <ID_INSERT>2006022</ID_INSERT>
+        <DTS_INSERT>20070828164816</DTS_INSERT>
+        <ID_UPDATE>SYSTEM</ID_UPDATE>
+        <DTS_UPDATE>20070903145928</DTS_UPDATE>
+        <CD_BGACCT>060502</CD_BGACCT>
+        <TP_EPNOTE>1</TP_EPNOTE>
+        <NM_PUMM>신인적자원관리트렌드 도서구입</NM_PUMM>
+        <DT_WRITE>20070828</DT_WRITE>
+        <AM_ACTSUM>0.0000</AM_ACTSUM>
+        <AM_JSUM>0.0000</AM_JSUM>
+        <YN_GWARE>Y</YN_GWARE>
+        <DEC_LEASE />
+        <CD_BIZPLAN />
+        <TOTAL>壹拾五萬원整</TOTAL>
+        <TOTAL1>일십오만원정</TOTAL1>
+        <MN_MNG>[일반지출]*[기관운영]일반수용비*경총정보센타*우리은행(구,한빛)/423-04-106991/경총정보센터-윤태영*경총정보센터-윤태영***</MN_MNG>
+        <AM_AMT>150000.0000</AM_AMT>
+        <NM_ACCT>일반수용비</NM_ACCT>
+        <CD_ACITEM>57105</CD_ACITEM>
+        <CD_ACHTEM>57210</CD_ACHTEM>
+        <TP_ACLEVEL>2</TP_ACLEVEL>
+        <NO_DEPOSIT>423-04-106991</NO_DEPOSIT>
+        <NM_PTR>경총정보센터-윤태영</NM_PTR>
+        <CD_BANK1>20</CD_BANK1>
+        <NM_BGACCT>인쇄비및유인비</NM_BGACCT>
+        <TP_BGLEVEL>4</TP_BGLEVEL>
+        <CD_BGGRACCT>57000</CD_BGGRACCT>
+        <CD_BGACITEM>57105</CD_BGACITEM>
+        <CD_BGACHTEM>57210</CD_BGACHTEM>
+        <TP_BUNIT>3</TP_BUNIT>
+        <TP_BGACCT>1</TP_BGACCT>
+        <NM_PARTNER>경총정보센타</NM_PARTNER>
+        <NM_CC />
+        <NM_PJT />
+        <NM_DEPOSIT />
+        <A04 />
+        <A21 />
+        <B21 />
+        <B23 />
+        <C14 />
+        <C04 />
+        <C05 />
+        <C15>우리은행(구,한빛)/423-04-106991/경총정보센터-윤태영</C15>
+        <C98>경총정보센타</C98>
+        <C99 />
+        <NM_PC>한국과학문화재단</NM_PC>
+        <AM_JPRO>0.0</AM_JPRO>
+        <NM_FUND />
+        <NM_ACITEM>경상운영비</NM_ACITEM>
+        <NM_ACHTEM>일반수용비</NM_ACHTEM>
+        <NM_BGGRACCT>기관운영비</NM_BGGRACCT>
+        <NM_BGACITEM>경상운영비</NM_BGACITEM>
+        <NM_BGACHTEM>일반수용비</NM_BGACHTEM>
+        <NM_BG4LEVEL>인쇄비및유인비</NM_BG4LEVEL>
+        <NO_COMPANY>1050359904</NO_COMPANY>
+        <NM_BANK>우리은행(구,한빛)</NM_BANK>
+        <NM_BANK2 />
+        <NM_BIZPLAN />
+        <NM_BIZAREA>한국과학문화재단</NM_BIZAREA>
+        <NM_DEPOSIT2 />
+        <TP_CONTROL>2</TP_CONTROL>
+    </User_Table_0>
+</Schema>
